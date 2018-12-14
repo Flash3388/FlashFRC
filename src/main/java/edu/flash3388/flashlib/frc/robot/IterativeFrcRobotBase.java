@@ -51,13 +51,15 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     private void initMode(FrcRobotMode mode) {
         LiveWindow.setEnabled(mode.isLiveWindowEnabled());
 
-        mScheduler.removeAllActions();
-
-        if (mode.equals(RobotMode.DISABLED)) {
+        if (mode.equals(FrcRobotMode.DISABLED)) {
             mScheduler.setRunMode(SchedulerRunMode.TASKS_ONLY);
+            mScheduler.removeAllActions();
+
             disabledInit();
         } else {
             mScheduler.setRunMode(SchedulerRunMode.ALL);
+            mScheduler.removeAllActions();
+
             modeInit(mode);
         }
     }
