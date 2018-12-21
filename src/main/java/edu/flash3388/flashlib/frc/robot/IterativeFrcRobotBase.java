@@ -1,8 +1,8 @@
 package edu.flash3388.flashlib.frc.robot;
 
 import edu.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
+import edu.flash3388.flashlib.robot.RobotResources;
 import edu.flash3388.flashlib.robot.modes.RobotMode;
-import edu.flash3388.flashlib.robot.scheduling.FlashScheduler;
 import edu.flash3388.flashlib.robot.scheduling.Scheduler;
 import edu.flash3388.flashlib.robot.scheduling.SchedulerRunMode;
 import edu.wpi.first.wpilibj.hal.FRCNetComm;
@@ -29,7 +29,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     }
 
     protected IterativeFrcRobotBase() {
-        this(FlashScheduler.get());
+        this(RobotResources.SCHEDULER.get());
     }
 
     protected void loop() {

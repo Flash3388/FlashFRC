@@ -1,6 +1,6 @@
 package edu.flash3388.flashlib.frc.robot;
 
-import edu.flash3388.flashlib.robot.scheduling.FlashScheduler;
+import edu.flash3388.flashlib.robot.RobotResources;
 import edu.flash3388.flashlib.robot.scheduling.Scheduler;
 import edu.flash3388.flashlib.time.Time;
 import edu.flash3388.flashlib.util.concurrent.Interrupts;
@@ -29,7 +29,7 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     }
 
     public TimedFrcRobot(Time loopPeriod) {
-        this(FlashScheduler.get(), loopPeriod);
+        this(RobotResources.SCHEDULER.get(), loopPeriod);
     }
 
     public TimedFrcRobot() {
