@@ -1,9 +1,9 @@
 package edu.flash3388.flashlib.frc.robot.io;
 
 import edu.flash3388.flashlib.robot.io.Pwm;
+import edu.wpi.first.hal.DIOJNI;
 import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.SensorBase;
-import edu.wpi.first.wpilibj.hal.DIOJNI;
+import edu.wpi.first.wpilibj.SensorUtil;
 
 public class FrcPwm implements Pwm {
 
@@ -46,7 +46,7 @@ public class FrcPwm implements Pwm {
 
     @Override
     public double getFrequency() {
-        return SensorBase.kSystemClockTicksPerMicrosecond * 1e3 / DIOJNI.getLoopTiming();
+        return SensorUtil.kSystemClockTicksPerMicrosecond * 1e3 / DIOJNI.getLoopTiming();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FrcPwm implements Pwm {
             return;
         }
 
-        mPwm.free();
+        mPwm.close();
         mPwm = null;
     }
 }

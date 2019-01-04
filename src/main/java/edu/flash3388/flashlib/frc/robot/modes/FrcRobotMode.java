@@ -1,7 +1,7 @@
 package edu.flash3388.flashlib.frc.robot.modes;
 
 import edu.flash3388.flashlib.robot.modes.RobotMode;
-import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.hal.HAL;
 
 public abstract class FrcRobotMode extends RobotMode {
 

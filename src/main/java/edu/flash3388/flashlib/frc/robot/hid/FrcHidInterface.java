@@ -47,7 +47,7 @@ public class FrcHidInterface implements HidInterface {
             return false;
         }
 
-        return mDriverStation.getStickButton(hid, (byte)button + 1);
+        return mDriverStation.getStickButton(hid, button + 1);
     }
 
     @Override

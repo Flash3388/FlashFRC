@@ -5,7 +5,7 @@ import edu.flash3388.flashlib.robot.scheduling.Scheduler;
 import edu.flash3388.flashlib.time.Time;
 import edu.flash3388.flashlib.util.concurrent.Interrupts;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.hal.HAL;
 
 import java.util.concurrent.TimeUnit;
 
