@@ -1,17 +1,17 @@
 package edu.flash3388.flashlib.frc.robot;
 
-import edu.flash3388.flashlib.robot.RobotResources;
+import edu.flash3388.flashlib.robot.RobotFactory;
 import edu.flash3388.flashlib.robot.scheduling.Scheduler;
 import edu.flash3388.flashlib.time.Time;
 import edu.flash3388.flashlib.util.concurrent.Interrupts;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.wpilibj.Notifier;
 
 import java.util.concurrent.TimeUnit;
 
 public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
 
-    protected static final Time DEFAULT_LOOP_PERIOD = Time.millis(20);
+    protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
     private static final long MAIN_THREAD_SLEEP_MS = 1000 * 60 * 60 * 24;
 
     private final Notifier mNotifier;
@@ -29,7 +29,7 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     }
 
     public TimedFrcRobot(Time loopPeriod) {
-        this(RobotResources.SCHEDULER.get(), loopPeriod);
+        this(RobotFactory.newDefaultScheduler(), loopPeriod);
     }
 
     public TimedFrcRobot() {

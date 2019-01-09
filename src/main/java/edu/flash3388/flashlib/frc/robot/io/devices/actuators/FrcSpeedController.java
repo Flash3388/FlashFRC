@@ -2,11 +2,11 @@ package edu.flash3388.flashlib.frc.robot.io.devices.actuators;
 
 import edu.flash3388.flashlib.robot.io.devices.actuators.SpeedController;
 
-public class FrcSpeedControllerAdapter implements SpeedController {
+public class FrcSpeedController implements SpeedController {
 
     private final edu.wpi.first.wpilibj.SpeedController mSpeedController;
 
-    public FrcSpeedControllerAdapter(edu.wpi.first.wpilibj.SpeedController speedController) {
+    public FrcSpeedController(edu.wpi.first.wpilibj.SpeedController speedController) {
         mSpeedController = speedController;
     }
 
