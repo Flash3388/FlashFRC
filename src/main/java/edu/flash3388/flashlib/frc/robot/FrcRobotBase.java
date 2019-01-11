@@ -11,8 +11,7 @@ import edu.flash3388.flashlib.robot.scheduling.Scheduler;
 import edu.flash3388.flashlib.time.Clock;
 import edu.flash3388.flashlib.util.resources.Resource;
 import edu.wpi.first.wpilibj.RobotBase;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 public abstract class FrcRobotBase extends RobotBase implements Robot {
 
