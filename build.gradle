@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'edu.flash3388.flashlib'
-version '1.0'
+version '2019.1.0'
 
 sourceCompatibility = 1.8
 
