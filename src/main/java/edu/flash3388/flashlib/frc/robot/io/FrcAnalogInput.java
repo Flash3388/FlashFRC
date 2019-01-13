@@ -53,7 +53,7 @@ public class FrcAnalogInput implements AnalogInput {
             return;
         }
 
-        mAnalogInput.free();
+        mAnalogInput.close();
         mAnalogAccumulator.disable();
 
         mAnalogInput = null;

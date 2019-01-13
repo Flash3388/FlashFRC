@@ -35,7 +35,7 @@ public class FrcDigitalOutput implements DigitalOutput {
             return;
         }
 
-        mDigitalOutput.free();
+        mDigitalOutput.close();
         mDigitalOutput = null;
     }
 }

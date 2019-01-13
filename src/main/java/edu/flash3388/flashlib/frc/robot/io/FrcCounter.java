@@ -79,7 +79,7 @@ public class FrcCounter implements Counter {
             return;
         }
 
-        mCounter.free();
+        mCounter.close();
         mCounter = null;
     }
 }

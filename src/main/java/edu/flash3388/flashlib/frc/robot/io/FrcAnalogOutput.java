@@ -40,7 +40,7 @@ public class FrcAnalogOutput implements AnalogOutput {
             return;
         }
 
-        mAnalogOutput.free();
+        mAnalogOutput.close();
         mAnalogOutput = null;
     }
 }

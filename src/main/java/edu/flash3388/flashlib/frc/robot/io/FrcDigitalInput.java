@@ -25,7 +25,7 @@ public class FrcDigitalInput implements DigitalInput {
             return;
         }
 
-        mDigitalInput.free();
+        mDigitalInput.close();
         mDigitalInput = null;
     }
 }
