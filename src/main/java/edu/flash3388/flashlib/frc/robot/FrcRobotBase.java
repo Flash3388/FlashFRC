@@ -21,16 +21,20 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     private final HidInterface mHidInterface;
     private final Logger mLogger;
 
-    public FrcRobotBase(Scheduler scheduler) {
+    public FrcRobotBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
         mScheduler = scheduler;
 
-        mLogger = FrcLoggerFactory.createLogger();
+        mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
 
         mClock = new FrcHalClock();
 
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
         mHidInterface = new FrcHidInterface(m_ds);
+    }
+
+    public FrcRobotBase(Scheduler scheduler) {
+        this(RobotConfiguration.defaultConfiguration(), scheduler);
     }
 
     @Override

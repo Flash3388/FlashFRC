@@ -10,7 +10,7 @@ public abstract class FrcRobotMode extends RobotMode {
     public static final int AUTONOMOUS_KEY = 2;
     public static final int TEST_KEY = 3;
 
-    public static final FrcRobotMode DISABLED = new FrcRobotMode(DISABLED_KEY) {
+    public static final FrcRobotMode DISABLED = new FrcRobotMode("DISABLED", DISABLED_KEY) {
 
         @Override
         public void reportModeHal() {
@@ -23,7 +23,7 @@ public abstract class FrcRobotMode extends RobotMode {
         }
     };
 
-    public static final FrcRobotMode OPERATOR_CONTROL = new FrcRobotMode(OPERATOR_CONTROL_KEY) {
+    public static final FrcRobotMode OPERATOR_CONTROL = new FrcRobotMode("OPERATOR_CONTROL", OPERATOR_CONTROL_KEY) {
 
         @Override
         public void reportModeHal() {
@@ -36,7 +36,7 @@ public abstract class FrcRobotMode extends RobotMode {
         }
     };
 
-    public static final FrcRobotMode AUTONOMOUS = new FrcRobotMode(AUTONOMOUS_KEY) {
+    public static final FrcRobotMode AUTONOMOUS = new FrcRobotMode("AUTONOMOUS", AUTONOMOUS_KEY) {
 
         @Override
         public void reportModeHal() {
@@ -49,7 +49,7 @@ public abstract class FrcRobotMode extends RobotMode {
         }
     };
 
-    public static final FrcRobotMode TEST = new FrcRobotMode(TEST_KEY) {
+    public static final FrcRobotMode TEST = new FrcRobotMode("TEST", TEST_KEY) {
 
         @Override
         public void reportModeHal() {
@@ -62,8 +62,8 @@ public abstract class FrcRobotMode extends RobotMode {
         }
     };
 
-    private FrcRobotMode(int key) {
-        super(key);
+    private FrcRobotMode(String name, int key) {
+        super(name, key);
     }
 
     public abstract void reportModeHal();
