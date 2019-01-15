@@ -24,6 +24,10 @@ public class FrcLoggerFactory {
     }
 
     private static java.util.logging.Logger createBaseLogger(LogConfiguration logConfiguration) {
+        if (!logConfiguration.isFileLoggingEnabled()) {
+            return createConsoleLogger(logConfiguration);
+        }
+
         try {
             return new LoggerBuilder(LOGGER_NAME)
                     .enableFileLogging(true)
@@ -34,9 +38,14 @@ public class FrcLoggerFactory {
                     .buildJul();
         } catch (LogBuildException e) {
             DriverStation.reportError("error creating log-based logger: " + e.getMessage(), false);
-            return new LoggerBuilder(LOGGER_NAME)
-                    .enableConsoleLogging(true)
-                    .buildJul();
+            return createConsoleLogger(logConfiguration);
         }
+    }
+
+    private static java.util.logging.Logger createConsoleLogger(LogConfiguration logConfiguration) {
+        return new LoggerBuilder(LOGGER_NAME)
+                .enableConsoleLogging(true)
+                .setLogLevel(logConfiguration.isDebug() ? LogLevel.TRACE : LogLevel.INFO)
+                .buildJul();
     }
 }
