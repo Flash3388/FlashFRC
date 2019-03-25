@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.tomtzook', name: 'javabeans', version: '1.0'
+    compile group: 'com.flash3388.util', name: 'javabeans', version: '1.0'
 
     compile group: 'edu.flash3388.flashlib', name: 'flashlib', version: '1.3'
 

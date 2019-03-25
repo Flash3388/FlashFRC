@@ -4,7 +4,7 @@ import edu.flash3388.flashlib.time.Clock;
 import edu.flash3388.flashlib.time.Time;
 import edu.wpi.first.wpilibj.Timer;
 
-public class FrcHalClock implements Clock {
+public class FpgaClock implements Clock {
 
     @Override
     public Time currentTime() {

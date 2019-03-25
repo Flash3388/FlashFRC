@@ -3,7 +3,7 @@ package edu.flash3388.flashlib.frc.robot;
 import edu.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
 import edu.flash3388.flashlib.frc.robot.logging.FrcLoggerFactory;
 import edu.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
-import edu.flash3388.flashlib.frc.robot.time.FrcHalClock;
+import edu.flash3388.flashlib.frc.robot.time.FpgaClock;
 import edu.flash3388.flashlib.robot.Robot;
 import edu.flash3388.flashlib.robot.hid.HidInterface;
 import edu.flash3388.flashlib.robot.modes.RobotModeSupplier;
@@ -26,7 +26,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
 
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
 
-        mClock = new FrcHalClock();
+        mClock = new FpgaClock();
 
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
