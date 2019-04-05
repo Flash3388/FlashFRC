@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import edu.flash3388.flashlib.robot.io.DigitalInput;
+import com.flash3388.flashlib.robot.io.DigitalInput;
 
 public class FrcDigitalInput implements DigitalInput {
 

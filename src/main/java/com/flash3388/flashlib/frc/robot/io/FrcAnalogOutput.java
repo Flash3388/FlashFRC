@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import edu.flash3388.flashlib.robot.io.AnalogOutput;
+import com.flash3388.flashlib.robot.io.AnalogOutput;
 
 public class FrcAnalogOutput implements AnalogOutput {
 

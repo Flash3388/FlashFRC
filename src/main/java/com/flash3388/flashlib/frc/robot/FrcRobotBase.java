@@ -4,12 +4,12 @@ import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
 import com.flash3388.flashlib.frc.robot.logging.FrcLoggerFactory;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
-import edu.flash3388.flashlib.robot.Robot;
-import edu.flash3388.flashlib.robot.hid.HidInterface;
-import edu.flash3388.flashlib.robot.modes.RobotModeSupplier;
-import edu.flash3388.flashlib.robot.scheduling.Scheduler;
-import edu.flash3388.flashlib.time.Clock;
-import edu.flash3388.flashlib.util.resources.Resource;
+import com.flash3388.flashlib.robot.Robot;
+import com.flash3388.flashlib.robot.hid.HidInterface;
+import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
+import com.flash3388.flashlib.robot.scheduling.Scheduler;
+import com.flash3388.flashlib.time.Clock;
+import com.flash3388.flashlib.util.resources.Resource;
 import edu.wpi.first.wpilibj.RobotBase;
 import org.slf4j.Logger;
 

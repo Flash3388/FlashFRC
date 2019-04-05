@@ -1,9 +1,9 @@
 package com.flash3388.flashlib.frc.robot.logging;
 
-import edu.flash3388.flashlib.util.logging.LogBuildException;
-import edu.flash3388.flashlib.util.logging.LogLevel;
-import edu.flash3388.flashlib.util.logging.LoggerBuilder;
-import edu.flash3388.flashlib.util.logging.jul.JulLoggerAdapter;
+import com.flash3388.flashlib.util.logging.LogBuildException;
+import com.flash3388.flashlib.util.logging.LogLevel;
+import com.flash3388.flashlib.util.logging.LoggerBuilder;
+import com.flash3388.flashlib.util.logging.jul.JulLoggerAdapter;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.slf4j.Logger;
 

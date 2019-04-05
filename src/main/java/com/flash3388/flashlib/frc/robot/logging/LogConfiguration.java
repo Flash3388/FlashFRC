@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.logging;
 
-import edu.flash3388.flashlib.util.logging.LogFileConfig;
+import com.flash3388.flashlib.util.logging.LogFileConfig;
 
 public class LogConfiguration {
 

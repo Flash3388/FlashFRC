@@ -1,7 +1,7 @@
 package com.flash3388.flashlib.frc.robot.time;
 
-import edu.flash3388.flashlib.time.Clock;
-import edu.flash3388.flashlib.time.Time;
+import com.flash3388.flashlib.time.Clock;
+import com.flash3388.flashlib.time.Time;
 import edu.wpi.first.wpilibj.Timer;
 
 public class FpgaClock implements Clock {

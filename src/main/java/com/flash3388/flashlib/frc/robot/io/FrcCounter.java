@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import edu.flash3388.flashlib.robot.io.Counter;
+import com.flash3388.flashlib.robot.io.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class FrcCounter implements Counter {

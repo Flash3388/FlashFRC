@@ -1,7 +1,7 @@
 package com.flash3388.flashlib.frc.robot.modes;
 
-import edu.flash3388.flashlib.robot.modes.RobotMode;
-import edu.flash3388.flashlib.robot.modes.RobotModeSupplier;
+import com.flash3388.flashlib.robot.modes.RobotMode;
+import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class FrcRobotModeSupplier implements RobotModeSupplier {

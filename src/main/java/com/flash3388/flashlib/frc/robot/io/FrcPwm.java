@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import edu.flash3388.flashlib.robot.io.Pwm;
+import com.flash3388.flashlib.robot.io.Pwm;
 import edu.wpi.first.hal.DIOJNI;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SensorUtil;

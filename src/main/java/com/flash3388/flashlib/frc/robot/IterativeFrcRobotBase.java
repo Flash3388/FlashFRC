@@ -1,10 +1,10 @@
 package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
-import edu.flash3388.flashlib.robot.RobotFactory;
-import edu.flash3388.flashlib.robot.modes.RobotMode;
-import edu.flash3388.flashlib.robot.scheduling.Scheduler;
-import edu.flash3388.flashlib.robot.scheduling.SchedulerRunMode;
+import com.flash3388.flashlib.robot.RobotFactory;
+import com.flash3388.flashlib.robot.modes.RobotMode;
+import com.flash3388.flashlib.robot.scheduling.Scheduler;
+import com.flash3388.flashlib.robot.scheduling.SchedulerRunMode;
 import edu.wpi.first.hal.FRCNetComm;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;

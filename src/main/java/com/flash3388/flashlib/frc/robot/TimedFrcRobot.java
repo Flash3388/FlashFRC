@@ -1,9 +1,9 @@
 package com.flash3388.flashlib.frc.robot;
 
-import edu.flash3388.flashlib.robot.RobotFactory;
-import edu.flash3388.flashlib.robot.scheduling.Scheduler;
-import edu.flash3388.flashlib.time.Time;
-import edu.flash3388.flashlib.util.concurrent.Interrupts;
+import com.flash3388.flashlib.robot.RobotFactory;
+import com.flash3388.flashlib.robot.scheduling.Scheduler;
+import com.flash3388.flashlib.time.Time;
+import com.flash3388.flashlib.util.concurrent.Interrupts;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.Notifier;
 
