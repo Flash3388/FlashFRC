@@ -5,8 +5,16 @@ import edu.wpi.first.hal.HAL;
 
 public abstract class IterativeFrcRobot extends IterativeFrcRobotBase {
 
+    public IterativeFrcRobot(RobotConfiguration configuration, Scheduler scheduler) {
+        super(configuration, scheduler);
+    }
+
     public IterativeFrcRobot(Scheduler scheduler) {
         super(scheduler);
+    }
+
+    public IterativeFrcRobot(RobotConfiguration configuration) {
+        super(configuration);
     }
 
     public IterativeFrcRobot() {

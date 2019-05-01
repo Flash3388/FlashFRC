@@ -17,8 +17,8 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     private final Notifier mNotifier;
     private final Time mLoopPeriod;
 
-    public TimedFrcRobot(Scheduler scheduler, Time loopPeriod) {
-        super(scheduler);
+    public TimedFrcRobot(RobotConfiguration configuration, Scheduler scheduler, Time loopPeriod) {
+        super(configuration, scheduler);
 
         if (!loopPeriod.isValid()) {
             throw new IllegalArgumentException("loopPeriod not valid time");
@@ -28,8 +28,16 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
         mNotifier = new Notifier(this::loop);
     }
 
+    public TimedFrcRobot(RobotConfiguration configuration, Time loopPeriod) {
+        this(configuration, RobotFactory.newDefaultScheduler(), loopPeriod);
+    }
+
+    public TimedFrcRobot(RobotConfiguration configuration) {
+        this(configuration, RobotFactory.newDefaultScheduler(), DEFAULT_LOOP_PERIOD);
+    }
+
     public TimedFrcRobot(Time loopPeriod) {
-        this(RobotFactory.newDefaultScheduler(), loopPeriod);
+        this(RobotConfiguration.defaultConfiguration(), loopPeriod);
     }
 
     public TimedFrcRobot() {
