@@ -24,28 +24,26 @@ public class FrcLoggerFactory {
     }
 
     private static java.util.logging.Logger createBaseLogger(LogConfiguration logConfiguration) {
-        if (!logConfiguration.isFileLoggingEnabled()) {
-            return createConsoleLogger(logConfiguration);
+        LoggerBuilder builder = createConsoleLoggerBuilder(logConfiguration);
+        if (logConfiguration.isFileLoggingEnabled()) {
+            builder.enableFileLogging(true)
+                    .setDateBasedFilesParent(new File(FRC_USER_DIRECTORY))
+                    .setTimeBasedFilePattern()
+                    .setLogFileConfig(logConfiguration.getFileConfig());
         }
 
         try {
-            return new LoggerBuilder(LOGGER_NAME)
-                    .enableFileLogging(true)
-                    .setDateBasedFilesParent(new File(FRC_USER_DIRECTORY))
-                    .setTimeBasedFilePattern()
-                    .setLogLevel(logConfiguration.isDebug() ? LogLevel.TRACE : LogLevel.INFO)
-                    .setLogFileConfig(logConfiguration.getFileConfig())
-                    .buildJul();
+            return builder.buildJul();
         } catch (LogBuildException e) {
+            // possible only if using file logging
             DriverStation.reportError("error creating log-based logger: " + e.getMessage(), false);
-            return createConsoleLogger(logConfiguration);
+            return createConsoleLoggerBuilder(logConfiguration).buildJul();
         }
     }
 
-    private static java.util.logging.Logger createConsoleLogger(LogConfiguration logConfiguration) {
+    private static LoggerBuilder createConsoleLoggerBuilder(LogConfiguration logConfiguration) {
         return new LoggerBuilder(LOGGER_NAME)
-                .enableConsoleLogging(true)
-                .setLogLevel(logConfiguration.isDebug() ? LogLevel.TRACE : LogLevel.INFO)
-                .buildJul();
+                .enableConsoleLogging(logConfiguration.isConsoleLoggingEnabled())
+                .setLogLevel(logConfiguration.isDebug() ? LogLevel.TRACE : LogLevel.INFO);
     }
 }

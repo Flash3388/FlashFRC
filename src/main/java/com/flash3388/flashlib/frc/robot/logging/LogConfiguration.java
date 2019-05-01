@@ -8,32 +8,38 @@ public class LogConfiguration {
     private static final int DEFAULT_FILE_COUNT = 10;
 
     private final LogFileConfig mFileConfig;
-    private final boolean mFileLogging;
+    private final boolean mAllowConsoleLogging;
+    private final boolean mAllowFileLogging;
     private final boolean mDebug;
 
-    public LogConfiguration(LogFileConfig fileConfig, boolean fileLogging, boolean debug) {
+    public LogConfiguration(LogFileConfig fileConfig, boolean allowConsoleLogging, boolean allowFileLogging, boolean debug) {
         mFileConfig = fileConfig;
-        mFileLogging = fileLogging;
+        mAllowConsoleLogging = allowConsoleLogging;
+        mAllowFileLogging = allowFileLogging;
         mDebug = debug;
     }
 
-    public LogConfiguration(boolean fileLogging, boolean debug) {
+    public LogConfiguration(boolean allowConsoleLogging, boolean allowFileLogging, boolean debug) {
         this(new LogFileConfig(
                 debug ? DEFAULT_FILE_SIZE_BYTES * 2 : DEFAULT_FILE_SIZE_BYTES,
                 DEFAULT_FILE_COUNT),
-                fileLogging, debug);
+                allowConsoleLogging, allowFileLogging, debug);
     }
 
     public static LogConfiguration defaultConfiguration() {
-        return new LogConfiguration(false, true);
+        return new LogConfiguration(true, false, true);
     }
 
     public LogFileConfig getFileConfig() {
         return mFileConfig;
     }
 
+    public boolean isConsoleLoggingEnabled() {
+        return mAllowConsoleLogging;
+    }
+
     public boolean isFileLoggingEnabled() {
-        return mFileLogging;
+        return mAllowFileLogging;
     }
 
     public boolean isDebug() {
