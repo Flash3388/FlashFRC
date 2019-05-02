@@ -18,8 +18,8 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
 
-    protected IterativeFrcRobotBase(Scheduler scheduler) {
-        super(scheduler);
+    protected IterativeFrcRobotBase(RobotConfiguration configuration, Scheduler scheduler) {
+        super(configuration, scheduler);
         mScheduler = scheduler;
 
         mCurrentMode = null;
@@ -27,6 +27,14 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
         mWasModeInitialized = false;
 
         HAL.report(FRCNetComm.tResourceType.kResourceType_Framework, FRCNetComm.tInstances.kFramework_Iterative);
+    }
+
+    protected IterativeFrcRobotBase(Scheduler scheduler) {
+        this(RobotConfiguration.defaultConfiguration(), scheduler);
+    }
+
+    protected IterativeFrcRobotBase(RobotConfiguration configuration) {
+        this(configuration, RobotFactory.newDefaultScheduler());
     }
 
     protected IterativeFrcRobotBase() {
