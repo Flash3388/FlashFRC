@@ -93,12 +93,15 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
         switch (mode.getKey()) {
             case FrcRobotMode.OPERATOR_CONTROL_KEY: {
                 teleopInit();
+                break;
             }
             case FrcRobotMode.AUTONOMOUS_KEY: {
                 autonomousInit();
+                break;
             }
             case FrcRobotMode.TEST_KEY: {
                 testInit();
+                break;
             }
         }
     }
@@ -107,12 +110,15 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
         switch (mode.getKey()) {
             case FrcRobotMode.OPERATOR_CONTROL_KEY: {
                 teleopPeriodic();
+                break;
             }
             case FrcRobotMode.AUTONOMOUS_KEY: {
                 autonomousPeriodic();
+                break;
             }
             case FrcRobotMode.TEST_KEY: {
                 testPeriodic();
+                break;
             }
         }
     }

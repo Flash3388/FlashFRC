@@ -19,10 +19,13 @@ repositories {
     maven {
         url('http://first.wpi.edu/FRC/roborio/maven/release')
     }
+    maven {
+        url('https://oss.sonatype.org/content/repositories/snapshots')
+    }
 }
 
 dependencies {
-    compile group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-alpha.4'
+    compile group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-alpha.6-SNAPSHOT'
 
     compile group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: '2019.4.1'
     compile group: 'edu.wpi.first.hal', name: 'hal-java', version: '2019.4.1'
@@ -95,8 +98,8 @@ publishing {
             }
 
             credentials {
-                username ''
-                password ''
+                username NEXUS_USERNAME
+                password NEXUS_PASSWORD
             }
         }
     }
