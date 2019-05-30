@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
+import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
 import com.flash3388.flashlib.frc.robot.logging.FrcLoggerFactory;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
@@ -21,6 +22,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     private final RobotModeSupplier mRobotModeSupplier;
     private final HidInterface mHidInterface;
     private final Logger mLogger;
+    private final RobotFileSystem mRobotFileSystem;
 
     public FrcRobotBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
         RunningRobot.INSTANCE.set(this);
@@ -34,6 +36,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
         mHidInterface = new FrcHidInterface(m_ds);
+        mRobotFileSystem = new RobotFileSystem();
     }
 
     public FrcRobotBase(Scheduler scheduler) {
@@ -63,6 +66,10 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     @Override
     public Logger getLogger() {
         return mLogger;
+    }
+
+    public RobotFileSystem getFileSystem() {
+        return mRobotFileSystem;
     }
 
     @Override
