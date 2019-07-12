@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import org.slf4j.Logger;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 public class FrcLoggerFactory {
 
@@ -27,7 +28,7 @@ public class FrcLoggerFactory {
         LoggerBuilder builder = createConsoleLoggerBuilder(logConfiguration);
         if (logConfiguration.isFileLoggingEnabled()) {
             builder.enableFileLogging(true)
-                    .setDateBasedFilesParent(new File(FRC_USER_DIRECTORY))
+                    .setDateBasedFilesParent(Paths.get(FRC_USER_DIRECTORY))
                     .setTimeBasedFilePattern()
                     .setLogFileConfig(logConfiguration.getFileConfig());
         }

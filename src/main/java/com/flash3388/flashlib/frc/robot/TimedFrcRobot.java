@@ -50,7 +50,7 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
 
         HAL.observeUserProgramStarting();
 
-        long periodSeconds = mLoopPeriod.getAsUnit(TimeUnit.SECONDS).getValue();
+        long periodSeconds = mLoopPeriod.toUnit(TimeUnit.SECONDS).value();
         mNotifier.startPeriodic(periodSeconds);
 
         while (true) {
