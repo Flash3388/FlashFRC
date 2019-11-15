@@ -11,6 +11,18 @@ def isReleaseBuild() {
     return version.contains("SNAPSHOT") == false
 }
 
+def getNexusUsername() {
+    return rootProject.hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('NEXUS_USERNAME')
+}
+
+def getNexusPassword() {
+    return rootProject.hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('NEXUS_PASSWORD')
+}
+
+def shouldSignRelease() {
+    return project.hasProperty('SIGN_PUBLISH')
+}
+
 sourceCompatibility = 1.8
 
 repositories {
@@ -50,6 +62,18 @@ task createJavadoc(type: Jar, dependsOn: 'javadoc') {
     from javadoc.destinationDir
     baseName 'flashlib-frc'
     classifier = 'javadoc'
+}
+
+task flashlibFrcAll(type: Jar, dependsOn: flashlib) {
+    dependsOn createSources
+    dependsOn createJavadoc
+
+    archiveName = 'flashlib-frc-all.jar'
+    destinationDir = rootProject.buildDir
+
+    from files(project.sourceSets.main.output)
+    from files(project.sourceSets.main.allSource)
+    from files(project.javadoc.destinationDir)
 }
 
 publishing {
@@ -100,13 +124,15 @@ publishing {
             }
 
             credentials {
-                username ''
-                password ''
+                username getNexusUsername()
+                password getNexusPassword()
             }
         }
     }
 }
 
-signing {
-    sign publishing.publications.mavenFlashlib
+if (shouldSignRelease()) {
+    signing {
+        sign publishing.publications.mavenFlashlib
+    }
 }
