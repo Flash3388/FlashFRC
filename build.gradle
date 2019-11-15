@@ -64,7 +64,7 @@ task createJavadoc(type: Jar, dependsOn: 'javadoc') {
     classifier = 'javadoc'
 }
 
-task flashlibFrcAll(type: Jar, dependsOn: flashlib) {
+task flashlibFrcAll(type: Jar, dependsOn: build) {
     dependsOn createSources
     dependsOn createJavadoc
 
