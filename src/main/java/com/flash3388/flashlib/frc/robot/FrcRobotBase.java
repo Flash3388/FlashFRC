@@ -6,6 +6,7 @@ import com.flash3388.flashlib.frc.robot.logging.FrcLoggerFactory;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
 import com.flash3388.flashlib.robot.Robot;
+import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.hid.HidInterface;
 import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
@@ -24,14 +25,29 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     private final Logger mLogger;
     private final RobotFileSystem mRobotFileSystem;
 
-    public FrcRobotBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
+    public FrcRobotBase(RobotConfiguration robotConfiguration) {
         RunningRobot.INSTANCE.set(this);
-
-        mScheduler = scheduler;
 
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
 
         mClock = new FpgaClock();
+
+        mScheduler = RobotFactory.newDefaultScheduler(mClock, mLogger);
+
+        // m_ds -> from super -> protected final DriverStation m_ds
+        mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
+        mHidInterface = new FrcHidInterface(m_ds);
+        mRobotFileSystem = new RobotFileSystem();
+    }
+
+    public FrcRobotBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
+        RunningRobot.INSTANCE.set(this);
+
+        mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
+
+        mClock = new FpgaClock();
+
+        mScheduler = scheduler;
 
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
@@ -41,6 +57,10 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
 
     public FrcRobotBase(Scheduler scheduler) {
         this(RobotConfiguration.defaultConfiguration(), scheduler);
+    }
+
+    public FrcRobotBase() {
+        this(RobotConfiguration.defaultConfiguration());
     }
 
     @Override
