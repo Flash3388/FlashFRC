@@ -22,10 +22,12 @@ repositories {
     maven {
         url('https://oss.sonatype.org/content/repositories/snapshots')
     }
+
+    mavenLocal()
 }
 
 dependencies {
-    compile group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-beta.6'
+    compile group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-beta.7'
 
     compile group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: '2019.4.1'
     compile group: 'edu.wpi.first.hal', name: 'hal-java', version: '2019.4.1'

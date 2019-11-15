@@ -1,6 +1,5 @@
 package com.flash3388.flashlib.frc.robot;
 
-import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Time;
 import com.flash3388.flashlib.util.concurrent.Interrupts;
@@ -29,15 +28,25 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     }
 
     public TimedFrcRobot(RobotConfiguration configuration, Time loopPeriod) {
-        this(configuration, RobotFactory.newDefaultScheduler(), loopPeriod);
+        super(configuration);
+
+        mLoopPeriod = loopPeriod;
+        mNotifier = new Notifier(this::loop);
     }
 
     public TimedFrcRobot(RobotConfiguration configuration) {
-        this(configuration, RobotFactory.newDefaultScheduler(), DEFAULT_LOOP_PERIOD);
+        super(configuration);
+
+        mLoopPeriod = DEFAULT_LOOP_PERIOD;
+        mNotifier = new Notifier(this::loop);
     }
 
     public TimedFrcRobot(Time loopPeriod) {
-        this(RobotConfiguration.defaultConfiguration(), loopPeriod);
+        super();
+
+        mLoopPeriod = loopPeriod;
+        mNotifier = new Notifier(this::loop);
+
     }
 
     public TimedFrcRobot() {
