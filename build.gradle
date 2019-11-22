@@ -4,26 +4,12 @@ plugins {
     id 'signing'
 }
 
+apply from: rootProject.file('extras.gradle')
+
 group = GROUP
 version = VERSION
 
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
-}
-
-def getNexusUsername() {
-    return rootProject.hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('NEXUS_USERNAME')
-}
-
-def getNexusPassword() {
-    return rootProject.hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('NEXUS_PASSWORD')
-}
-
-def shouldSignRelease() {
-    return project.hasProperty('SIGN_PUBLISH')
-}
-
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -31,11 +17,6 @@ repositories {
     maven {
         url('http://first.wpi.edu/FRC/roborio/maven/release')
     }
-    maven {
-        url('https://oss.sonatype.org/content/repositories/snapshots')
-    }
-
-    mavenLocal()
 }
 
 dependencies {
@@ -49,31 +30,33 @@ dependencies {
 }
 
 jar {
-    baseName 'flashlib-frc'
+    archiveBaseName.set('flashlib-frc')
 }
 
 task createSources(type: Jar, dependsOn: 'classes') {
     from sourceSets.main.allSource
-    baseName 'flashlib-frc'
-    classifier = 'sources'
+
+    archiveBaseName.set('flashlib-frc')
+    archiveClassifier.set('sources')
 }
 
 task createJavadoc(type: Jar, dependsOn: 'javadoc') {
     from javadoc.destinationDir
-    baseName 'flashlib-frc'
-    classifier = 'javadoc'
+
+    archiveBaseName.set('flashlib-frc')
+    archiveClassifier.set('javadoc')
 }
 
 task flashlibFrcAll(type: Jar, dependsOn: build) {
     dependsOn createSources
     dependsOn createJavadoc
 
-    archiveName = 'flashlib-frc-all.jar'
-    destinationDir = rootProject.buildDir
+    archiveFileName.set('flashlib-frc-all.jar')
+    destinationDirectory.set(rootProject.buildDir)
 
-    from files(project.sourceSets.main.output)
-    from files(project.sourceSets.main.allSource)
-    from files(project.javadoc.destinationDir)
+    from sourceSets.main.output
+    from sourceSets.main.allSource
+    from javadoc.destinationDir
 }
 
 publishing {
@@ -131,7 +114,7 @@ publishing {
     }
 }
 
-if (shouldSignRelease()) {
+if (shouldSign()) {
     signing {
         sign publishing.publications.mavenFlashlib
     }
