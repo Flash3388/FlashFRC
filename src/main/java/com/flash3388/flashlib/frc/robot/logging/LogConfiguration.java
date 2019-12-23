@@ -27,7 +27,7 @@ public class LogConfiguration {
     }
 
     public static LogConfiguration defaultConfiguration() {
-        return new LogConfiguration(true, false, true);
+        return new LogConfiguration(false, false, true);
     }
 
     public LogFileConfig getFileConfig() {
