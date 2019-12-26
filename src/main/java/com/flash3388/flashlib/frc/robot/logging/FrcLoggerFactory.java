@@ -7,7 +7,6 @@ import com.flash3388.flashlib.util.logging.jul.JulLoggerAdapter;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.slf4j.Logger;
 
-import java.io.File;
 import java.nio.file.Paths;
 
 public class FrcLoggerFactory {
@@ -25,7 +24,7 @@ public class FrcLoggerFactory {
     }
 
     private static java.util.logging.Logger createBaseLogger(LogConfiguration logConfiguration) {
-        LoggerBuilder builder = createConsoleLoggerBuilder(logConfiguration);
+        LoggerBuilder builder = newLoggerBuilder(logConfiguration);
         if (logConfiguration.isFileLoggingEnabled()) {
             builder.enableFileLogging(true)
                     .setDateBasedFilesParent(Paths.get(FRC_USER_DIRECTORY))
@@ -38,13 +37,13 @@ public class FrcLoggerFactory {
         } catch (LogBuildException e) {
             // possible only if using file logging
             DriverStation.reportError("error creating log-based logger: " + e.getMessage(), false);
-            return createConsoleLoggerBuilder(logConfiguration).buildJul();
+            return newLoggerBuilder(logConfiguration).buildJul();
         }
     }
 
-    private static LoggerBuilder createConsoleLoggerBuilder(LogConfiguration logConfiguration) {
+    private static LoggerBuilder newLoggerBuilder(LogConfiguration logConfiguration) {
         return new LoggerBuilder(LOGGER_NAME)
-                .enableConsoleLogging(logConfiguration.isConsoleLoggingEnabled())
+                .enableConsoleLogging(false)
                 .setLogLevel(logConfiguration.isDebug() ? LogLevel.TRACE : LogLevel.INFO);
     }
 }
