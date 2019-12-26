@@ -40,7 +40,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
         init();
     }
 
-    protected void loop() {
+    protected final void loop() {
         mCurrentMode = FrcRobotMode.forKey(getMode().getKey());
 
         if (!mCurrentMode.equals(mLastMode)) {
@@ -67,7 +67,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     private void initMode(FrcRobotMode mode) {
         LiveWindow.setEnabled(mode.isLiveWindowEnabled());
 
-        if (mode.equals(FrcRobotMode.DISABLED)) {
+        if (mode.isDisabled()) {
             disabledInit();
         } else {
             modeInit(mode);
@@ -79,7 +79,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
 
         mScheduler.run(mode);
 
-        if (mode.equals(RobotMode.DISABLED)) {
+        if (mode.isDisabled()) {
             disabledPeriodic();
         } else {
             modePeriodic(mode);
@@ -92,16 +92,16 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     }
 
     private void modeInit(FrcRobotMode mode) {
-        switch (mode.getKey()) {
-            case FrcRobotMode.OPERATOR_CONTROL_KEY: {
+        switch (mode) {
+            case OPERATOR_CONTROL: {
                 teleopInit();
                 break;
             }
-            case FrcRobotMode.AUTONOMOUS_KEY: {
+            case AUTONOMOUS: {
                 autonomousInit();
                 break;
             }
-            case FrcRobotMode.TEST_KEY: {
+            case TEST: {
                 testInit();
                 break;
             }
@@ -109,16 +109,16 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     }
 
     private void modePeriodic(FrcRobotMode mode) {
-        switch (mode.getKey()) {
-            case FrcRobotMode.OPERATOR_CONTROL_KEY: {
+        switch (mode) {
+            case OPERATOR_CONTROL: {
                 teleopPeriodic();
                 break;
             }
-            case FrcRobotMode.AUTONOMOUS_KEY: {
+            case AUTONOMOUS: {
                 autonomousPeriodic();
                 break;
             }
-            case FrcRobotMode.TEST_KEY: {
+            case TEST: {
                 testPeriodic();
                 break;
             }

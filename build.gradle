@@ -13,14 +13,14 @@ sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
-
+    mavenLocal()
     maven {
         url('https://frcmaven.wpi.edu/artifactory/release')
     }
 }
 
 dependencies {
-    implementation group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0'
+    implementation group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.0.0-test.1'
 
     implementation group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: '2020.1.1-beta-4'
     implementation group: 'edu.wpi.first.hal', name: 'hal-java', version: '2020.1.1-beta-4'
