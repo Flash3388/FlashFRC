@@ -16,6 +16,8 @@ import com.flash3388.flashlib.util.resources.Resource;
 import edu.wpi.first.wpilibj.RobotBase;
 import org.slf4j.Logger;
 
+import java.util.Collection;
+
 public abstract class FrcRobotBase extends RobotBase implements Robot {
 
     private final Scheduler mScheduler;
@@ -93,7 +95,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     }
 
     @Override
-    public void registerResources(Resource... resources) {
+    public void registerResources(Collection<? extends Resource> resources) {
         throw new UnsupportedOperationException("no need to register resources for termination in FRC robots");
     }
 }
