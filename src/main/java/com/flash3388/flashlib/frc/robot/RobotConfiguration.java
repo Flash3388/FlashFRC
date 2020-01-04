@@ -14,6 +14,14 @@ public class RobotConfiguration {
         return new RobotConfiguration(LogConfiguration.defaultConfiguration());
     }
 
+    public static RobotConfiguration competitionConfiguration() {
+        return new RobotConfiguration(LogConfiguration.competitionConfiguration());
+    }
+
+    public static RobotConfiguration debugConfiguration() {
+        return new RobotConfiguration(LogConfiguration.debugConfiguration());
+    }
+
     public LogConfiguration getLogConfiguration() {
         return mLogConfiguration;
     }

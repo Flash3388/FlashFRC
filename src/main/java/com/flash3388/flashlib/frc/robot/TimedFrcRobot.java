@@ -33,6 +33,10 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
         initInstance();
     }
 
+    public TimedFrcRobot(RobotConfiguration configuration) {
+        this(configuration, DEFAULT_LOOP_PERIOD);
+    }
+
     public TimedFrcRobot() {
         this(RobotConfiguration.defaultConfiguration(), DEFAULT_LOOP_PERIOD);
     }
