@@ -10,13 +10,11 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
 
-    protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
-
     private final int mNotifierHandle;
     private final Time mLoopPeriod;
 
     public TimedFrcRobot(RobotConfiguration configuration, Scheduler scheduler, Time loopPeriod) {
-        super(configuration, scheduler);
+        super(configuration, scheduler, loopPeriod);
 
         validateCtorParams(loopPeriod);
 
@@ -26,7 +24,7 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     }
 
     public TimedFrcRobot(RobotConfiguration configuration, Time loopPeriod) {
-        super(configuration);
+        super(configuration, loopPeriod);
 
         validateCtorParams(loopPeriod);
 
@@ -35,22 +33,8 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
         initInstance();
     }
 
-    public TimedFrcRobot(RobotConfiguration configuration) {
-        this(configuration, DEFAULT_LOOP_PERIOD);
-    }
-
-    public TimedFrcRobot(Time loopPeriod) {
-        super();
-
-        validateCtorParams(loopPeriod);
-
-        mLoopPeriod = loopPeriod;
-        mNotifierHandle = NotifierJNI.initializeNotifier();
-
-    }
-
     public TimedFrcRobot() {
-        this(DEFAULT_LOOP_PERIOD);
+        this(RobotConfiguration.defaultConfiguration(), DEFAULT_LOOP_PERIOD);
     }
 
     @Override
