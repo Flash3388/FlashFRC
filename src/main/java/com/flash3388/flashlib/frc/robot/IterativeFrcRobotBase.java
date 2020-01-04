@@ -7,6 +7,7 @@ import com.flash3388.flashlib.time.Time;
 import edu.wpi.first.hal.FRCNetComm;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class IterativeFrcRobotBase extends FrcRobotBase {
@@ -45,7 +46,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     protected final void loop() {
         logRunOverflow();
 
-        mCurrentMode = FrcRobotMode.forKey(getMode().getKey());
+        mCurrentMode = FrcRobotMode.cast(getMode());
 
         if (!mCurrentMode.equals(mLastMode)) {
             mLastMode = mCurrentMode;
@@ -64,12 +65,11 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
         mCurrentMode = null;
         mLastMode = null;
         mWasModeInitialized = false;
-
-        HAL.report(FRCNetComm.tResourceType.kResourceType_Framework, FRCNetComm.tInstances.kFramework_Iterative);
     }
 
     private void initMode(FrcRobotMode mode) {
         LiveWindow.setEnabled(mode.isLiveWindowEnabled());
+        mode.configureShuffleboardWidgets();
 
         if (mode.isDisabled()) {
             disabledInit();
@@ -93,6 +93,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
 
         SmartDashboard.updateValues();
         LiveWindow.updateValues();
+        Shuffleboard.update();
     }
 
     private void modeInit(FrcRobotMode mode) {
