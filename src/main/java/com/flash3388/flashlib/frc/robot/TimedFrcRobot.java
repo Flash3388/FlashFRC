@@ -2,50 +2,50 @@ package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Time;
-import com.flash3388.flashlib.util.concurrent.Interrupts;
+import edu.wpi.first.hal.FRCNetComm;
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.hal.NotifierJNI;
 
 import java.util.concurrent.TimeUnit;
 
 public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
 
     protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
-    private static final long MAIN_THREAD_SLEEP_MS = 1000 * 60 * 60 * 24;
 
-    private final Notifier mNotifier;
+    private final int mNotifierHandle;
     private final Time mLoopPeriod;
 
     public TimedFrcRobot(RobotConfiguration configuration, Scheduler scheduler, Time loopPeriod) {
         super(configuration, scheduler);
 
-        if (!loopPeriod.isValid()) {
-            throw new IllegalArgumentException("loopPeriod not valid time");
-        }
+        validateCtorParams(loopPeriod);
 
         mLoopPeriod = loopPeriod;
-        mNotifier = new Notifier(this::loop);
+        mNotifierHandle = NotifierJNI.initializeNotifier();
+        initInstance();
     }
 
     public TimedFrcRobot(RobotConfiguration configuration, Time loopPeriod) {
         super(configuration);
 
+        validateCtorParams(loopPeriod);
+
         mLoopPeriod = loopPeriod;
-        mNotifier = new Notifier(this::loop);
+        mNotifierHandle = NotifierJNI.initializeNotifier();
+        initInstance();
     }
 
     public TimedFrcRobot(RobotConfiguration configuration) {
-        super(configuration);
-
-        mLoopPeriod = DEFAULT_LOOP_PERIOD;
-        mNotifier = new Notifier(this::loop);
+        this(configuration, DEFAULT_LOOP_PERIOD);
     }
 
     public TimedFrcRobot(Time loopPeriod) {
         super();
 
+        validateCtorParams(loopPeriod);
+
         mLoopPeriod = loopPeriod;
-        mNotifier = new Notifier(this::loop);
+        mNotifierHandle = NotifierJNI.initializeNotifier();
 
     }
 
@@ -59,15 +59,45 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
 
         HAL.observeUserProgramStarting();
 
-        long periodSeconds = mLoopPeriod.toUnit(TimeUnit.SECONDS).value();
-        mNotifier.startPeriodic(periodSeconds);
+        Time expirationTime = getClock().currentTime().add(mLoopPeriod);
+        updateAlarm(expirationTime);
 
         while (true) {
-            try {
-                Thread.sleep(MAIN_THREAD_SLEEP_MS);
-            } catch (InterruptedException e) {
-                Interrupts.preserveInterruptState();
+            long currentTime = NotifierJNI.waitForNotifierAlarm(mNotifierHandle);
+            if (currentTime == 0) {
+                break;
             }
+
+            expirationTime = expirationTime.add(mLoopPeriod);
+            updateAlarm(expirationTime);
+
+            loop();
         }
+    }
+
+    @Override
+    public void endCompetition() {
+        NotifierJNI.stopNotifier(mNotifierHandle);
+    }
+
+    @Override
+    protected void finalize() {
+        NotifierJNI.stopNotifier(mNotifierHandle);
+        NotifierJNI.cleanNotifier(mNotifierHandle);
+    }
+
+    private void updateAlarm(Time expirationTime) {
+        NotifierJNI.updateNotifierAlarm(mNotifierHandle, expirationTime.toUnit(TimeUnit.MICROSECONDS).value());
+    }
+
+    private void validateCtorParams(Time loopPeriod) {
+        if (!loopPeriod.isValid()) {
+            throw new IllegalArgumentException("loopPeriod not valid time");
+        }
+    }
+
+    private void initInstance() {
+        NotifierJNI.setNotifierName(mNotifierHandle, "TimedRobot");
+        HAL.report(FRCNetComm.tResourceType.kResourceType_Framework, FRCNetComm.tInstances.kFramework_Timed);
     }
 }
