@@ -24,7 +24,7 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     }
 
     public TimedFrcRobot(RobotConfiguration configuration, Time loopPeriod) {
-        super(configuration, loopPeriod);
+        super(configuration);
 
         validateCtorParams(loopPeriod);
 

@@ -14,7 +14,7 @@ public abstract class IterativeFrcRobot extends IterativeFrcRobotBase {
     }
 
     public IterativeFrcRobot(RobotConfiguration configuration) {
-        super(configuration, DEFAULT_LOOP_PERIOD);
+        super(configuration);
         initInstance();
     }
 

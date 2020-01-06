@@ -2,10 +2,7 @@ package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
-import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
-import edu.wpi.first.hal.FRCNetComm;
-import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,10 +12,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
 
     private final Scheduler mScheduler;
-    private final Clock mClock;
-    private final Time mExpectedRunPeriod;
 
-    private Time mLastRunTime;
     private FrcRobotMode mCurrentMode;
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
@@ -26,26 +20,20 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     protected IterativeFrcRobotBase(RobotConfiguration configuration, Scheduler scheduler, Time expectedRunPeriod) {
         super(configuration, scheduler);
         mScheduler = scheduler;
-        mClock = getClock();
-        mExpectedRunPeriod = expectedRunPeriod;
         init();
     }
 
-    protected IterativeFrcRobotBase(RobotConfiguration configuration, Time expectedRunPeriod) {
+    protected IterativeFrcRobotBase(RobotConfiguration configuration) {
         super(configuration);
         mScheduler = getScheduler();
-        mClock = getClock();
-        mExpectedRunPeriod = expectedRunPeriod;
         init();
     }
 
     protected IterativeFrcRobotBase() {
-        this(RobotConfiguration.defaultConfiguration(), DEFAULT_LOOP_PERIOD);
+        this(RobotConfiguration.defaultConfiguration());
     }
 
     protected final void loop() {
-        logRunOverflow();
-
         mCurrentMode = FrcRobotMode.cast(getMode());
 
         if (!mCurrentMode.equals(mLastMode)) {
@@ -127,17 +115,6 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
                 testPeriodic();
                 break;
             }
-        }
-    }
-
-    private void logRunOverflow() {
-        Time now = mClock.currentTime();
-        Time timePassed = now.sub(mLastRunTime);
-        mLastRunTime = now;
-
-        if (timePassed.largerThan(mExpectedRunPeriod)) {
-            getLogger().warn("Robot run loop overflow, expected {}, actual {}",
-                    mExpectedRunPeriod, timePassed);
         }
     }
 
