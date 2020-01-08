@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    api group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.1.0'
+    api group: 'com.flash3388.flashlib', name: 'flashlib', version: '2.2.0'
 
     api group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: '2020.1.2'
     api group: 'edu.wpi.first.hal', name: 'hal-java', version: '2020.1.2'
