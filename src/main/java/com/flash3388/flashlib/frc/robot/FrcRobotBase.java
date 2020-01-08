@@ -28,7 +28,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     private final RobotFileSystem mRobotFileSystem;
 
     public FrcRobotBase(RobotConfiguration robotConfiguration) {
-        RunningRobot.INSTANCE.set(this);
+        RunningRobot.setInstance(this);
 
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
 
@@ -43,7 +43,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     }
 
     public FrcRobotBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
-        RunningRobot.INSTANCE.set(this);
+        RunningRobot.setInstance(this);
 
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
 

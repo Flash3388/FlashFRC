@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public abstract class IterativeFrcRobotBase extends FrcRobotBase {
+public abstract class IterativeFrcRobotBase extends FrcRobotBase implements IterativeRobotInterface {
 
     protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
 
@@ -123,18 +123,4 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase {
     //--------------------------------------------------------------------
 
     protected abstract void robotInit();
-
-    protected abstract void disabledInit();
-    protected abstract void disabledPeriodic();
-
-    protected abstract void teleopInit();
-    protected abstract void teleopPeriodic();
-
-    protected abstract void autonomousInit();
-    protected abstract void autonomousPeriodic();
-
-    protected abstract void testInit();
-    protected abstract void testPeriodic();
-
-    protected abstract void robotPeriodic();
 }
