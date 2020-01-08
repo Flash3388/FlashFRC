@@ -17,8 +17,6 @@ repositories {
     maven {
         url('https://frcmaven.wpi.edu/artifactory/release')
     }
-
-    mavenLocal() //remove
 }
 
 dependencies {
