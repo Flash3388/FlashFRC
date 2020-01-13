@@ -77,22 +77,4 @@ public enum FrcRobotMode implements RobotMode {
 
     public abstract void reportModeHal();
     public abstract void configureShuffleboardWidgets();
-
-    public static FrcRobotMode forKey(int key) {
-        for (FrcRobotMode mode : FrcRobotMode.values()) {
-            if (mode.getKey() == key) {
-                return mode;
-            }
-        }
-
-        throw new AssertionError("unexpected key: " + key);
-    }
-
-    public static FrcRobotMode cast(RobotMode mode) {
-        if (mode instanceof FrcRobotMode) {
-            return (FrcRobotMode) mode;
-        }
-
-        return forKey(mode.getKey());
-    }
 }

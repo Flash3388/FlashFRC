@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
+import com.flash3388.flashlib.robot.modes.RobotMode;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Time;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -34,7 +35,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase implements Iter
     }
 
     protected final void loop() {
-        mCurrentMode = FrcRobotMode.cast(getMode());
+        mCurrentMode = RobotMode.cast(getMode(), FrcRobotMode.class);
 
         if (!mCurrentMode.equals(mLastMode)) {
             mLastMode = mCurrentMode;
