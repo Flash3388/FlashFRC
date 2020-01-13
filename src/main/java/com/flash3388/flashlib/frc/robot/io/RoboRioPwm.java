@@ -11,7 +11,7 @@ public class RoboRioPwm implements Pwm {
 
     private edu.wpi.first.wpilibj.PWM mPwm;
 
-    public RoboRioPwm(PWM pwm) {
+    public RoboRioPwm(edu.wpi.first.wpilibj.PWM pwm) {
         mPwm = pwm;
     }
 
