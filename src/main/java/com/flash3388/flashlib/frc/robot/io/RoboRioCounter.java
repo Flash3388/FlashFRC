@@ -3,36 +3,36 @@ package com.flash3388.flashlib.frc.robot.io;
 import com.flash3388.flashlib.robot.io.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-public class FrcCounter implements Counter {
+public class RoboRioCounter implements Counter {
 
     private edu.wpi.first.wpilibj.Counter mCounter;
     private final boolean mIsQuadrature;
 
-    public FrcCounter(edu.wpi.first.wpilibj.Counter counter, boolean isQuadrature) {
+    public RoboRioCounter(edu.wpi.first.wpilibj.Counter counter, boolean isQuadrature) {
         mCounter = counter;
         mIsQuadrature = isQuadrature;
     }
 
-    public static FrcCounter pulseLength(DigitalInput port, double threshold) {
+    public static RoboRioCounter pulseLength(DigitalInput port, double threshold) {
         edu.wpi.first.wpilibj.Counter counter = new edu.wpi.first.wpilibj.Counter();
         counter.setUpSource(port);
 
         counter.setPulseLengthMode(threshold);
 
-        return new FrcCounter(counter, false);
+        return new RoboRioCounter(counter, false);
     }
 
-    public static FrcCounter pulseCount(DigitalInput port) {
+    public static RoboRioCounter pulseCount(DigitalInput port) {
         edu.wpi.first.wpilibj.Counter counter = new edu.wpi.first.wpilibj.Counter();
         counter.setUpSource(port);
 
         counter.setUpDownCounterMode();
         counter.setSemiPeriodMode(false);
 
-        return new FrcCounter(counter, false);
+        return new RoboRioCounter(counter, false);
     }
 
-    public static FrcCounter quadrature(DigitalInput upPort, DigitalInput downPort) {
+    public static RoboRioCounter quadrature(DigitalInput upPort, DigitalInput downPort) {
         edu.wpi.first.wpilibj.Counter counter = new edu.wpi.first.wpilibj.Counter();
         counter.setUpSource(upPort);
         counter.setDownSource(downPort);
@@ -40,7 +40,7 @@ public class FrcCounter implements Counter {
         counter.setUpDownCounterMode();
         counter.setSemiPeriodMode(false);
 
-        return new FrcCounter(counter, true);
+        return new RoboRioCounter(counter, true);
     }
 
     @Override

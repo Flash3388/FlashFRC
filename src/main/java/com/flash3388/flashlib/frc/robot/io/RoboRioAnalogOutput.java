@@ -2,21 +2,21 @@ package com.flash3388.flashlib.frc.robot.io;
 
 import com.flash3388.flashlib.robot.io.AnalogOutput;
 
-public class FrcAnalogOutput implements AnalogOutput {
+public class RoboRioAnalogOutput implements AnalogOutput {
 
     private edu.wpi.first.wpilibj.AnalogOutput mAnalogOutput;
 
-    public FrcAnalogOutput(edu.wpi.first.wpilibj.AnalogOutput analogOutput) {
+    public RoboRioAnalogOutput(edu.wpi.first.wpilibj.AnalogOutput analogOutput) {
         mAnalogOutput = analogOutput;
     }
 
-    public FrcAnalogOutput(int port) {
+    public RoboRioAnalogOutput(int port) {
         this(new edu.wpi.first.wpilibj.AnalogOutput(port));
     }
 
     @Override
     public void setValue(int value) {
-        setVoltage(value / (double) FrcAnalogPort.MAX_VALUE * FrcAnalogPort.MAX_VOLTAGE);
+        setVoltage(value / (double) RoboRioAnalogPort.MAX_VALUE * RoboRioAnalogPort.MAX_VOLTAGE);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class FrcAnalogOutput implements AnalogOutput {
 
     @Override
     public int getValue() {
-        return (int) (getVoltage() / FrcAnalogPort.MAX_VOLTAGE * FrcAnalogPort.MAX_VALUE);
+        return (int) (getVoltage() / RoboRioAnalogPort.MAX_VOLTAGE * RoboRioAnalogPort.MAX_VALUE);
     }
 
     @Override

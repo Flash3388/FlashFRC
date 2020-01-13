@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
+import com.flash3388.flashlib.frc.robot.io.RoboRioIoInterface;
 import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
 import com.flash3388.flashlib.frc.robot.logging.FrcLoggerFactory;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
@@ -9,6 +10,7 @@ import com.flash3388.flashlib.robot.Robot;
 import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.hid.HidInterface;
+import com.flash3388.flashlib.robot.io.IoInterface;
 import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Clock;
@@ -23,6 +25,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     private final Scheduler mScheduler;
     private final Clock mClock;
     private final RobotModeSupplier mRobotModeSupplier;
+    private final IoInterface mIoInterface;
     private final HidInterface mHidInterface;
     private final Logger mLogger;
     private final RobotFileSystem mRobotFileSystem;
@@ -38,6 +41,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
 
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
+        mIoInterface = new RoboRioIoInterface();
         mHidInterface = new FrcHidInterface(m_ds);
         mRobotFileSystem = new RobotFileSystem();
     }
@@ -53,6 +57,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
 
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
+        mIoInterface = new RoboRioIoInterface();
         mHidInterface = new FrcHidInterface(m_ds);
         mRobotFileSystem = new RobotFileSystem();
     }
@@ -78,6 +83,11 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     @Override
     public RobotModeSupplier getModeSupplier() {
         return mRobotModeSupplier;
+    }
+
+    @Override
+    public IoInterface getIoInterface() {
+        return mIoInterface;
     }
 
     @Override

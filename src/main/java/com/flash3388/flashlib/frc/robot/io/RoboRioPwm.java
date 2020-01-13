@@ -5,17 +5,17 @@ import edu.wpi.first.hal.DIOJNI;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SensorUtil;
 
-public class FrcPwm implements Pwm {
+public class RoboRioPwm implements Pwm {
 
     public static final int MAX_RAW = 255;
 
     private edu.wpi.first.wpilibj.PWM mPwm;
 
-    public FrcPwm(PWM pwm) {
+    public RoboRioPwm(PWM pwm) {
         mPwm = pwm;
     }
 
-    public FrcPwm(int port) {
+    public RoboRioPwm(int port) {
         this(new edu.wpi.first.wpilibj.PWM(port));
     }
 

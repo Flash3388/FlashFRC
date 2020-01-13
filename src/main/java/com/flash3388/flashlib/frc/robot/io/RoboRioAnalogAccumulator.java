@@ -2,11 +2,11 @@ package com.flash3388.flashlib.frc.robot.io;
 
 import com.flash3388.flashlib.robot.io.AnalogAccumulator;
 
-public class FrcAnalogAccumulator implements AnalogAccumulator {
+public class RoboRioAnalogAccumulator implements AnalogAccumulator {
 
     private edu.wpi.first.wpilibj.AnalogInput mAnalogInput;
 
-    public FrcAnalogAccumulator(edu.wpi.first.wpilibj.AnalogInput analogInput) {
+    public RoboRioAnalogAccumulator(edu.wpi.first.wpilibj.AnalogInput analogInput) {
         mAnalogInput = analogInput;
         mAnalogInput.initAccumulator();
     }

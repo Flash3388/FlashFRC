@@ -2,15 +2,15 @@ package com.flash3388.flashlib.frc.robot.io;
 
 import com.flash3388.flashlib.robot.io.DigitalOutput;
 
-public class FrcDigitalOutput implements DigitalOutput {
+public class RoboRioDigitalOutput implements DigitalOutput {
 
     private edu.wpi.first.wpilibj.DigitalOutput mDigitalOutput;
 
-    public FrcDigitalOutput(edu.wpi.first.wpilibj.DigitalOutput digitalOutput) {
+    public RoboRioDigitalOutput(edu.wpi.first.wpilibj.DigitalOutput digitalOutput) {
         mDigitalOutput = digitalOutput;
     }
 
-    public FrcDigitalOutput(int port) {
+    public RoboRioDigitalOutput(int port) {
         this(new edu.wpi.first.wpilibj.DigitalOutput(port));
     }
 

@@ -3,17 +3,17 @@ package com.flash3388.flashlib.frc.robot.io;
 import com.flash3388.flashlib.robot.io.AnalogAccumulator;
 import com.flash3388.flashlib.robot.io.AnalogInput;
 
-public class FrcAnalogInput implements AnalogInput {
+public class RoboRioAnalogInput implements AnalogInput {
 
     private edu.wpi.first.wpilibj.AnalogInput mAnalogInput;
-    private FrcAnalogAccumulator mAnalogAccumulator;
+    private RoboRioAnalogAccumulator mAnalogAccumulator;
 
-    public FrcAnalogInput(edu.wpi.first.wpilibj.AnalogInput analogInput) {
+    public RoboRioAnalogInput(edu.wpi.first.wpilibj.AnalogInput analogInput) {
         mAnalogInput = analogInput;
-        mAnalogAccumulator = new FrcAnalogAccumulator(analogInput);
+        mAnalogAccumulator = new RoboRioAnalogAccumulator(analogInput);
     }
 
-    public FrcAnalogInput(int port) {
+    public RoboRioAnalogInput(int port) {
         this(new edu.wpi.first.wpilibj.AnalogInput(port));
     }
 
@@ -39,12 +39,12 @@ public class FrcAnalogInput implements AnalogInput {
 
     @Override
     public double getMaxVoltage() {
-        return FrcAnalogPort.MAX_VOLTAGE;
+        return RoboRioAnalogPort.MAX_VOLTAGE;
     }
 
     @Override
     public int getMaxValue() {
-        return FrcAnalogPort.MAX_VALUE;
+        return RoboRioAnalogPort.MAX_VALUE;
     }
 
     @Override
