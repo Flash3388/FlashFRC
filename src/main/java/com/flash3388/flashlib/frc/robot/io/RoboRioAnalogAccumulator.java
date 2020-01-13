@@ -6,9 +6,8 @@ public class RoboRioAnalogAccumulator implements AnalogAccumulator {
 
     private edu.wpi.first.wpilibj.AnalogInput mAnalogInput;
 
-    public RoboRioAnalogAccumulator(edu.wpi.first.wpilibj.AnalogInput analogInput) {
+    RoboRioAnalogAccumulator(edu.wpi.first.wpilibj.AnalogInput analogInput) {
         mAnalogInput = analogInput;
-        mAnalogInput.initAccumulator();
     }
 
     @Override

@@ -3,14 +3,16 @@ package com.flash3388.flashlib.frc.robot.io;
 import com.flash3388.flashlib.robot.io.AnalogAccumulator;
 import com.flash3388.flashlib.robot.io.AnalogInput;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class RoboRioAnalogInput implements AnalogInput {
 
     private edu.wpi.first.wpilibj.AnalogInput mAnalogInput;
-    private RoboRioAnalogAccumulator mAnalogAccumulator;
+    private volatile AnalogAccumulator mAccumulator;
 
     public RoboRioAnalogInput(edu.wpi.first.wpilibj.AnalogInput analogInput) {
         mAnalogInput = analogInput;
-        mAnalogAccumulator = new RoboRioAnalogAccumulator(analogInput);
+        mAccumulator = null;
     }
 
     public RoboRioAnalogInput(int port) {
@@ -29,7 +31,16 @@ public class RoboRioAnalogInput implements AnalogInput {
 
     @Override
     public AnalogAccumulator getAccumulator() {
-        return mAnalogAccumulator;
+        if (mAccumulator == null) {
+            synchronized (this) {
+                if (mAccumulator == null) {
+                    mAnalogInput.initAccumulator();
+                    mAccumulator = new RoboRioAnalogAccumulator(mAnalogInput);
+                }
+            }
+        }
+
+        return mAccumulator;
     }
 
     @Override
@@ -54,9 +65,11 @@ public class RoboRioAnalogInput implements AnalogInput {
         }
 
         mAnalogInput.close();
-        mAnalogAccumulator.disable();
-
         mAnalogInput = null;
-        mAnalogAccumulator = null;
+
+        if (mAccumulator != null) {
+            mAccumulator.disable();
+            mAccumulator = null;
+        }
     }
 }
