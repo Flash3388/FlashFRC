@@ -6,14 +6,18 @@ import com.flash3388.flashlib.frc.robot.hid.JoystickAxis;
 import com.flash3388.flashlib.frc.robot.systems.Systems;
 import com.flash3388.flashlib.robot.DelegatingRobotControl;
 import com.flash3388.flashlib.robot.RobotControl;
+import com.flash3388.flashlib.robot.motion.actions.RotateAction;
 import com.flash3388.flashlib.robot.scheduling.actions.Actions;
+import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
 import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.actions.TankDriveAction;
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 
 public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
     private final TankDriveSystem mDriveSystem;
+    private final SingleMotorSystem mShooter;
 
     private final Joystick mStickRight;
     private final Joystick mStickLeft;
@@ -28,6 +32,10 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
                 .left(new PWMTalonSRX(RobotMap.DRIVE_BACK_LEFT))
                 .build();
 
+        mShooter = Systems.newSingleMotor(
+                new PWMSparkMax(RobotMap.SHOOTER)
+        );
+
         mStickRight = new Joystick(RobotMap.STICK_RIGHT);
         mStickLeft = new Joystick(RobotMap.STICK_LEFT);
 
@@ -35,6 +43,8 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
                 mStickRight.getAxis(JoystickAxis.Y),
                 mStickLeft.getAxis(JoystickAxis.Y))
                 .requires(mDriveSystem));
+
+        mStickRight.getButton(0).whileHeld(new RotateAction(mShooter, ()->1.0));
 
         mStickLeft.getButton(0).whenPressed(Actions.instant(()-> {
             mStickRight.getAxis(JoystickAxis.Y).invert();

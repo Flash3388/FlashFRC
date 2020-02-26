@@ -4,6 +4,7 @@ import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedController;
 import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedControllerGroup;
 import com.flash3388.flashlib.robot.io.devices.actuators.SpeedController;
 import com.flash3388.flashlib.robot.io.devices.actuators.SpeedControllerGroup;
+import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
 import com.flash3388.flashlib.robot.systems.drive.MecanumDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.OmniDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
@@ -154,6 +155,18 @@ public class Systems {
 
     public MecanumDriveBuilder newMecanumDrive() {
         return new MecanumDriveBuilder();
+    }
+
+    public static SingleMotorSystem newSingleMotor(SpeedController speedController) {
+        return new SingleMotorSystem(speedController);
+    }
+
+    public static SingleMotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController speedController) {
+        return newSingleMotor(new FrcSpeedController(speedController));
+    }
+
+    public static SingleMotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        return newSingleMotor(new FrcSpeedControllerGroup(speedControllers));
     }
 
     private static class SpeedControllers {
