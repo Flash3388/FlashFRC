@@ -1,5 +1,6 @@
 package com.flash3388.flashlib.frc.robot;
 
+import com.flash3388.flashlib.frc.robot.base.IterativeFrcRobot;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Time;
 import edu.wpi.first.hal.FRCNetComm;
@@ -8,13 +9,13 @@ import edu.wpi.first.hal.NotifierJNI;
 
 import java.util.concurrent.TimeUnit;
 
-public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
+public class IntervalLoopingFrcRobotControl extends LoopingRobotControl {
 
     private final int mNotifierHandle;
     private final Time mLoopPeriod;
 
-    public TimedFrcRobot(RobotConfiguration configuration, Scheduler scheduler, Time loopPeriod) {
-        super(configuration, scheduler, loopPeriod);
+    public IntervalLoopingFrcRobotControl(RobotConfiguration configuration, Scheduler scheduler, Time loopPeriod, IterativeFrcRobot.Initializer robotInitializer) {
+        super(configuration, scheduler, loopPeriod, robotInitializer);
 
         validateCtorParams(loopPeriod);
 
@@ -23,8 +24,8 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
         initInstance();
     }
 
-    public TimedFrcRobot(RobotConfiguration configuration, Time loopPeriod) {
-        super(configuration);
+    public IntervalLoopingFrcRobotControl(RobotConfiguration configuration, Time loopPeriod, IterativeFrcRobot.Initializer robotInitializer) {
+        super(configuration, robotInitializer);
 
         validateCtorParams(loopPeriod);
 
@@ -33,20 +34,16 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
         initInstance();
     }
 
-    public TimedFrcRobot(RobotConfiguration configuration) {
-        this(configuration, DEFAULT_LOOP_PERIOD);
+    public IntervalLoopingFrcRobotControl(RobotConfiguration configuration, IterativeFrcRobot.Initializer robotInitializer) {
+        this(configuration, DEFAULT_LOOP_PERIOD, robotInitializer);
     }
 
-    public TimedFrcRobot() {
-        this(RobotConfiguration.defaultConfiguration(), DEFAULT_LOOP_PERIOD);
+    public IntervalLoopingFrcRobotControl(IterativeFrcRobot.Initializer robotInitializer) {
+        this(RobotConfiguration.defaultConfiguration(), DEFAULT_LOOP_PERIOD, robotInitializer);
     }
 
     @Override
-    public void startCompetition() {
-        robotInit();
-
-        HAL.observeUserProgramStarting();
-
+    protected void robotLoop() {
         Time expirationTime = getClock().currentTime().add(mLoopPeriod);
         updateAlarm(expirationTime);
 
@@ -64,7 +61,7 @@ public abstract class TimedFrcRobot extends IterativeFrcRobotBase {
     }
 
     @Override
-    public void endCompetition() {
+    protected void robotStop() {
         NotifierJNI.stopNotifier(mNotifierHandle);
     }
 

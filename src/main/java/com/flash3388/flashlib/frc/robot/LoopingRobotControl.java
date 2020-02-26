@@ -1,41 +1,65 @@
 package com.flash3388.flashlib.frc.robot;
 
+import com.flash3388.flashlib.frc.robot.base.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
-import com.flash3388.flashlib.robot.modes.RobotMode;
+import com.flash3388.flashlib.robot.RobotInitializationException;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Time;
+import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public abstract class IterativeFrcRobotBase extends FrcRobotBase implements IterativeRobotInterface {
+public abstract class LoopingRobotControl extends FrcRobotControlBase {
 
     protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
 
     private final Scheduler mScheduler;
+    private final IterativeFrcRobot.Initializer mRobotInitializer;
 
+    private IterativeFrcRobot mRobot;
     private FrcRobotMode mCurrentMode;
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
 
-    protected IterativeFrcRobotBase(RobotConfiguration configuration, Scheduler scheduler, Time expectedRunPeriod) {
+    protected LoopingRobotControl(RobotConfiguration configuration, Scheduler scheduler, Time expectedRunPeriod, IterativeFrcRobot.Initializer robotInitializer) {
         super(configuration, scheduler);
         mScheduler = scheduler;
+        mRobotInitializer = robotInitializer;
         init();
     }
 
-    protected IterativeFrcRobotBase(RobotConfiguration configuration) {
+    protected LoopingRobotControl(RobotConfiguration configuration, IterativeFrcRobot.Initializer robotInitializer) {
         super(configuration);
+        mRobotInitializer = robotInitializer;
         mScheduler = getScheduler();
         init();
     }
 
-    protected IterativeFrcRobotBase() {
-        this(RobotConfiguration.defaultConfiguration());
+    protected LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer) {
+        this(RobotConfiguration.defaultConfiguration(), robotInitializer);
+    }
+
+    @Override
+    public void startCompetition() {
+        try {
+            mRobot = mRobotInitializer.init(this);
+        } catch (RobotInitializationException e) {
+            throw new RuntimeException(e);
+        }
+
+        HAL.observeUserProgramStarting();
+        robotLoop();
+    }
+
+    @Override
+    public void endCompetition() {
+        mRobot.robotStop();
+        robotStop();
     }
 
     protected final void loop() {
-        mCurrentMode = RobotMode.cast(getMode(), FrcRobotMode.class);
+        mCurrentMode = getMode(FrcRobotMode.class);
 
         if (!mCurrentMode.equals(mLastMode)) {
             mLastMode = mCurrentMode;
@@ -61,7 +85,7 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase implements Iter
         mode.configureShuffleboardWidgets();
 
         if (mode.isDisabled()) {
-            disabledInit();
+            mRobot.disabledInit();
         } else {
             modeInit(mode);
         }
@@ -73,12 +97,12 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase implements Iter
         mScheduler.run(mode);
 
         if (mode.isDisabled()) {
-            disabledPeriodic();
+            mRobot.disabledPeriodic();
         } else {
             modePeriodic(mode);
         }
 
-        robotPeriodic();
+        mRobot.robotPeriodic();
 
         SmartDashboard.updateValues();
         LiveWindow.updateValues();
@@ -88,15 +112,15 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase implements Iter
     private void modeInit(FrcRobotMode mode) {
         switch (mode) {
             case OPERATOR_CONTROL: {
-                teleopInit();
+                mRobot.teleopInit();
                 break;
             }
             case AUTONOMOUS: {
-                autonomousInit();
+                mRobot.autonomousInit();
                 break;
             }
             case TEST: {
-                testInit();
+                mRobot.testInit();
                 break;
             }
         }
@@ -105,23 +129,20 @@ public abstract class IterativeFrcRobotBase extends FrcRobotBase implements Iter
     private void modePeriodic(FrcRobotMode mode) {
         switch (mode) {
             case OPERATOR_CONTROL: {
-                teleopPeriodic();
+                mRobot.teleopPeriodic();
                 break;
             }
             case AUTONOMOUS: {
-                autonomousPeriodic();
+                mRobot.autonomousPeriodic();
                 break;
             }
             case TEST: {
-                testPeriodic();
+                mRobot.testPeriodic();
                 break;
             }
         }
     }
 
-    //--------------------------------------------------------------------
-    //----------------------Implementable---------------------------------
-    //--------------------------------------------------------------------
-
-    protected abstract void robotInit();
+    protected abstract void robotLoop();
+    protected abstract void robotStop();
 }

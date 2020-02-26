@@ -4,14 +4,15 @@ import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
 import com.flash3388.flashlib.frc.robot.io.RoboRioIoInterface;
 import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
 import com.flash3388.flashlib.frc.robot.logging.FrcLoggerFactory;
+import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
-import com.flash3388.flashlib.robot.Robot;
+import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.hid.HidInterface;
 import com.flash3388.flashlib.robot.io.IoInterface;
-import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
+import com.flash3388.flashlib.robot.modes.RobotMode;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.util.resources.Resource;
@@ -19,18 +20,19 @@ import edu.wpi.first.wpilibj.RobotBase;
 import org.slf4j.Logger;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
-public abstract class FrcRobotBase extends RobotBase implements Robot {
+public abstract class FrcRobotControlBase extends RobotBase implements RobotControl {
 
     private final Scheduler mScheduler;
     private final Clock mClock;
-    private final RobotModeSupplier mRobotModeSupplier;
+    private final Supplier<FrcRobotMode> mRobotModeSupplier;
     private final IoInterface mIoInterface;
     private final HidInterface mHidInterface;
     private final Logger mLogger;
     private final RobotFileSystem mRobotFileSystem;
 
-    public FrcRobotBase(RobotConfiguration robotConfiguration) {
+    public FrcRobotControlBase(RobotConfiguration robotConfiguration) {
         RunningRobot.setInstance(this);
 
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
@@ -46,7 +48,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
         mRobotFileSystem = new RobotFileSystem();
     }
 
-    public FrcRobotBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
+    public FrcRobotControlBase(RobotConfiguration robotConfiguration, Scheduler scheduler) {
         RunningRobot.setInstance(this);
 
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
@@ -62,11 +64,11 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
         mRobotFileSystem = new RobotFileSystem();
     }
 
-    public FrcRobotBase(Scheduler scheduler) {
+    public FrcRobotControlBase(Scheduler scheduler) {
         this(RobotConfiguration.defaultConfiguration(), scheduler);
     }
 
-    public FrcRobotBase() {
+    public FrcRobotControlBase() {
         this(RobotConfiguration.defaultConfiguration());
     }
 
@@ -81,7 +83,7 @@ public abstract class FrcRobotBase extends RobotBase implements Robot {
     }
 
     @Override
-    public RobotModeSupplier getModeSupplier() {
+    public Supplier<? extends RobotMode> getModeSupplier() {
         return mRobotModeSupplier;
     }
 
