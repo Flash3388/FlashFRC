@@ -14,15 +14,15 @@ public class FrcRobotModeSupplier implements RobotModeSupplier {
 
     @Override
     public RobotMode getMode() {
-        if (!mDriverStation.isEnabled()) {
+        if (mDriverStation.isDisabled()) {
             return FrcRobotMode.DISABLED;
         }
 
-        if (mDriverStation.isOperatorControl()) {
-            return FrcRobotMode.OPERATOR_CONTROL;
-        }
         if (mDriverStation.isAutonomous()) {
             return FrcRobotMode.AUTONOMOUS;
+        }
+        if (mDriverStation.isOperatorControl()) {
+            return FrcRobotMode.OPERATOR_CONTROL;
         }
         if (mDriverStation.isTest()) {
             return FrcRobotMode.TEST;
