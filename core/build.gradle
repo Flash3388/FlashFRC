@@ -24,8 +24,8 @@ repositories {
 dependencies {
     api flashlib()
 
-    api group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: '2020.3.2'
-    api group: 'edu.wpi.first.hal', name: 'hal-java', version: '2020.3.2'
+    api group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: WPILIB_VERSION
+    api group: 'edu.wpi.first.hal', name: 'hal-java', version: WPILIB_VERSION
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
