@@ -1,0 +1,5 @@
+ext {
+    flashlib = {
+        return "com.flash3388.flashlib:flashlib:3.0.0-SNAPSHOT"
+    }
+}

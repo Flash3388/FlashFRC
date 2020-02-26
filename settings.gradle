@@ -1,1 +1,3 @@
 rootProject.name = 'flashlib-frc'
+
+include 'core', 'examples:basic-robot'
