@@ -1,6 +1,6 @@
 package frc.team3388.robot;
 
-import com.flash3388.flashlib.frc.robot.base.IterativeFrcRobot;
+import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.hid.Joystick;
 import com.flash3388.flashlib.frc.robot.hid.JoystickAxis;
 import com.flash3388.flashlib.frc.robot.systems.Systems;

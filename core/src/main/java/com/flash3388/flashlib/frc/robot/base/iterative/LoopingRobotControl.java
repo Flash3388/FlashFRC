@@ -1,43 +1,45 @@
-package com.flash3388.flashlib.frc.robot;
+package com.flash3388.flashlib.frc.robot.base.iterative;
 
-import com.flash3388.flashlib.frc.robot.base.IterativeFrcRobot;
+import com.flash3388.flashlib.frc.robot.RobotConfiguration;
+import com.flash3388.flashlib.frc.robot.base.FrcRobotControlBase;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RobotInitializationException;
+import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
-import com.flash3388.flashlib.time.Time;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public abstract class LoopingRobotControl extends FrcRobotControlBase {
-
-    protected static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
+public class LoopingRobotControl extends FrcRobotControlBase {
 
     private final Scheduler mScheduler;
     private final IterativeFrcRobot.Initializer mRobotInitializer;
+    private final RobotLooper mRobotLooper;
 
     private IterativeFrcRobot mRobot;
     private FrcRobotMode mCurrentMode;
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
 
-    protected LoopingRobotControl(RobotConfiguration configuration, Scheduler scheduler, Time expectedRunPeriod, IterativeFrcRobot.Initializer robotInitializer) {
+    protected LoopingRobotControl(RobotConfiguration configuration, Scheduler scheduler, IterativeFrcRobot.Initializer robotInitializer, RobotLooper robotLooper) {
         super(configuration, scheduler);
         mScheduler = scheduler;
         mRobotInitializer = robotInitializer;
+        mRobotLooper = robotLooper;
         init();
     }
 
-    protected LoopingRobotControl(RobotConfiguration configuration, IterativeFrcRobot.Initializer robotInitializer) {
+    protected LoopingRobotControl(RobotConfiguration configuration, IterativeFrcRobot.Initializer robotInitializer, RobotLooper robotLooper) {
         super(configuration);
         mRobotInitializer = robotInitializer;
+        mRobotLooper = robotLooper;
         mScheduler = getScheduler();
         init();
     }
 
-    protected LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer) {
-        this(RobotConfiguration.defaultConfiguration(), robotInitializer);
+    protected LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, RobotLooper robotLooper) {
+        this(RobotConfiguration.defaultConfiguration(), robotInitializer, robotLooper);
     }
 
     @Override
@@ -49,16 +51,16 @@ public abstract class LoopingRobotControl extends FrcRobotControlBase {
         }
 
         HAL.observeUserProgramStarting();
-        robotLoop();
+        mRobotLooper.doLoop(getClock(), this::loop);
     }
 
     @Override
     public void endCompetition() {
         mRobot.robotStop();
-        robotStop();
+        mRobotLooper.stopLoop();
     }
 
-    protected final void loop() {
+    private void loop() {
         mCurrentMode = getMode(FrcRobotMode.class);
 
         if (!mCurrentMode.equals(mLastMode)) {
@@ -142,7 +144,4 @@ public abstract class LoopingRobotControl extends FrcRobotControlBase {
             }
         }
     }
-
-    protected abstract void robotLoop();
-    protected abstract void robotStop();
 }

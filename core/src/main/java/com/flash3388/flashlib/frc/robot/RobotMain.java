@@ -1,6 +1,8 @@
 package com.flash3388.flashlib.frc.robot;
 
-import com.flash3388.flashlib.frc.robot.base.IterativeFrcRobot;
+import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
+import com.flash3388.flashlib.frc.robot.base.iterative.LoopingRobotControl;
+import com.flash3388.flashlib.frc.robot.base.iterative.NotifierRobotLooper;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public class RobotMain {
@@ -15,14 +17,14 @@ public class RobotMain {
         RobotBase.startRobot(()->new IterativeRobotControl(initializer));
     }
 
-    private static class IterativeRobotControl extends IntervalLoopingFrcRobotControl {
+    private static class IterativeRobotControl extends LoopingRobotControl {
 
         public IterativeRobotControl(RobotConfiguration configuration, IterativeFrcRobot.Initializer robotInitializer) {
-            super(configuration, robotInitializer);
+            super(configuration, robotInitializer, new NotifierRobotLooper());
         }
 
         public IterativeRobotControl(IterativeFrcRobot.Initializer robotInitializer) {
-            super(robotInitializer);
+            super(robotInitializer, new NotifierRobotLooper());
         }
     }
 }

@@ -1,5 +1,6 @@
-package com.flash3388.flashlib.frc.robot;
+package com.flash3388.flashlib.frc.robot.base;
 
+import com.flash3388.flashlib.frc.robot.RobotConfiguration;
 import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
 import com.flash3388.flashlib.frc.robot.io.RoboRioIoInterface;
 import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
