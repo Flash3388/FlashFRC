@@ -12,6 +12,7 @@ import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.hid.HidInterface;
+import com.flash3388.flashlib.robot.hid.generic.GenericHidInterface;
 import com.flash3388.flashlib.robot.io.IoInterface;
 import com.flash3388.flashlib.robot.modes.RobotMode;
 import com.flash3388.flashlib.robot.scheduling.Scheduler;
@@ -45,7 +46,7 @@ public abstract class FrcRobotControlBase extends RobotBase implements RobotCont
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
         mIoInterface = new RoboRioIoInterface();
-        mHidInterface = new FrcHidInterface(m_ds);
+        mHidInterface = new GenericHidInterface(new FrcHidInterface(m_ds));
         mRobotFileSystem = new RobotFileSystem();
     }
 
@@ -61,7 +62,7 @@ public abstract class FrcRobotControlBase extends RobotBase implements RobotCont
         // m_ds -> from super -> protected final DriverStation m_ds
         mRobotModeSupplier = new FrcRobotModeSupplier(m_ds);
         mIoInterface = new RoboRioIoInterface();
-        mHidInterface = new FrcHidInterface(m_ds);
+        mHidInterface = new GenericHidInterface(new FrcHidInterface(m_ds));
         mRobotFileSystem = new RobotFileSystem();
     }
 

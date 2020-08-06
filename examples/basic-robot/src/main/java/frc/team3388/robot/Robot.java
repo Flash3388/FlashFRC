@@ -1,11 +1,11 @@
 package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.hid.Joystick;
 import com.flash3388.flashlib.frc.robot.hid.JoystickAxis;
 import com.flash3388.flashlib.frc.robot.systems.Systems;
 import com.flash3388.flashlib.robot.DelegatingRobotControl;
 import com.flash3388.flashlib.robot.RobotControl;
+import com.flash3388.flashlib.robot.hid.Hid;
 import com.flash3388.flashlib.robot.motion.actions.RotateAction;
 import com.flash3388.flashlib.robot.scheduling.actions.Actions;
 import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
@@ -19,8 +19,8 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
     private final TankDriveSystem mDriveSystem;
     private final SingleMotorSystem mShooter;
 
-    private final Joystick mStickRight;
-    private final Joystick mStickLeft;
+    private final Hid mStickRight;
+    private final Hid mStickLeft;
 
     public Robot(RobotControl robotControl) {
         super(robotControl);
@@ -36,17 +36,17 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
                 new PWMSparkMax(RobotMap.SHOOTER)
         );
 
-        mStickRight = new Joystick(RobotMap.STICK_RIGHT);
-        mStickLeft = new Joystick(RobotMap.STICK_LEFT);
+        mStickRight = getHidInterface().newGenericHid(RobotMap.STICK_RIGHT);
+        mStickLeft = getHidInterface().newGenericHid(RobotMap.STICK_LEFT);
 
         mDriveSystem.setDefaultAction(new TankDriveAction(mDriveSystem,
                 mStickRight.getAxis(JoystickAxis.Y),
                 mStickLeft.getAxis(JoystickAxis.Y))
                 .requires(mDriveSystem));
 
-        mStickRight.getButton(0).whileHeld(new RotateAction(mShooter, ()->1.0));
+        mStickRight.getButton(0).whileActive(new RotateAction(mShooter, ()->1.0));
 
-        mStickLeft.getButton(0).whenPressed(Actions.instant(()-> {
+        mStickLeft.getButton(0).whenActive(Actions.instant(()-> {
             mStickRight.getAxis(JoystickAxis.Y).invert();
             mStickLeft.getAxis(JoystickAxis.Y).invert();
         }));

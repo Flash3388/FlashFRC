@@ -1,10 +1,10 @@
 package com.flash3388.flashlib.frc.robot.hid;
 
-import com.flash3388.flashlib.robot.hid.HidInterface;
+import com.flash3388.flashlib.robot.hid.generic.RawHidInterface;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.GenericHID;
 
-public class FrcHidInterface implements HidInterface {
+public class FrcHidInterface implements RawHidInterface {
 
     private final DriverStation mDriverStation;
 
@@ -13,49 +13,50 @@ public class FrcHidInterface implements HidInterface {
     }
 
     @Override
-    public boolean isHidConnected(int hid) {
-        return mDriverStation.getStickAxisCount(hid) > 0;
+    public boolean hasChannel(int channel) {
+        return GenericHID.HIDType.of(mDriverStation.getJoystickType(channel)) != GenericHID.HIDType.kUnknown;
     }
 
     @Override
-    public boolean isAxisConnected(int hid, int axis) {
-        return mDriverStation.getStickAxisCount(hid) > axis;
-    }
-
-    @Override
-    public boolean isPovConnected(int hid, int pov) {
-        return mDriverStation.getStickPOVCount(hid) > pov;
-    }
-
-    @Override
-    public boolean isButtonConnected(int hid, int button) {
-        return mDriverStation.getStickButtonCount(hid) >= button;
-    }
-
-    @Override
-    public double getHidAxis(int hid, int axis) {
-        if(RobotState.isDisabled()) {
-            return 0;
+    public ChannelType getChannelType(int channel) {
+        switch (GenericHID.HIDType.of(mDriverStation.getJoystickType(channel))) {
+            case kXInputGamepad:
+                if (mDriverStation.getJoystickIsXbox(channel)) {
+                    return ChannelType.XBOX;
+                }
+                return ChannelType.HID;
+            default:
+                return ChannelType.HID;
         }
-
-        return mDriverStation.getStickAxis(hid, axis);
     }
 
     @Override
-    public boolean getHidButton(int hid, int button) {
-        if(RobotState.isDisabled()) {
-            return false;
-        }
-
-        return mDriverStation.getStickButton(hid, button + 1);
+    public int getAxesCount(int channel) {
+        return mDriverStation.getStickAxisCount(channel);
     }
 
     @Override
-    public int getHidPov(int hid, int pov) {
-        if(RobotState.isDisabled()) {
-            return -1;
-        }
+    public int getButtonsCount(int channel) {
+        return mDriverStation.getStickButtonCount(channel);
+    }
 
-        return mDriverStation.getStickPOV(hid, pov);
+    @Override
+    public int getPovsCount(int channel) {
+        return mDriverStation.getStickPOVCount(channel);
+    }
+
+    @Override
+    public double getAxisValue(int channel, int axis) {
+        return mDriverStation.getStickAxis(channel, axis);
+    }
+
+    @Override
+    public boolean getButtonValue(int channel, int button) {
+        return mDriverStation.getStickButton(channel, button);
+    }
+
+    @Override
+    public int getPovValue(int channel, int pov) {
+        return mDriverStation.getStickPOV(channel, pov);
     }
 }
