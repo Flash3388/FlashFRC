@@ -2,8 +2,8 @@ package com.flash3388.flashlib.frc.robot.systems;
 
 import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedController;
 import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedControllerGroup;
-import com.flash3388.flashlib.robot.io.devices.actuators.SpeedController;
-import com.flash3388.flashlib.robot.io.devices.actuators.SpeedControllerGroup;
+import com.flash3388.flashlib.io.devices.actuators.SpeedController;
+import com.flash3388.flashlib.io.devices.actuators.SpeedControllerGroup;
 import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
 import com.flash3388.flashlib.robot.systems.drive.MecanumDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.OmniDriveSystem;

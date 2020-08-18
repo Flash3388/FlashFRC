@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.DigitalInput;
+import com.flash3388.flashlib.io.DigitalInput;
 
 public class RoboRioDigitalInput implements DigitalInput {
 
@@ -20,7 +20,7 @@ public class RoboRioDigitalInput implements DigitalInput {
     }
 
     @Override
-    public void free() {
+    public void close() {
         if (mDigitalInput == null) {
             return;
         }

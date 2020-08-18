@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.AnalogOutput;
+import com.flash3388.flashlib.io.AnalogOutput;
 
 public class RoboRioAnalogOutput implements AnalogOutput {
 
@@ -35,7 +35,7 @@ public class RoboRioAnalogOutput implements AnalogOutput {
     }
 
     @Override
-    public void free() {
+    public void close() {
         if (mAnalogOutput == null) {
             return;
         }

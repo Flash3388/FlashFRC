@@ -1,7 +1,7 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.AnalogAccumulator;
-import com.flash3388.flashlib.robot.io.AnalogInput;
+import com.flash3388.flashlib.io.AnalogAccumulator;
+import com.flash3388.flashlib.io.AnalogInput;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -59,7 +59,7 @@ public class RoboRioAnalogInput implements AnalogInput {
     }
 
     @Override
-    public void free() {
+    public void close() {
         if (mAnalogInput == null) {
             return;
         }

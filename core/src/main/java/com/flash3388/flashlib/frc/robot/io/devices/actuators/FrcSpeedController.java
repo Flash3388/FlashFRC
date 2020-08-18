@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io.devices.actuators;
 
-import com.flash3388.flashlib.robot.io.devices.actuators.SpeedController;
+import com.flash3388.flashlib.io.devices.actuators.SpeedController;
 
 public class FrcSpeedController implements SpeedController {
 

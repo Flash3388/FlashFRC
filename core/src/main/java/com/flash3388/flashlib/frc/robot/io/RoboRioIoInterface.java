@@ -1,12 +1,12 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.AnalogInput;
-import com.flash3388.flashlib.robot.io.AnalogOutput;
-import com.flash3388.flashlib.robot.io.DigitalInput;
-import com.flash3388.flashlib.robot.io.DigitalOutput;
-import com.flash3388.flashlib.robot.io.IoChannel;
-import com.flash3388.flashlib.robot.io.IoInterface;
-import com.flash3388.flashlib.robot.io.Pwm;
+import com.flash3388.flashlib.io.AnalogInput;
+import com.flash3388.flashlib.io.AnalogOutput;
+import com.flash3388.flashlib.io.DigitalInput;
+import com.flash3388.flashlib.io.DigitalOutput;
+import com.flash3388.flashlib.io.IoChannel;
+import com.flash3388.flashlib.io.IoInterface;
+import com.flash3388.flashlib.io.Pwm;
 
 public class RoboRioIoInterface implements IoInterface {
 

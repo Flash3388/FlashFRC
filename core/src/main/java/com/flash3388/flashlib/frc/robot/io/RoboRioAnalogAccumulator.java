@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.AnalogAccumulator;
+import com.flash3388.flashlib.io.AnalogAccumulator;
 
 public class RoboRioAnalogAccumulator implements AnalogAccumulator {
 

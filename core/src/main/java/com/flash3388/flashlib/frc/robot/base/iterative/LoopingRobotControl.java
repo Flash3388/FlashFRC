@@ -5,7 +5,7 @@ import com.flash3388.flashlib.frc.robot.base.FrcRobotControlBase;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RobotInitializationException;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
-import com.flash3388.flashlib.robot.scheduling.Scheduler;
+import com.flash3388.flashlib.scheduling.Scheduler;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

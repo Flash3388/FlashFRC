@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.hid;
 
-import com.flash3388.flashlib.robot.hid.generic.RawHidInterface;
+import com.flash3388.flashlib.hid.generic.RawHidInterface;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 

@@ -9,15 +9,14 @@ import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
 import com.flash3388.flashlib.robot.RobotControl;
-import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.RunningRobot;
-import com.flash3388.flashlib.robot.hid.HidInterface;
-import com.flash3388.flashlib.robot.hid.generic.GenericHidInterface;
-import com.flash3388.flashlib.robot.io.IoInterface;
+import com.flash3388.flashlib.hid.HidInterface;
+import com.flash3388.flashlib.hid.generic.GenericHidInterface;
+import com.flash3388.flashlib.io.IoInterface;
+import com.flash3388.flashlib.robot.base.RobotFactory;
 import com.flash3388.flashlib.robot.modes.RobotMode;
-import com.flash3388.flashlib.robot.scheduling.Scheduler;
+import com.flash3388.flashlib.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Clock;
-import com.flash3388.flashlib.util.resources.Resource;
 import edu.wpi.first.wpilibj.RobotBase;
 import org.slf4j.Logger;
 
@@ -109,7 +108,7 @@ public abstract class FrcRobotControlBase extends RobotBase implements RobotCont
     }
 
     @Override
-    public void registerResources(Collection<? extends Resource> resources) {
+    public void registerCloseables(Collection<? extends AutoCloseable> closeables) {
         throw new UnsupportedOperationException("no need to register resources for termination in FRC robots");
     }
 }

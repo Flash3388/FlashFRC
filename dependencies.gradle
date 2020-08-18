@@ -1,5 +1,5 @@
 ext {
     flashlib = {
-        return "com.flash3388.flashlib:flashlib:3.0.0-test.2"
+        return "com.flash3388.flashlib:flashlib.core.robot:3.0.0"
     }
 }

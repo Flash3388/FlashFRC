@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.IoChannel;
+import com.flash3388.flashlib.io.IoChannel;
 
 public class RoboRioChannel implements IoChannel {
 

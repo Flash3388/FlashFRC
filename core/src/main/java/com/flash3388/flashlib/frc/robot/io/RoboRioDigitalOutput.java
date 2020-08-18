@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.DigitalOutput;
+import com.flash3388.flashlib.io.DigitalOutput;
 
 public class RoboRioDigitalOutput implements DigitalOutput {
 
@@ -30,7 +30,7 @@ public class RoboRioDigitalOutput implements DigitalOutput {
     }
 
     @Override
-    public void free() {
+    public void close() {
         if (mDigitalOutput == null) {
             return;
         }

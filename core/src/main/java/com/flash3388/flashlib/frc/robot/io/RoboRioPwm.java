@@ -1,8 +1,7 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.Pwm;
+import com.flash3388.flashlib.io.Pwm;
 import edu.wpi.first.hal.DIOJNI;
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SensorUtil;
 
 public class RoboRioPwm implements Pwm {
@@ -50,7 +49,7 @@ public class RoboRioPwm implements Pwm {
     }
 
     @Override
-    public void free() {
+    public void close() {
         if (mPwm == null) {
             return;
         }

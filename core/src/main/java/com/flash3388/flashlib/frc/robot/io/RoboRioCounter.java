@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io;
 
-import com.flash3388.flashlib.robot.io.Counter;
+import com.flash3388.flashlib.io.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class RoboRioCounter implements Counter {
@@ -74,7 +74,7 @@ public class RoboRioCounter implements Counter {
     }
 
     @Override
-    public void free() {
+    public void close() {
         if (mCounter == null) {
             return;
         }
