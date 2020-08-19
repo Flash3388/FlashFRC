@@ -7,19 +7,7 @@ plugins {
 apply from: rootProject.file('extras.gradle')
 apply from: rootProject.file('dependencies.gradle')
 
-group = GROUP
-version = VERSION
-
 sourceCompatibility = JavaVersion.VERSION_11
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-
-    maven {
-        url('https://frcmaven.wpi.edu/artifactory/release')
-    }
-}
 
 dependencies {
     api flashlib()

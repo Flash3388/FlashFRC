@@ -1,0 +1,13 @@
+subprojects {
+    group = GROUP
+    version = VERSION
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+
+        maven {
+            url('https://frcmaven.wpi.edu/artifactory/release')
+        }
+    }
+}
