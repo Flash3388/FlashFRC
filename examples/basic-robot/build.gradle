@@ -46,7 +46,7 @@ dependencies {
     compile wpi.deps.vendor.java()
 
     compile flashlib()
-    compile project(':core')
+    compile project(':flashlib.frc.robot')
 
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)

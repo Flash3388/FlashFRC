@@ -2,4 +2,16 @@ ext {
     flashlib = {
         return "com.flash3388.flashlib:flashlib.core.robot:3.0.0"
     }
+    junit = {
+        return ['org.junit.jupiter:junit-jupiter-engine:5.4.2',
+                'org.junit.platform:junit-platform-runner:1.2.0',
+                'org.junit.jupiter:junit-jupiter-params:5.4.2']
+    }
+    mockito = {
+        return ['org.mockito:mockito-core:2.23.4',
+                'org.mockito:mockito-junit-jupiter:2.23.0']
+    }
+    hamcrest = {
+        return "org.hamcrest:hamcrest:2.1"
+    }
 }
