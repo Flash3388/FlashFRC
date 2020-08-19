@@ -1,0 +1,36 @@
+def flashfrcModules = [
+        project('flashlib.frc.robot'),
+        project('flashlib.frc.nt')
+]
+
+flashfrcModules.each { subproject -> evaluationDependsOn(subproject.path) }
+
+task flashfrcSources(type: Jar, dependsOn: flashfrcModules.classes) {
+    archiveFileName.set('flashfrc-sources.jar')
+    destinationDirectory.set(rootProject.buildDir)
+
+    from files(flashfrcModules.collect {
+        it.sourceSets.main.allSource
+    })
+}
+
+task flashfrcJavadoc(type: Jar, dependsOn: flashfrcModules.javadoc) {
+    archiveFileName.set('flashfrc-javadoc.jar')
+    destinationDirectory.set(rootProject.buildDir)
+
+    from files(flashfrcModules.collect {
+        it.javadoc.destinationDir
+    })
+}
+
+task flashfrc(type: Jar, dependsOn: flashfrcModules.assemble) {
+    dependsOn flashfrcSources
+    dependsOn flashfrcJavadoc
+
+    archiveFileName.set('flashfrc.jar')
+    destinationDirectory.set(rootProject.buildDir)
+
+    from files(flashfrcModules.collect {
+        it.sourceSets.main.output
+    })
+}

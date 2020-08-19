@@ -17,7 +17,7 @@ before_install:
 install:
 - "./gradlew clean"
 - "./gradlew assemble"
-- "./gradlew flashlibFrcAll"
+- "./gradlew flashfrc"
 
 script:
 - "./gradlew check"
@@ -39,8 +39,10 @@ deploy:
   api_key:
     secure: YwlyQmXs530zK+1kNHaUus1uPfJkUtDpPlHSQMdzF4vB0gB6nzZc4XyLTH/H8STQbB93Xfwd17Y6YV9VIe9P9/yp22qaz8pMxs5/5TGhsirLw6ZdWS2zDdVaK5c8pddxk54mgIZdBT3TYvDoSvzmdgLH3T53u64FWSNykbVTEsgp0S7FfegGYucR9/lLJ8dqBoS89+9aMX1hB2Y8H2uSj7hPjcdatmFFusbAejH2hkrxalziGUULaZq/La8XSb0kbd9sAqG6bW7D/MvLwWdZm/VHBav51oQp61/nvnYz97EeuZunuxK2bz278jicpGAJGonIRC+48sa/s8Xtr1KzxZdj4Lw3es+Ldx4EaBtLHa5wpPBZQHwCg+tujyuxklKU5it9jkYmy7MWnLryGXroy0ORhIVvhOZRzL+G7EjfuN8ipxVc08dzyz2/7uD2ar+SYBplgD5OHcbQUzML1QGev0eniMpGlVQK3o+TGVXWuLfmKJqZMbIfhS4z7rCtgHPcqVicE8/tb3oLaK0kZKu9qqbeShtKJKxjP0y1jocPQChxsu4FegnrnPQquu+6OtpXg/njzNcQQhp7phTU5yUnAsyIOCRlGR/LrEwDEewKn+z7bIuJSHAX39RbEX/wEr6B0BgfHpIYY+iw8UTa0kTEb6o0nKruCoumSqsU6uSfyxs=
   file:
-  - build/flashlib-frc-all.jar
-  - README.md
+    - build/flashfrc.jar
+    - build/flashfrc-sources.jar
+    - build/flashfrc-javadoc.jar
+    - README.md
   skip_cleanup: true
   draft: true
   on:

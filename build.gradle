@@ -11,3 +11,5 @@ subprojects {
         }
     }
 }
+
+apply from: rootProject.file('flashfrc.gradle')
