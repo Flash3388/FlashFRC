@@ -2,6 +2,7 @@ package com.flash3388.flashlib.frc.robot.systems;
 
 import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedController;
 import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedControllerGroup;
+import com.flash3388.flashlib.frc.robot.io.devices.actuators.SpeedControllers;
 import com.flash3388.flashlib.io.devices.actuators.SpeedController;
 import com.flash3388.flashlib.io.devices.actuators.SpeedControllerGroup;
 import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
@@ -167,34 +168,5 @@ public class Systems {
 
     public static SingleMotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
         return newSingleMotor(new FrcSpeedControllerGroup(speedControllers));
-    }
-
-    private static class SpeedControllers {
-        private final Collection<SpeedController> mControllers = new ArrayList<>();
-        private final Collection<edu.wpi.first.wpilibj.SpeedController> mControllersFrc = new ArrayList<>();
-
-        void add(SpeedController... speedControllers) {
-            mControllers.addAll(Arrays.asList(speedControllers));
-        }
-
-        void add(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
-            mControllersFrc.addAll(Arrays.asList(speedControllers));
-        }
-
-        SpeedController build() {
-            if (mControllersFrc.size() > 1) {
-                mControllers.add(new FrcSpeedControllerGroup(mControllersFrc));
-            } else if (mControllersFrc.size() == 1) {
-                mControllers.add(new FrcSpeedController(mControllersFrc.iterator().next()));
-            }
-
-            if (mControllers.size() > 1) {
-                new SpeedControllerGroup(mControllers);
-            } else if (mControllers.size() == 1) {
-                return mControllers.iterator().next();
-            }
-
-            throw new IllegalStateException("No controllers defined");
-        }
     }
 }

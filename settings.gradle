@@ -4,5 +4,7 @@ include 'flashlib.frc.robot'
 include 'flashlib.frc.nt'
 
 include 'examples:tankdrive-system'
+include 'examples:tankdrive-system-xbox'
+include 'examples:tankdrive-system-custom'
 include 'examples:omnidrive-system'
 include 'examples:autonomous-timed'
