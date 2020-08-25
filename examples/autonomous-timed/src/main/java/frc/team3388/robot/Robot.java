@@ -73,11 +73,10 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
                 // the action will be canceled.
                 .withTimeout(Time.seconds(1))
                 //  `andThen` allows us to start adding actions to be executed
-                // sequentially. We use andThen once, and from there we use `add`
-                // to append new actions sequentially.
+                // sequentially.
                 .andThen(new RotateAction(mDriveSystem, 0.3)
                     .withTimeout(Time.seconds(2)))
-                .add(new TankDriveAction(mDriveSystem, 1)
+                .andThen(new TankDriveAction(mDriveSystem, 1)
                     .withTimeout(Time.seconds(1.4)))
                 // Again note the use of `requires`. This is done on the entire sequence of actions, instead of
                 // each individual one.
