@@ -2,4 +2,6 @@ rootProject.name = 'flashlib-frc'
 
 include 'flashlib.frc.robot'
 include 'flashlib.frc.nt'
-include 'examples:basic-robot'
+
+include 'examples:tankdrive-robot'
+include 'examples:omnidrive-robot'
