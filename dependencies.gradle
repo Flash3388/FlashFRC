@@ -1,6 +1,6 @@
 ext {
     flashlib = {
-        return "com.flash3388.flashlib:flashlib.core.robot:3.0.0"
+        return "com.flash3388.flashlib:flashlib.core.robot:$FLASHLIB_VERSION"
     }
     junit = {
         return ['org.junit.jupiter:junit-jupiter-engine:5.4.2',
