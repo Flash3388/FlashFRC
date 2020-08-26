@@ -1,7 +1,7 @@
 package frc.team3388.robot.actions;
 
-import com.flash3388.flashlib.frc.robot.hid.JoystickAxis;
 import com.flash3388.flashlib.hid.Hid;
+import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.scheduling.actions.ActionBase;
 import frc.team3388.robot.subsystems.CustomTankDrive;
 
