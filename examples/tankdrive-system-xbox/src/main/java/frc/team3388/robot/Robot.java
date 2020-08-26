@@ -46,14 +46,17 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //      - Right stick - Y axis: move right side of drive
         //      - Left stick - Y axis: move left side of drive
         //
-        // Note the `requires` in the end. This is superrrrr important.
+        // TankDriveAction defines mDriveSystem as a requirements in
+        // the constructor, using `requires` call. This is superrrrr important.
         // It defines to the Scheduler (which runs the actions) that mDriveSystem is used
         // in this action. Using this, the Scheduler will prevent two actions from using the
         // drive system at the same time.
+        //
+        // It is important to make sure that the action we are using does that.
+        // It is something that all actions from FlashLib guarantee.
         mDriveSystem.setDefaultAction(new TankDriveAction(mDriveSystem,
                 mController.getAxis(XboxAxis.RightStickY),
-                mController.getAxis(XboxAxis.LeftStickY))
-                .requires(mDriveSystem));
+                mController.getAxis(XboxAxis.LeftStickY)));
 
         // We can define actions to be executed when a button is pressed.
         // Here we define that when X button is pressed,
@@ -81,13 +84,9 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // In essence, this button will toggle the action, switching between the default and it.
         // Or in other words: switching between tank-drive and arcade-drive.
-        //
-        // Notice the use of `requires` again. Thanks to this, when this action runs, the Scheduler will stop
-        // the default action, thus allowing only one of them to run at any given moment.
         mController.getButton(XboxButton.RB).toggleWhenActive(new ArcadeDriveAction(mDriveSystem,
                 mController.getAxis(XboxAxis.RightStickY),
-                mController.getAxis(XboxAxis.RightStickX))
-                .requires(mDriveSystem));
+                mController.getAxis(XboxAxis.RightStickX)));
     }
 
     @Override

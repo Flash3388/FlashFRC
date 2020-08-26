@@ -41,14 +41,17 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //      - Joystick - Y axis: move the drive forward and backward (along Y axis)
         //      - Joystick - X axis: move the drive left and right (along X axis)
         //
-        // Note the `requires` in the end. This is superrrrr important.
+        // OmniDriveAction defines mDriveSystem as a requirements in
+        // the constructor, using `requires` call. This is superrrrr important.
         // It defines to the Scheduler (which runs the actions) that mDriveSystem is used
         // in this action. Using this, the Scheduler will prevent two actions from using the
         // drive system at the same time.
+        //
+        // It is important to make sure that the action we are using does that.
+        // It is something that all actions from FlashLib guarantee.
         mDriveSystem.setDefaultAction(new OmniDriveAction(mDriveSystem,
                         mStick.getAxis(JoystickAxis.Y),
-                        mStick.getAxis(JoystickAxis.X))
-                        .requires(mDriveSystem));
+                        mStick.getAxis(JoystickAxis.X)));
 
         // We can define actions to be executed when a button is pressed.
         // Here we define that when button number 0 (labeled on the joystick) is pressed,
@@ -75,8 +78,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // When the button is released, we will return to the default action.
         mStick.getButton(0).whileActive(new RotateAction(mDriveSystem,
-                mStick.getAxis(JoystickAxis.X))
-                .requires(mDriveSystem));
+                mStick.getAxis(JoystickAxis.X)));
     }
 
     @Override

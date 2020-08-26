@@ -43,14 +43,17 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //      - Right joystick - Y axis: move right side of drive
         //      - Left joystick - Y axis: move left side of drive
         //
-        // Note the `requires` in the end. This is superrrrr important.
+        // TankDriveAction defines mDriveSystem as a requirements in
+        // the constructor, using `requires` call. This is superrrrr important.
         // It defines to the Scheduler (which runs the actions) that mDriveSystem is used
         // in this action. Using this, the Scheduler will prevent two actions from using the
         // drive system at the same time.
+        //
+        // It is important to make sure that the action we are using does that.
+        // It is something that all actions from FlashLib guarantee.
         mDriveSystem.setDefaultAction(new TankDriveAction(mDriveSystem,
                 mStickRight.getAxis(JoystickAxis.Y),
-                mStickLeft.getAxis(JoystickAxis.Y))
-                .requires(mDriveSystem));
+                mStickLeft.getAxis(JoystickAxis.Y)));
 
         // We can define actions to be executed when a button is pressed.
         // Here we define that when button number 0 (labeled on the joystick) is pressed,
@@ -78,13 +81,9 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // In essence, this button will toggle the action, switching between the default and it.
         // Or in other words: switching between tank-drive and arcade-drive.
-        //
-        // Notice the use of `requires` again. Thanks to this, when this action runs, the Scheduler will stop
-        // the default action, thus allowing only one of them to run at any given moment.
         mStickLeft.getButton(1).toggleWhenActive(new ArcadeDriveAction(mDriveSystem,
                 mStickRight.getAxis(JoystickAxis.Y),
-                mStickLeft.getAxis(JoystickAxis.Y))
-                .requires(mDriveSystem));
+                mStickLeft.getAxis(JoystickAxis.Y)));
     }
 
     @Override

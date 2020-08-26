@@ -53,13 +53,13 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         // This action, will run by default on the system.
         // Using it, we can define the default behaviour for the system.
         //
-        // Note the `requires` in the end. This is superrrrr important.
+        // CustomTankDriveAction defines mDriveSystem as a requirements in
+        // the constructor, using `requires` call. This is superrrrr important.
         // It defines to the Scheduler (which runs the actions) that mDriveSystem is used
         // in this action. Using this, the Scheduler will prevent two actions from using the
         // drive system at the same time.
         mDriveSystem.setDefaultAction(new CustomTankDriveAction(mDriveSystem,
-                mStickRight, mStickLeft)
-                .requires(mDriveSystem));
+                mStickRight, mStickLeft));
 
         // We can define actions to be executed when a button is pressed.
         // Here we define that when button number 0 (labeled on the joystick) is pressed,
@@ -88,16 +88,12 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         // In essence, this button will toggle the action, switching between the default and it.
         // Or in other words: switching between tank-drive and arcade-drive.
         //
-        // Notice the use of `requires` again. Thanks to this, when this action runs, the Scheduler will stop
-        // the default action, thus allowing only one of them to run at any given moment.
-        //
         // Because the custom subsystem implements TankDrive, we can use it with actions already provided by FlashLib.
         // Flashlib provides several similar interfaces, like OmniDrive, Rotatable, Movable, etc. Each defining a different
         // range of possible motions.
         mStickLeft.getButton(1).toggleWhenActive(new ArcadeDriveAction(mDriveSystem,
                 mStickRight.getAxis(JoystickAxis.Y),
-                mStickLeft.getAxis(JoystickAxis.Y))
-                .requires(mDriveSystem));
+                mStickLeft.getAxis(JoystickAxis.Y)));
     }
 
     @Override

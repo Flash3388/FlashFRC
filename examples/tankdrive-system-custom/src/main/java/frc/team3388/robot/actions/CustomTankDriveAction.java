@@ -20,6 +20,11 @@ public class CustomTankDriveAction extends ActionBase {
         mDrive = drive;
         mStickRight = stickRight;
         mStickLeft = stickLeft;
+
+        // Now we need to declare drive as a requirement for this action,
+        // reporting to the Scheduler that it is used here in order
+        // to prevent 2 actions from using this system at the same time.
+        requires(drive);
     }
 
     // Now we can start implementing the action's lifecycle.

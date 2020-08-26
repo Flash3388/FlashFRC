@@ -51,14 +51,17 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //      - Right joystick - Y axis: move right side of drive
         //      - Left joystick - Y axis: move left side of drive
         //
-        // Note the `requires` in the end. This is superrrrr important.
+        // TankDriveAction defines mDriveSystem as a requirements in
+        // the constructor, using `requires` call. This is superrrrr important.
         // It defines to the Scheduler (which runs the actions) that mDriveSystem is used
         // in this action. Using this, the Scheduler will prevent two actions from using the
         // drive system at the same time.
+        //
+        // It is important to make sure that the action we are using does that.
+        // It is something that all actions from FlashLib guarantee.
         mDriveSystem.setDefaultAction(new TankDriveAction(mDriveSystem,
                 mStickRight.getAxis(JoystickAxis.Y),
-                mStickLeft.getAxis(JoystickAxis.Y))
-                .requires(mDriveSystem));
+                mStickLeft.getAxis(JoystickAxis.Y)));
 
         // The shooter doesn't need to have a default action.
         // No system technically has to have, it's a choice.
@@ -68,10 +71,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // While the 0 button (usually the trigger) is held the joystick, this action
         // will run, rotating the motor causing the system to fire.
-        //
-        // Again note the need for `requires`.
-        mStickRight.getButton(0).whileActive(new RotateAction(mShooter, 1.0)
-                    .requires(mShooter));
+        mStickRight.getButton(0).whileActive(new RotateAction(mShooter, 1.0));
 
 
         // Let's try using the systems together.
@@ -91,13 +91,12 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         // is measured from the start of the action. Once that time has passed,
         // the action will be canceled, and stop running.
         //
-        // We still need `requires` is needed for both systems this time,
-        // because both are used at the same time.
+        // The requirements for the action group will be both
+        // the requirements of the MoveAction and of the RotateAction.
         mStickRight.getButton(1).whenActive(
                 new MoveAction(mDriveSystem, 1.0)
                     .alongWith(new RotateAction(mShooter, 1.0))
-                    .withTimeout(Time.seconds(2.0))
-                    .requires(mDriveSystem, mShooter));
+                    .withTimeout(Time.seconds(2.0)));
     }
 
     @Override

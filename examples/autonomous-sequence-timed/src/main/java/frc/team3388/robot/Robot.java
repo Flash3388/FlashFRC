@@ -78,9 +78,6 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
                     .withTimeout(Time.seconds(2)))
                 .andThen(new TankDriveAction(mDriveSystem, 1)
                     .withTimeout(Time.seconds(1.4)))
-                // Again note the use of `requires`. This is done on the entire sequence of actions, instead of
-                // each individual one.
-                .requires(mDriveSystem)
                 // Once we finished defining the action, we call `start` to start the action.
                 .start();
     }
