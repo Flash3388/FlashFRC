@@ -4,7 +4,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        mavenLocal()
 
         maven {
             url('https://frcmaven.wpi.edu/artifactory/release')

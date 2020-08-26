@@ -51,13 +51,13 @@ public class LoopingRobotControl extends FrcRobotControlBase {
         }
 
         HAL.observeUserProgramStarting();
-        mRobotLooper.doLoop(getClock(), this::loop);
+        mRobotLooper.startLooping(getClock(), this::loop);
     }
 
     @Override
     public void endCompetition() {
         mRobot.robotStop();
-        mRobotLooper.stopLoop();
+        mRobotLooper.stop();
     }
 
     private void loop() {

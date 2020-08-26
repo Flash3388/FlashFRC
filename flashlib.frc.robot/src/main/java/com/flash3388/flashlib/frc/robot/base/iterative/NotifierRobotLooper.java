@@ -13,8 +13,8 @@ public class NotifierRobotLooper implements RobotLooper {
 
     private static final Time DEFAULT_LOOP_PERIOD = Time.milliseconds(20);
 
-    private final int mNotifierHandle;
     private final Time mLoopPeriod;
+    private int mNotifierHandle;
 
     public NotifierRobotLooper(Time loopPeriod) {
         if (!loopPeriod.isValid()) {
@@ -33,7 +33,7 @@ public class NotifierRobotLooper implements RobotLooper {
     }
 
     @Override
-    public void doLoop(Clock clock, Runnable loopTask) {
+    public void startLooping(Clock clock, Runnable loopTask) {
         Time expirationTime = clock.currentTime().add(mLoopPeriod);
         updateAlarm(expirationTime);
 
@@ -51,14 +51,17 @@ public class NotifierRobotLooper implements RobotLooper {
     }
 
     @Override
-    public void stopLoop() {
+    public void stop() {
         NotifierJNI.stopNotifier(mNotifierHandle);
+        NotifierJNI.cleanNotifier(mNotifierHandle);
+        mNotifierHandle = -1;
     }
 
     @Override
     protected void finalize() {
-        NotifierJNI.stopNotifier(mNotifierHandle);
-        NotifierJNI.cleanNotifier(mNotifierHandle);
+        if (mNotifierHandle >= 0) {
+            stop();
+        }
     }
 
     private void updateAlarm(Time expirationTime) {
