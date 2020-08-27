@@ -65,20 +65,20 @@ public class NtTable {
         this(NetworkTableInstance.getDefault(), name);
     }
 
-    public boolean getBooleanEntryValue(String name) {
-        return getEntryValue(name).getBoolean();
+    public boolean getAsBoolean(String entryName) {
+        return getEntryValue(entryName).getBoolean();
     }
 
-    public int getIntEntryValue(String name) {
-        return (int) getEntryValue(name).getDouble();
+    public int getAsInt(String entryName) {
+        return (int) getEntryValue(entryName).getDouble();
     }
 
-    public double getDoubleEntryValue(String name) {
-        return getEntryValue(name).getDouble();
+    public double getAsDouble(String entryName) {
+        return getEntryValue(entryName).getDouble();
     }
 
-    public String getStringEntryValue(String name) {
-        return getEntryValue(name).getString();
+    public String getAsString(String entryName) {
+        return getEntryValue(entryName).getString();
     }
 
     public NetworkTableEntry getEntry(String name) {
