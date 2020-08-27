@@ -19,12 +19,12 @@ public class NtTable {
             this(NetworkTableInstance.getDefault(), name);
         }
 
-        public Builder addBooleanEntry(String name, boolean initialValue) {
-            return addEntry(name, NetworkTableValue.makeBoolean(initialValue));
-        }
-
         public Builder(NetworkTableInstance tableInstance, String name) {
             this(tableInstance.getTable(name));
+        }
+
+        public Builder addBooleanEntry(String name, boolean initialValue) {
+            return addEntry(name, NetworkTableValue.makeBoolean(initialValue));
         }
 
         public Builder addIntEntry(String name, int initialValue) {
