@@ -1,16 +1,12 @@
 package com.flash3388.frc.nt.combined;
 
-import com.flash3388.frc.nt.beans.NtPropertyBase;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTableType;
+import edu.wpi.first.networktables.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CombinedNtProperties {
-    private final Map<String, NtPropertyBase> NtEntryMap;
+    private final Map<String, NetworkTableEntry> NtEntryMap;
     private final NetworkTable table;
 
     public CombinedNtProperties(String name) {
@@ -22,8 +18,49 @@ public class CombinedNtProperties {
         table = tableInstance.getTable(name);
     }
 
-    private void addEntry(String name, NetworkTableType type) {
+    public void addBooleanEntry(String name, boolean initialValue) {
+        addEntry(name, NetworkTableValue.makeBoolean(initialValue));
+    }
+
+    public void addIntEntry(String name, int initialValue) {
+        addDoubleEntry(name, initialValue);
+    }
+
+    public void addDoubleEntry(String name, double initialValue) {
+        addEntry(name, NetworkTableValue.makeDouble(initialValue));
+    }
+
+    public void addStringEntry(String name, String initialValue) {
+        addEntry(name, NetworkTableValue.makeString(initialValue));
+    }
+
+    public boolean getBooleanEntryValue(String name) {
+        return getEntryValue(name).getBoolean();
+    }
+
+    public int getIntEntryValue(String name) {
+        return (int) getEntryValue(name).getDouble();
+    }
+
+    public double getDoubleEntryValue(String name) {
+        return getEntryValue(name).getDouble();
+    }
+
+    public String getStringEntryValue(String name) {
+        return getEntryValue(name).getString();
+    }
+
+    public NetworkTableEntry getEntry(String name) {
+        return NtEntryMap.get(name);
+    }
+
+    private void addEntry(String name, NetworkTableValue value) {
         NetworkTableEntry entry = table.getEntry(name);
-        entry.setT
+        entry.setValue(value);
+        NtEntryMap.put(name, entry);
+    }
+
+    private NetworkTableValue getEntryValue(String name) {
+        return getEntry(name).getValue();
     }
 }
