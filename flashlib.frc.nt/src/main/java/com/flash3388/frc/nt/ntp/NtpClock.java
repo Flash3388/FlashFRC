@@ -4,7 +4,6 @@ import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 
 public class NtpClock implements Clock {
-
     private final Clock mBaseClock;
     private long mOffsetMillis;
 

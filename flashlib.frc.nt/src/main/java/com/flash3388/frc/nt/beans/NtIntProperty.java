@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import java.util.Objects;
 
 public class NtIntProperty extends NtPropertyBase implements IntProperty {
-
     public NtIntProperty(NetworkTableEntry entry) {
         super(entry);
     }
