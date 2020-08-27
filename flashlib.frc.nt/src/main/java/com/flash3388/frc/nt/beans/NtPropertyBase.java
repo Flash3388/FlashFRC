@@ -6,8 +6,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.networktables.NetworkTableValue;
 
-class NtPropertyBase {
-
+public class NtPropertyBase {
     private final NetworkTableEntry mEntry;
 
     public NtPropertyBase(NetworkTableEntry entry) {
