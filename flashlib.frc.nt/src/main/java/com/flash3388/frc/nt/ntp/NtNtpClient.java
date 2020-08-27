@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class NtNtpClient {
+
     private static final int NOT_RUNNING_HANDLE = -1;
     private static final long MINIMAL_REQUEST_PERIOD_MILLIS = 10;
 

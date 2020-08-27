@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableValue;
 import java.util.Objects;
 
 public class NtDoubleProperty extends NtPropertyBase implements DoubleProperty {
+
     public NtDoubleProperty(NetworkTableEntry entry) {
         super(entry);
     }

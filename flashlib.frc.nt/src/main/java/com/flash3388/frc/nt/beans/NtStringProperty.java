@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.networktables.NetworkTableValue;
 
 public class NtStringProperty extends NtPropertyBase implements Property<String> {
+
     public NtStringProperty(NetworkTableEntry entry) {
         super(entry);
     }

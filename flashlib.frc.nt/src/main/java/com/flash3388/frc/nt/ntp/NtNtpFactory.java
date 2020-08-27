@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class NtNtpFactory {
+
     private static final String REQUEST_ENTRY = "request";
     private static final String REQUEST_RECEIVE_ENTRY = "receive";
     private static final String REQUEST_SEND_ENTRY = "send";

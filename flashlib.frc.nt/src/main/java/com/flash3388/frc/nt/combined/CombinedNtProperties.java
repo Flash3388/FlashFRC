@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CombinedNtProperties {
+
     private final Map<String, NetworkTableEntry> NtEntryMap;
     private final NetworkTable table;
 

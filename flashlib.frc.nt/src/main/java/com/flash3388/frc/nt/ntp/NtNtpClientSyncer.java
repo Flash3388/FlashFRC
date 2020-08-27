@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import java.util.concurrent.atomic.AtomicReference;
 
 class NtNtpClientSyncer {
+
     private final NtpClock mClock;
 
     private final NetworkTableEntry mRequestEntry;
