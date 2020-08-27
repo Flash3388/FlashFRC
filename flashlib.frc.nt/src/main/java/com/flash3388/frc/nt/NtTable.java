@@ -15,12 +15,12 @@ public class NtTable {
             mTable = table;
         }
 
-        public Builder(String name) {
-            this(NetworkTableInstance.getDefault(), name);
-        }
-
         public Builder(NetworkTableInstance tableInstance, String name) {
             this(tableInstance.getTable(name));
+        }
+
+        public Builder(String name) {
+            this(NetworkTableInstance.getDefault(), name);
         }
 
         public Builder addBooleanEntry(String name, boolean initialValue) {
