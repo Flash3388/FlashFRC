@@ -9,16 +9,16 @@ public class NtTable {
 
     private final NetworkTable mTable;
 
+    public NtTable(NetworkTable table) {
+        mTable = table;
+    }
+
     public NtTable(String name) {
         this(NetworkTableInstance.getDefault(), name);
     }
 
     public NtTable(NetworkTableInstance tableInstance, String name) {
          this(tableInstance.getTable(name));
-    }
-
-    public NtTable(NetworkTable table) {
-        mTable = table;
     }
 
     public boolean getBooleanEntryValue(String name) {
