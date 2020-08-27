@@ -7,44 +7,6 @@ import edu.wpi.first.networktables.NetworkTableValue;
 
 public class NtTable {
 
-    private final NetworkTable mTable;
-
-    public NtTable(NetworkTable table) {
-        mTable = table;
-    }
-
-    public NtTable(String name) {
-        this(NetworkTableInstance.getDefault(), name);
-    }
-
-    public NtTable(NetworkTableInstance tableInstance, String name) {
-         this(tableInstance.getTable(name));
-    }
-
-    public boolean getBooleanEntryValue(String name) {
-        return getEntryValue(name).getBoolean();
-    }
-
-    public int getIntEntryValue(String name) {
-        return (int) getEntryValue(name).getDouble();
-    }
-
-    public double getDoubleEntryValue(String name) {
-        return getEntryValue(name).getDouble();
-    }
-
-    public String getStringEntryValue(String name) {
-        return getEntryValue(name).getString();
-    }
-
-    public NetworkTableEntry getEntry(String name) {
-        return mTable.getEntry(name);
-    }
-
-    private NetworkTableValue getEntryValue(String name) {
-        return getEntry(name).getValue();
-    }
-
     public class Builder {
 
         private final NetworkTable mTable;
@@ -57,12 +19,12 @@ public class NtTable {
             this(NetworkTableInstance.getDefault(), name);
         }
 
-        public Builder(NetworkTableInstance tableInstance, String name) {
-            this(tableInstance.getTable(name));
-        }
-
         public Builder addBooleanEntry(String name, boolean initialValue) {
             return addEntry(name, NetworkTableValue.makeBoolean(initialValue));
+        }
+
+        public Builder(NetworkTableInstance tableInstance, String name) {
+            this(tableInstance.getTable(name));
         }
 
         public Builder addIntEntry(String name, int initialValue) {
@@ -87,5 +49,43 @@ public class NtTable {
         public NtTable build() {
             return new NtTable(mTable);
         }
+    }
+
+    private final NetworkTable mTable;
+
+    public NtTable(NetworkTable table) {
+        mTable = table;
+    }
+
+    public NtTable(NetworkTableInstance tableInstance, String name) {
+        this(tableInstance.getTable(name));
+    }
+
+    public NtTable(String name) {
+        this(NetworkTableInstance.getDefault(), name);
+    }
+
+    public boolean getBooleanEntryValue(String name) {
+        return getEntryValue(name).getBoolean();
+    }
+
+    public int getIntEntryValue(String name) {
+        return (int) getEntryValue(name).getDouble();
+    }
+
+    public double getDoubleEntryValue(String name) {
+        return getEntryValue(name).getDouble();
+    }
+
+    public String getStringEntryValue(String name) {
+        return getEntryValue(name).getString();
+    }
+
+    public NetworkTableEntry getEntry(String name) {
+        return mTable.getEntry(name);
+    }
+
+    private NetworkTableValue getEntryValue(String name) {
+        return getEntry(name).getValue();
     }
 }
