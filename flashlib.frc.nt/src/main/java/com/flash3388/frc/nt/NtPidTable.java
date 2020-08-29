@@ -1,8 +1,10 @@
 package com.flash3388.frc.nt;
 
-import com.beans.observables.ObservableDoubleValue;
 import com.flash3388.flashlib.robot.control.PidController;
+import com.flash3388.flashlib.scheduling.actions.Action;
 import com.flash3388.frc.nt.beans.NtDoubleProperty;
+
+import java.util.function.DoubleSupplier;
 
 public class NtPidTable {
 
@@ -14,7 +16,7 @@ public class NtPidTable {
     private static final String PID_INPUT_ENTRY_NAME = "Input";
     private final NtTable mTable;
 
-    public NtPidTable(double kP, double kI, double kD, double kF, ObservableDoubleValue processVariable) {
+    public NtPidTable(double kP, double kI, double kD, double kF, DoubleSupplier processVariableSupplier) {
         mTable = new NtTable.Builder(PID_TABLE_NAME)
                 .addDoubleEntry(KP_ENTRY_NAME, 0)
                 .addDoubleEntry(KI_ENTRY_NAME, 0)
@@ -25,23 +27,23 @@ public class NtPidTable {
                 .build();
 
         setPIDFValues(kP, kI, kD, kF);
-        addProcessVariableListener(processVariable);
+        startProcessVariableUpdateAction(processVariableSupplier);
     }
 
-    public static NtPidTable createWithP(double kP, ObservableDoubleValue processVariable) {
-        return createWithPD(kP, 0, processVariable);
+    public static NtPidTable createWithP(double kP, DoubleSupplier processVariableSupplier) {
+        return createWithPD(kP, 0, processVariableSupplier);
     }
 
-    public static NtPidTable createWithPD(double kP, double kD, ObservableDoubleValue processVariable) {
-        return createWithPID(kP, 0, kD, processVariable);
+    public static NtPidTable createWithPD(double kP, double kD, DoubleSupplier processVariableSupplier) {
+        return createWithPID(kP, 0, kD, processVariableSupplier);
     }
 
-    public static NtPidTable createWithPI(double kP, double kI, ObservableDoubleValue processVariable) {
-        return createWithPID(kP, kI, 0, processVariable);
+    public static NtPidTable createWithPI(double kP, double kI, DoubleSupplier processVariableSupplier) {
+        return createWithPID(kP, kI, 0, processVariableSupplier);
     }
 
-    public static NtPidTable createWithPID(double kP, double kI, double kD, ObservableDoubleValue processVariable) {
-        return new NtPidTable(kP, kI, kD, 0, processVariable);
+    public static NtPidTable createWithPID(double kP, double kI, double kD, DoubleSupplier processVariableSupplier) {
+        return new NtPidTable(kP, kI, kD, 0, processVariableSupplier);
     }
 
     public PidController createController() {
@@ -75,8 +77,12 @@ public class NtPidTable {
         mTable.setAsDouble(KF_ENTRY_NAME, value);
     }
 
-    private void addProcessVariableListener(ObservableDoubleValue processVariable) {
-        processVariable.addChangeListener(event -> updateProcessVariable(event.getNewValue()));
+    private void startProcessVariableUpdateAction(DoubleSupplier processVariableSupplier) {
+        createProcessVariableUpdateAction(processVariableSupplier).start();
+    }
+
+    private Action createProcessVariableUpdateAction(DoubleSupplier processVariableSupplier) {
+        return new ProcessVariableUpdateAction(processVariableSupplier, this::updateProcessVariable);
     }
 
     private void updateProcessVariable(double processVariable) {
