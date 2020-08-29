@@ -1,6 +1,7 @@
 apply from: rootProject.file('jcomponent.gradle')
 
 dependencies {
+    implementation group: 'com.github.tomtzook', name: 'notifier', version: '1.1.0'
     api flashlib()
     api group: 'com.github.tomtzook', name: 'javabeans', version: '1.3.0'
 

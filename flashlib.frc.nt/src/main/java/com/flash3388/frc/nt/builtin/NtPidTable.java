@@ -1,6 +1,7 @@
 package com.flash3388.frc.nt.builtin;
 
 import com.beans.observables.ObservableDoubleValue;
+import com.beans.observables.ObservableFactory;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 import com.beans.observables.listeners.ListenerPredicate;
@@ -22,7 +23,7 @@ public class NtPidTable {
     private static final String PID_INPUT_ENTRY_NAME = "Input";
     private final NtTable mTable;
 
-    public NtPidTable() {
+    public NtPidTable(double kP, double kI, double kD, double kF, ObservableDoubleValue pidInput) {
         mTable = new NtTable.Builder(PID_TABLE_NAME)
                 .addDoubleEntry(KP_ENTRY_NAME, 0)
                 .addDoubleEntry(KI_ENTRY_NAME, 0)
@@ -32,6 +33,8 @@ public class NtPidTable {
                 .addDoubleEntry(PID_INPUT_ENTRY_NAME, 0)
                 .build();
 
+        setPIDFValues(kP, kI, kD, kF);
+        addPidInputListener(pidInput);
     }
 
     public PidController generateController() {
@@ -42,23 +45,34 @@ public class NtPidTable {
                 new NtDoubleProperty(mTable.getEntry(KF_ENTRY_NAME)));
     }
 
-    public void setKp(double value) {
+    private void setPIDFValues(double kP, double kI, double kD, double kF) {
+        setKp(kP);
+        setKi(kI);
+        setKd(kD);
+        setKf(kF);
+    }
+
+    private void setKp(double value) {
         mTable.setAsDouble(KP_ENTRY_NAME, value);
     }
 
-    public void setKi(double value) {
+    private void setKi(double value) {
         mTable.setAsDouble(KI_ENTRY_NAME, value);
     }
 
-    public void setKd(double value) {
+    private void setKd(double value) {
         mTable.setAsDouble(KD_ENTRY_NAME, value);
     }
 
-    public void setKf(double value) {
+    private void setKf(double value) {
         mTable.setAsDouble(KF_ENTRY_NAME, value);
     }
 
-    public void updatePidInput(double value) {
-        mTable.setAsDouble(PID_INPUT_ENTRY_NAME, value); // wanted to use notifier to automatically update the value, but it looks like robot does not contain the weirdly named objects that observers and stuff require
+    private void addPidInputListener(ObservableDoubleValue pidInput) {
+        pidInput.addChangeListener(event -> updatePidInput(event.getNewValue()));
+    }
+
+    private void updatePidInput(double value) {
+        mTable.setAsDouble(PID_INPUT_ENTRY_NAME, value);
     }
 }
