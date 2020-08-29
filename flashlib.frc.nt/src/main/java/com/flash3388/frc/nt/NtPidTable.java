@@ -1,8 +1,7 @@
-package com.flash3388.frc.nt.builtin;
+package com.flash3388.frc.nt;
 
 import com.beans.observables.ObservableDoubleValue;
 import com.flash3388.flashlib.robot.control.PidController;
-import com.flash3388.frc.nt.NtTable;
 import com.flash3388.frc.nt.beans.NtDoubleProperty;
 
 public class NtPidTable {
