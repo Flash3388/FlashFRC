@@ -27,7 +27,6 @@ public class NtPidTable {
                 .build();
 
         setPIDFValues(kP, kI, kD, kF);
-        startProcessVariableUpdateAction(processVariableSupplier);
     }
 
     public static NtPidTable createWithP(double kP, DoubleSupplier processVariableSupplier) {
@@ -54,6 +53,10 @@ public class NtPidTable {
                 new NtDoubleProperty(mTable.getEntry(KF_ENTRY_NAME)));
     }
 
+    public void updateProcessVariable(double processVariable) {
+        mTable.setAsDouble(PID_INPUT_ENTRY_NAME, processVariable);
+    }
+
     private void setPIDFValues(double kP, double kI, double kD, double kF) {
         setKp(kP);
         setKi(kI);
@@ -75,17 +78,5 @@ public class NtPidTable {
 
     private void setKf(double value) {
         mTable.setAsDouble(KF_ENTRY_NAME, value);
-    }
-
-    private void startProcessVariableUpdateAction(DoubleSupplier processVariableSupplier) {
-        createProcessVariableUpdateAction(processVariableSupplier).start();
-    }
-
-    private Action createProcessVariableUpdateAction(DoubleSupplier processVariableSupplier) {
-        return new ProcessVariableUpdateAction(processVariableSupplier, this::updateProcessVariable);
-    }
-
-    private void updateProcessVariable(double processVariable) {
-        mTable.setAsDouble(PID_INPUT_ENTRY_NAME, processVariable);
     }
 }
