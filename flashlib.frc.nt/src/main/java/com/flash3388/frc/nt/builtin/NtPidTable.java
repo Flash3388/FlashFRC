@@ -29,7 +29,7 @@ public class NtPidTable {
         addPidInputListener(processVariable);
     }
 
-    public static NtPidTable onlyPotential(double kP, ObservableDoubleValue processVariable) {
+    public static NtPidTable P(double kP, ObservableDoubleValue processVariable) {
         return PD(kP, 0, processVariable);
     }
 
