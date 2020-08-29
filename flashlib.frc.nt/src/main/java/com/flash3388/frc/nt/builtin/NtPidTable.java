@@ -1,18 +1,9 @@
 package com.flash3388.frc.nt.builtin;
 
 import com.beans.observables.ObservableDoubleValue;
-import com.beans.observables.ObservableFactory;
-import com.beans.observables.listeners.ChangeEvent;
-import com.beans.observables.listeners.ChangeListener;
-import com.beans.observables.listeners.ListenerPredicate;
-import com.beans.observables.listeners.ObservableEventController;
-import com.beans.observables.properties.ObservableDoubleProperty;
-import com.beans.observables.properties.SimpleObservableDoubleProperty;
 import com.flash3388.flashlib.robot.control.PidController;
 import com.flash3388.frc.nt.NtTable;
 import com.flash3388.frc.nt.beans.NtDoubleProperty;
-
-import java.util.Observer;
 
 public class NtPidTable {
     private static final String PID_TABLE_NAME = "Pid";
@@ -35,6 +26,22 @@ public class NtPidTable {
 
         setPIDFValues(kP, kI, kD, kF);
         addPidInputListener(pidInput);
+    }
+
+    public static NtPidTable onlyPotential(double kP, ObservableDoubleValue pidInput) {
+        return onlyPotentialAndDifferential(kP, 0, pidInput);
+    }
+
+    public static NtPidTable onlyPotentialAndDifferential(double kP, double kD, ObservableDoubleValue pidInput) {
+        return onlyPid(kP, 0, kD, pidInput);
+    }
+
+    public static NtPidTable onlyPotentialAndIntegral(double kP, double kI, ObservableDoubleValue pidInput) {
+        return onlyPid(kP, kI, 0, pidInput);
+    }
+
+    public static NtPidTable onlyPid(double kP, double kI, double kD, ObservableDoubleValue pidInput) {
+        return new NtPidTable(kP, kI, kD, 0, pidInput);
     }
 
     public PidController generateController() {
