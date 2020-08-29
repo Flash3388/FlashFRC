@@ -29,18 +29,18 @@ public class NtPidTable {
     }
 
     public static NtPidTable onlyPotential(double kP, ObservableDoubleValue pidInput) {
-        return onlyPotentialAndDifferential(kP, 0, pidInput);
+        return PD(kP, 0, pidInput);
     }
 
-    public static NtPidTable onlyPotentialAndDifferential(double kP, double kD, ObservableDoubleValue pidInput) {
-        return onlyPid(kP, 0, kD, pidInput);
+    public static NtPidTable PD(double kP, double kD, ObservableDoubleValue pidInput) {
+        return PID(kP, 0, kD, pidInput);
     }
 
-    public static NtPidTable onlyPotentialAndIntegral(double kP, double kI, ObservableDoubleValue pidInput) {
-        return onlyPid(kP, kI, 0, pidInput);
+    public static NtPidTable PI(double kP, double kI, ObservableDoubleValue pidInput) {
+        return PID(kP, kI, 0, pidInput);
     }
 
-    public static NtPidTable onlyPid(double kP, double kI, double kD, ObservableDoubleValue pidInput) {
+    public static NtPidTable PID(double kP, double kI, double kD, ObservableDoubleValue pidInput) {
         return new NtPidTable(kP, kI, kD, 0, pidInput);
     }
 
