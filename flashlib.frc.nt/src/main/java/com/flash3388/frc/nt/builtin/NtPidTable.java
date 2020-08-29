@@ -6,6 +6,7 @@ import com.flash3388.frc.nt.NtTable;
 import com.flash3388.frc.nt.beans.NtDoubleProperty;
 
 public class NtPidTable {
+
     private static final String PID_TABLE_NAME = "Pid";
     private static final String KP_ENTRY_NAME = "Kp";
     private static final String KI_ENTRY_NAME = "Ki";
@@ -14,7 +15,7 @@ public class NtPidTable {
     private static final String PID_INPUT_ENTRY_NAME = "Input";
     private final NtTable mTable;
 
-    public NtPidTable(double kP, double kI, double kD, double kF, ObservableDoubleValue pidInput) {
+    public NtPidTable(double kP, double kI, double kD, double kF, ObservableDoubleValue processVariable) {
         mTable = new NtTable.Builder(PID_TABLE_NAME)
                 .addDoubleEntry(KP_ENTRY_NAME, 0)
                 .addDoubleEntry(KI_ENTRY_NAME, 0)
@@ -25,26 +26,26 @@ public class NtPidTable {
                 .build();
 
         setPIDFValues(kP, kI, kD, kF);
-        addPidInputListener(pidInput);
+        addPidInputListener(processVariable);
     }
 
-    public static NtPidTable onlyPotential(double kP, ObservableDoubleValue pidInput) {
-        return PD(kP, 0, pidInput);
+    public static NtPidTable onlyPotential(double kP, ObservableDoubleValue processVariable) {
+        return PD(kP, 0, processVariable);
     }
 
-    public static NtPidTable PD(double kP, double kD, ObservableDoubleValue pidInput) {
-        return PID(kP, 0, kD, pidInput);
+    public static NtPidTable PD(double kP, double kD, ObservableDoubleValue processVariable) {
+        return PID(kP, 0, kD, processVariable);
     }
 
-    public static NtPidTable PI(double kP, double kI, ObservableDoubleValue pidInput) {
-        return PID(kP, kI, 0, pidInput);
+    public static NtPidTable PI(double kP, double kI, ObservableDoubleValue processVariable) {
+        return PID(kP, kI, 0, processVariable);
     }
 
-    public static NtPidTable PID(double kP, double kI, double kD, ObservableDoubleValue pidInput) {
-        return new NtPidTable(kP, kI, kD, 0, pidInput);
+    public static NtPidTable PID(double kP, double kI, double kD, ObservableDoubleValue processVariable) {
+        return new NtPidTable(kP, kI, kD, 0, processVariable);
     }
 
-    public PidController generateController() {
+    public PidController createController() {
         return new PidController(
                 new NtDoubleProperty(mTable.getEntry(KP_ENTRY_NAME)),
                 new NtDoubleProperty(mTable.getEntry(KI_ENTRY_NAME)),
@@ -75,11 +76,11 @@ public class NtPidTable {
         mTable.setAsDouble(KF_ENTRY_NAME, value);
     }
 
-    private void addPidInputListener(ObservableDoubleValue pidInput) {
-        pidInput.addChangeListener(event -> updatePidInput(event.getNewValue()));
+    private void addPidInputListener(ObservableDoubleValue processVariable) {
+        processVariable.addChangeListener(event -> updatePidInput(event.getNewValue()));
     }
 
-    private void updatePidInput(double value) {
-        mTable.setAsDouble(PID_INPUT_ENTRY_NAME, value);
+    private void updatePidInput(double processVariable) {
+        mTable.setAsDouble(PID_INPUT_ENTRY_NAME, processVariable);
     }
 }
