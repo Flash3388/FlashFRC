@@ -30,6 +30,6 @@ Add to your build script, under `dependencies`:
 
 ```Groovy
 dependencies {
-    implementation group: "com.flash3388.flashlib", name: "flashlib.frc.core", version: "$version"
+    implementation group: "com.flash3388.flashlib", name: "flashlib.frc.robot", version: "$version"
 }
 ```
