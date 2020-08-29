@@ -28,19 +28,19 @@ public class NtPidTable {
         addPidInputListener(processVariable);
     }
 
-    public static NtPidTable P(double kP, ObservableDoubleValue processVariable) {
-        return PD(kP, 0, processVariable);
+    public static NtPidTable createWithP(double kP, ObservableDoubleValue processVariable) {
+        return createWithPD(kP, 0, processVariable);
     }
 
-    public static NtPidTable PD(double kP, double kD, ObservableDoubleValue processVariable) {
-        return PID(kP, 0, kD, processVariable);
+    public static NtPidTable createWithPD(double kP, double kD, ObservableDoubleValue processVariable) {
+        return createWithPID(kP, 0, kD, processVariable);
     }
 
-    public static NtPidTable PI(double kP, double kI, ObservableDoubleValue processVariable) {
-        return PID(kP, kI, 0, processVariable);
+    public static NtPidTable createWithPI(double kP, double kI, ObservableDoubleValue processVariable) {
+        return createWithPID(kP, kI, 0, processVariable);
     }
 
-    public static NtPidTable PID(double kP, double kI, double kD, ObservableDoubleValue processVariable) {
+    public static NtPidTable createWithPID(double kP, double kI, double kD, ObservableDoubleValue processVariable) {
         return new NtPidTable(kP, kI, kD, 0, processVariable);
     }
 
