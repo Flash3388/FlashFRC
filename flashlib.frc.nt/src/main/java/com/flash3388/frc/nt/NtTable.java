@@ -7,7 +7,7 @@ import edu.wpi.first.networktables.NetworkTableValue;
 
 public class NtTable {
 
-    public class Builder {
+    public static class Builder {
 
         private final NetworkTable mTable;
 
@@ -65,6 +65,22 @@ public class NtTable {
         this(NetworkTableInstance.getDefault(), name);
     }
 
+    public void setAsBoolean(String entryName, boolean value) {
+        setEntryValue(entryName, NetworkTableValue.makeBoolean(value));
+    }
+
+    public void setAsInt(String entryName, int value) {
+        setAsDouble(entryName, value);
+    }
+
+    public void setAsDouble(String entryName, double value) {
+        setEntryValue(entryName, NetworkTableValue.makeDouble(value));
+    }
+
+    public void setAsString(String entryName, String value) {
+        setEntryValue(entryName, NetworkTableValue.makeString(value));
+    }
+
     public boolean getAsBoolean(String entryName) {
         return getEntryValue(entryName).getBoolean();
     }
@@ -83,6 +99,10 @@ public class NtTable {
 
     public NetworkTableEntry getEntry(String name) {
         return mTable.getEntry(name);
+    }
+
+    private void setEntryValue(String name, NetworkTableValue value) {
+        getEntry(name).setValue(value);
     }
 
     private NetworkTableValue getEntryValue(String name) {
