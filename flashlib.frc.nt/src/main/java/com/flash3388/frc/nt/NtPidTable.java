@@ -25,7 +25,7 @@ public class NtPidTable {
                 .build();
 
         setPIDFValues(kP, kI, kD, kF);
-        addPidInputListener(processVariable);
+        addProcessVariableListener(processVariable);
     }
 
     public static NtPidTable createWithP(double kP, ObservableDoubleValue processVariable) {
@@ -75,11 +75,11 @@ public class NtPidTable {
         mTable.setAsDouble(KF_ENTRY_NAME, value);
     }
 
-    private void addPidInputListener(ObservableDoubleValue processVariable) {
-        processVariable.addChangeListener(event -> updatePidInput(event.getNewValue()));
+    private void addProcessVariableListener(ObservableDoubleValue processVariable) {
+        processVariable.addChangeListener(event -> updateProcessVariable(event.getNewValue()));
     }
 
-    private void updatePidInput(double processVariable) {
+    private void updateProcessVariable(double processVariable) {
         mTable.setAsDouble(PID_INPUT_ENTRY_NAME, processVariable);
     }
 }
