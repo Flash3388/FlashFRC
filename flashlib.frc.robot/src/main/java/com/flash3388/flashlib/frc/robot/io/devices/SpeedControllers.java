@@ -1,7 +1,7 @@
-package com.flash3388.flashlib.frc.robot.io.devices.actuators;
+package com.flash3388.flashlib.frc.robot.io.devices;
 
-import com.flash3388.flashlib.io.devices.actuators.SpeedController;
-import com.flash3388.flashlib.io.devices.actuators.SpeedControllerGroup;
+import com.flash3388.flashlib.io.devices.SpeedController;
+import com.flash3388.flashlib.io.devices.SpeedControllerGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;

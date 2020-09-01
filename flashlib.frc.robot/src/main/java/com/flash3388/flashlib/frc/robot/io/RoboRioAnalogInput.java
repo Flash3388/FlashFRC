@@ -3,8 +3,6 @@ package com.flash3388.flashlib.frc.robot.io;
 import com.flash3388.flashlib.io.AnalogAccumulator;
 import com.flash3388.flashlib.io.AnalogInput;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public class RoboRioAnalogInput implements AnalogInput {
 
     private edu.wpi.first.wpilibj.AnalogInput mAnalogInput;

@@ -1,4 +1,4 @@
-package com.flash3388.flashlib.frc.robot.io.devices.actuators;
+package com.flash3388.flashlib.frc.robot.io.devices;
 
 import com.flash3388.flashlib.control.Direction;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class FrcSpeedControllerGroup implements com.flash3388.flashlib.io.devices.actuators.SpeedController {
+public class FrcSpeedControllerGroup implements com.flash3388.flashlib.io.devices.SpeedController {
 
     private final Collection<? extends SpeedController> mControllers;
     private boolean mIsInverted;

@@ -1,5 +1,6 @@
 package com.flash3388.flashlib.frc.robot.hid;
 
+import com.flash3388.flashlib.hid.generic.ChannelType;
 import com.flash3388.flashlib.hid.generic.RawHidInterface;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -20,11 +21,14 @@ public class FrcHidInterface implements RawHidInterface {
     @Override
     public ChannelType getChannelType(int channel) {
         switch (GenericHID.HIDType.of(mDriverStation.getJoystickType(channel))) {
+            case kHIDJoystick:
+                return ChannelType.JOYSTICK;
+            case kHIDGamepad:
             case kXInputGamepad:
                 if (mDriverStation.getJoystickIsXbox(channel)) {
                     return ChannelType.XBOX;
                 }
-                return ChannelType.HID;
+                return ChannelType.JOYSTICK;
             default:
                 return ChannelType.HID;
         }

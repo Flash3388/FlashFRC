@@ -1,6 +1,6 @@
-package com.flash3388.flashlib.frc.robot.io.devices.pneumatics;
+package com.flash3388.flashlib.frc.robot.io.devices;
 
-import com.flash3388.flashlib.io.devices.pneumatics.DoubleSolenoid;
+import com.flash3388.flashlib.io.devices.DoubleSolenoid;
 
 public class FrcDoubleSolenoid implements DoubleSolenoid {
 

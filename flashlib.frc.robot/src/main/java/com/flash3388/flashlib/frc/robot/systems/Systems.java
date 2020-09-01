@@ -1,18 +1,14 @@
 package com.flash3388.flashlib.frc.robot.systems;
 
-import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedController;
-import com.flash3388.flashlib.frc.robot.io.devices.actuators.FrcSpeedControllerGroup;
-import com.flash3388.flashlib.frc.robot.io.devices.actuators.SpeedControllers;
-import com.flash3388.flashlib.io.devices.actuators.SpeedController;
-import com.flash3388.flashlib.io.devices.actuators.SpeedControllerGroup;
-import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
+import com.flash3388.flashlib.frc.robot.io.devices.FrcSpeedController;
+import com.flash3388.flashlib.frc.robot.io.devices.FrcSpeedControllerGroup;
+import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
+import com.flash3388.flashlib.io.devices.SpeedController;
+import com.flash3388.flashlib.robot.systems.MotorSystem;
 import com.flash3388.flashlib.robot.systems.drive.MecanumDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.OmniDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Objects;
 
 public class Systems {
@@ -158,15 +154,15 @@ public class Systems {
         return new MecanumDriveBuilder();
     }
 
-    public static SingleMotorSystem newSingleMotor(SpeedController speedController) {
-        return new SingleMotorSystem(speedController);
+    public static MotorSystem newSingleMotor(SpeedController speedController) {
+        return new MotorSystem(speedController);
     }
 
-    public static SingleMotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController speedController) {
+    public static MotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController speedController) {
         return newSingleMotor(new FrcSpeedController(speedController));
     }
 
-    public static SingleMotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+    public static MotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
         return newSingleMotor(new FrcSpeedControllerGroup(speedControllers));
     }
 }

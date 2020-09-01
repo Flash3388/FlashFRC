@@ -1,6 +1,6 @@
-package com.flash3388.flashlib.frc.robot.io.devices.pneumatics;
+package com.flash3388.flashlib.frc.robot.io.devices;
 
-import com.flash3388.flashlib.io.devices.pneumatics.Solenoid;
+import com.flash3388.flashlib.io.devices.Solenoid;
 import com.flash3388.flashlib.time.Time;
 
 public class FrcSolenoid implements Solenoid {

@@ -1,10 +1,10 @@
 package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.io.devices.actuators.SpeedControllers;
-import com.flash3388.flashlib.hid.Hid;
+import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
+import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
-import com.flash3388.flashlib.io.devices.actuators.SpeedController;
+import com.flash3388.flashlib.io.devices.SpeedController;
 import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
@@ -14,8 +14,8 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
     private final SpeedController mDriveRight;
     private final SpeedController mDriveLeft;
 
-    private final Hid mStickRight;
-    private final Hid mStickLeft;
+    private final Joystick mStickRight;
+    private final Joystick mStickLeft;
 
     public Robot(RobotControl robotControl) {
         super(robotControl);
@@ -36,8 +36,8 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
         // Creating the joysticks.
         // We will use these joysticks to control the motions of the drive system.
-        mStickRight = getHidInterface().newGenericHid(RobotMap.STICK_RIGHT);
-        mStickLeft = getHidInterface().newGenericHid(RobotMap.STICK_LEFT);
+        mStickRight = getHidInterface().newJoystick(RobotMap.STICK_RIGHT);
+        mStickLeft = getHidInterface().newJoystick(RobotMap.STICK_LEFT);
 
         // This example demonstrates user control using joysticks.
         // Because of that, we will use the teleop mode for the robot.

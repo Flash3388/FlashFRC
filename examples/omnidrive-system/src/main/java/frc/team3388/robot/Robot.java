@@ -2,7 +2,7 @@ package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.systems.Systems;
-import com.flash3388.flashlib.hid.Hid;
+import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
@@ -16,7 +16,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
     private final OmniDriveSystem mDriveSystem;
 
-    private final Hid mStick;
+    private final Joystick mStick;
 
     public Robot(RobotControl robotControl) {
         super(robotControl);
@@ -32,7 +32,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
         // Creating the joystick.
         // We will use this joystick to control the motions of the drive system.
-        mStick = getHidInterface().newGenericHid(RobotMap.STICK);
+        mStick = getHidInterface().newJoystick(RobotMap.STICK);
 
         // We set the default action for the drive system.
         // This action, will run by default on the system.

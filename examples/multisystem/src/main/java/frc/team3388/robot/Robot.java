@@ -2,13 +2,13 @@ package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.systems.Systems;
-import com.flash3388.flashlib.hid.Hid;
+import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
 import com.flash3388.flashlib.robot.motion.actions.MoveAction;
 import com.flash3388.flashlib.robot.motion.actions.RotateAction;
-import com.flash3388.flashlib.robot.systems.SingleMotorSystem;
+import com.flash3388.flashlib.robot.systems.MotorSystem;
 import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.actions.TankDriveAction;
 import com.flash3388.flashlib.time.Time;
@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.PWMTalonSRX;
 public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
     private final TankDriveSystem mDriveSystem;
-    private final SingleMotorSystem mShooter;
+    private final MotorSystem mShooter;
 
-    private final Hid mStickRight;
-    private final Hid mStickLeft;
+    private final Joystick mStickRight;
+    private final Joystick mStickLeft;
 
     public Robot(RobotControl robotControl) {
         super(robotControl);
@@ -39,8 +39,8 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
         // Creating the joysticks.
         // We will use these joysticks to control the motions of the drive system.
-        mStickRight = getHidInterface().newGenericHid(RobotMap.STICK_RIGHT);
-        mStickLeft = getHidInterface().newGenericHid(RobotMap.STICK_LEFT);
+        mStickRight = getHidInterface().newJoystick(RobotMap.STICK_RIGHT);
+        mStickLeft = getHidInterface().newJoystick(RobotMap.STICK_LEFT);
 
         // We set the default action for the drive system.
         // This action, will run by default on the system.
