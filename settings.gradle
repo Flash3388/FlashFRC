@@ -1,1 +1,12 @@
 rootProject.name = 'flashlib-frc'
+
+include 'flashlib.frc.robot'
+include 'flashlib.frc.nt'
+
+include 'examples:tankdrive'
+include 'examples:tankdrive-system'
+include 'examples:tankdrive-system-xbox'
+include 'examples:tankdrive-system-custom'
+include 'examples:omnidrive-system'
+include 'examples:multisystem'
+include 'examples:autonomous-sequence-timed'
