@@ -1,10 +1,10 @@
 package frc.team3388.robot;
 
+import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.systems.Systems;
 import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
-import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
 import com.flash3388.flashlib.robot.motion.actions.RotateAction;
 import com.flash3388.flashlib.robot.systems.drive.OmniDriveSystem;
@@ -18,7 +18,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
     private final Joystick mStick;
 
-    public Robot(RobotControl robotControl) {
+    public Robot(FrcRobotControl robotControl) {
         super(robotControl);
 
         // Creating the omni drive system.

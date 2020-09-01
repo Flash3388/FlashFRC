@@ -1,7 +1,7 @@
 package com.flash3388.flashlib.frc.robot.base.iterative;
 
+import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
-import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.RobotInitializationException;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import edu.wpi.first.hal.HAL;
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LoopingRobotControl extends RobotBase {
 
     private final IterativeFrcRobot.Initializer mRobotInitializer;
-    private final RobotControl mRobotControl;
+    private final FrcRobotControl mRobotControl;
     private final RobotLooper mRobotLooper;
 
     private IterativeFrcRobot mRobot;
@@ -21,7 +21,7 @@ public class LoopingRobotControl extends RobotBase {
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
 
-    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, RobotControl robotControl, RobotLooper robotLooper) {
+    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl, RobotLooper robotLooper) {
         mRobotInitializer = robotInitializer;
         mRobotControl = robotControl;
         mRobotLooper = robotLooper;
@@ -32,7 +32,7 @@ public class LoopingRobotControl extends RobotBase {
         mWasModeInitialized = false;
     }
 
-    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, RobotControl robotControl) {
+    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl) {
         this(robotInitializer, robotControl, new NotifierRobotLooper());
     }
 

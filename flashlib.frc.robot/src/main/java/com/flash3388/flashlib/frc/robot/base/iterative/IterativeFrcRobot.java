@@ -1,13 +1,13 @@
 package com.flash3388.flashlib.frc.robot.base.iterative;
 
-import com.flash3388.flashlib.robot.RobotControl;
+import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.robot.RobotInitializationException;
 
 public interface IterativeFrcRobot {
 
     @FunctionalInterface
     interface Initializer {
-        IterativeFrcRobot init(RobotControl robotControl) throws RobotInitializationException;
+        IterativeFrcRobot init(FrcRobotControl robotControl) throws RobotInitializationException;
     }
 
     void disabledInit();

@@ -1,11 +1,11 @@
 package frc.team3388.robot;
 
+import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
 import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.io.devices.SpeedController;
-import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 
@@ -17,7 +17,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
     private final Joystick mStickRight;
     private final Joystick mStickLeft;
 
-    public Robot(RobotControl robotControl) {
+    public Robot(FrcRobotControl robotControl) {
         super(robotControl);
 
         // Creating the speed controllers.

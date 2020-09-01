@@ -1,11 +1,11 @@
 package frc.team3388.robot;
 
+import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.systems.Systems;
 import com.flash3388.flashlib.hid.XboxAxis;
 import com.flash3388.flashlib.hid.XboxButton;
 import com.flash3388.flashlib.hid.XboxController;
-import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
 import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.actions.ArcadeDriveAction;
@@ -19,7 +19,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
     private final XboxController mController;
 
-    public Robot(RobotControl robotControl) {
+    public Robot(FrcRobotControl robotControl) {
         super(robotControl);
 
         // Creating the tank drive system.
