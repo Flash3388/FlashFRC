@@ -4,7 +4,7 @@ import com.beans.BooleanProperty;
 import com.beans.DoubleProperty;
 import com.beans.IntProperty;
 import com.beans.util.function.Suppliers;
-import com.flash3388.frc.nt.beans.NtPropertyFactory;
+import com.flash3388.frc.nt.beans.NtProperties;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -21,7 +21,7 @@ public class Constants {
     }
 
     public static BooleanProperty newNt(String table, String name, boolean value) {
-        BooleanProperty property = NtPropertyFactory.newBooleanProperty(table, name);
+        BooleanProperty property = NtProperties.newBooleanProperty(table, name);
         property.setAsBoolean(value);
         return property;
     }
@@ -35,7 +35,7 @@ public class Constants {
     }
 
     public static DoubleProperty newNt(String table, String name, double value) {
-        DoubleProperty property = NtPropertyFactory.newDoubleProperty(table, name);
+        DoubleProperty property = NtProperties.newDoubleProperty(table, name);
         property.setAsDouble(value);
         return property;
     }
@@ -49,7 +49,7 @@ public class Constants {
     }
 
     public static IntProperty newNt(String table, String name, int value) {
-        IntProperty property = NtPropertyFactory.newIntProperty(table, name);
+        IntProperty property = NtProperties.newIntProperty(table, name);
         property.setAsInt(value);
         return property;
     }

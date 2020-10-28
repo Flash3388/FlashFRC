@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class NtPropertyFactory {
+public class NtProperties {
 
     public static BooleanProperty newBooleanProperty(String tableName, String entryName) {
         return newBooleanProperty(NetworkTableInstance.getDefault(), tableName, entryName);
