@@ -57,7 +57,7 @@ public class NtNtpClient {
             }
         }, "sync-thread");
         mRunningThread.set(syncThread);
-
+        syncThread.setDaemon(true);
         syncThread.start();
     }
 
