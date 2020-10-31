@@ -20,6 +20,10 @@ public class RemoveVisionClient {
         mLastThread = null;
     }
 
+    public RemoveVisionClient(NetworkTable parentTable) {
+        this(parentTable.getSubTable("analysis"), parentTable.getEntry("update"));
+    }
+
     public void newAnalysis(Analysis analysis) {
         cancelUpdateThread();
 
