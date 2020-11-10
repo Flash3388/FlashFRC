@@ -35,7 +35,7 @@ public class SpeedControllers {
         }
 
         if (mControllers.size() > 1) {
-            new SpeedControllerGroup(mControllers);
+            return new SpeedControllerGroup(mControllers);
         } else if (mControllers.size() == 1) {
             return mControllers.iterator().next();
         }
