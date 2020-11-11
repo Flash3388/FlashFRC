@@ -1,7 +1,6 @@
 apply from: rootProject.file('jcomponent.gradle')
 
 dependencies {
-    api project(':flashlib.frc.nt')
     api flashlib()
 
     api group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: WPILIB_VERSION
