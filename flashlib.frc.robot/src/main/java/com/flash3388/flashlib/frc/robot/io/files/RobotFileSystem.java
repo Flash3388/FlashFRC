@@ -4,6 +4,12 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 import java.nio.file.Path;
 
+/**
+ * A utility for accessing the file system on the robot.
+ * For wider support and adaptability, it is recommended to this class whenever working with the file system.
+ *
+ * @since FlashFrc 2020.1.0
+ */
 public class RobotFileSystem {
 
     private final Path mBasePath;

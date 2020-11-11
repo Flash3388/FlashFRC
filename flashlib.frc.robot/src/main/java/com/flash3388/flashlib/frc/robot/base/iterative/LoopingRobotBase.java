@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class LoopingRobotControl extends RobotBase {
+public class LoopingRobotBase extends RobotBase {
 
     private final IterativeFrcRobot.Initializer mRobotInitializer;
     private final ResourceHolder mResourceHolder;
@@ -23,7 +23,7 @@ public class LoopingRobotControl extends RobotBase {
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
 
-    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, ResourceHolder resourceHolder, FrcRobotControl robotControl, RobotLooper robotLooper) {
+    public LoopingRobotBase(IterativeFrcRobot.Initializer robotInitializer, ResourceHolder resourceHolder, FrcRobotControl robotControl, RobotLooper robotLooper) {
         mRobotInitializer = robotInitializer;
         mResourceHolder = resourceHolder;
         mRobotControl = robotControl;
@@ -35,7 +35,7 @@ public class LoopingRobotControl extends RobotBase {
         mWasModeInitialized = false;
     }
 
-    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl, ResourceHolder resourceHolder) {
+    public LoopingRobotBase(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl, ResourceHolder resourceHolder) {
         this(robotInitializer, resourceHolder, robotControl, new NotifierRobotLooper());
     }
 
