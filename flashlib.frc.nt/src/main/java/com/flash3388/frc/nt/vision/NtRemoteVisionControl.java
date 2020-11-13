@@ -5,18 +5,20 @@ import com.flash3388.flashlib.time.Time;
 import com.flash3388.flashlib.vision.VisionResult;
 import com.flash3388.flashlib.vision.control.VisionControl;
 import com.flash3388.flashlib.vision.control.VisionOption;
+import com.flash3388.flashlib.vision.control.event.NewResultEvent;
+import com.flash3388.flashlib.vision.control.event.VisionListener;
 import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 public class NtRemoteVisionControl implements VisionControl {
 
@@ -26,7 +28,7 @@ public class NtRemoteVisionControl implements VisionControl {
     private final NetworkTableEntry mUpdateEntry;
 
     private final AtomicReference<VisionResult> mLatestResult;
-    private final Collection<Consumer<VisionResult>> mListeners;
+    private final Collection<VisionListener> mListeners;
     private volatile int mListener;
 
     public NtRemoteVisionControl(Clock clock, NetworkTable analysisTable, NetworkTable optionsTable,
@@ -77,6 +79,22 @@ public class NtRemoteVisionControl implements VisionControl {
     }
 
     @Override
+    public <T> Optional<T> getOption(VisionOption<T> option) {
+        NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
+        if (entry.exists()) {
+            NetworkTableValue value = entry.getValue();
+            return Optional.of(option.valueType().cast(value.getValue()));
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public <T> T getOptionOrDefault(VisionOption<T> option, T defaultValue) {
+        return getOption(option).orElse(defaultValue);
+    }
+
+    @Override
     public Optional<VisionResult> getLatestResult() {
         return getLatestResult(false);
     }
@@ -108,8 +126,8 @@ public class NtRemoteVisionControl implements VisionControl {
     }
 
     @Override
-    public void addResultListener(Consumer<VisionResult> consumer) {
-        mListeners.add(consumer);
+    public void addListener(VisionListener listener) {
+        mListeners.add(listener);
     }
 
     private void onUpdateEntryChange(EntryNotification notification) {
@@ -125,7 +143,9 @@ public class NtRemoteVisionControl implements VisionControl {
 
         VisionResult result = new VisionResult(builder.build(), mClock.currentTime());
         mLatestResult.set(result);
-        mListeners.forEach((listener)-> listener.accept(result));
+
+        NewResultEvent event = new NewResultEvent(result);
+        mListeners.forEach((listener)-> listener.onNewResult(event));
 
         mUpdateEntry.setBoolean(false);
     }
