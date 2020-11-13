@@ -45,10 +45,19 @@ public class NtVisionServer implements Closeable {
         mRemoveVisionClient.addRunListener(listener);
     }
 
+    public NetworkTable getSubTable(String tableName) {
+        return mRemoveVisionClient.getSubTable(tableName);
+    }
+
+    public <T> boolean hasOptionValue(VisionOption<T> option) {
+        NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
+        return entry.exists();
+    }
+
     public <T> T getOptionOrDefault(VisionOption<T> option, T defaultValue) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         NetworkTableValue value = entry.getValue();
-        if (value.getType() == NetworkTableType.kUnassigned) {
+        if (!entry.exists()) {
             return defaultValue;
         }
 
@@ -63,6 +72,11 @@ public class NtVisionServer implements Closeable {
         }, EntryListenerFlags.kUpdate);
 
         mOptionListeners.add(listener);
+    }
+
+    public <T> void setOption(VisionOption<T> option, T value) {
+        NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
+        entry.setValue(value);
     }
 
     public void newAnalysis(Analysis analysis) {

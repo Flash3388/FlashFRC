@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 
 public class RemoveVisionClient implements AutoCloseable {
 
+    private final NetworkTable mParentTable;
     private final NetworkTable mAnalysisTable;
     private final NetworkTableEntry mRunEntry;
     private final NetworkTableEntry mUpdateEntry;
@@ -22,7 +23,8 @@ public class RemoveVisionClient implements AutoCloseable {
 
     private volatile Thread mLastThread;
 
-    public RemoveVisionClient(NetworkTable analysisTable, NetworkTableEntry runEntry, NetworkTableEntry updateEntry) {
+    public RemoveVisionClient(NetworkTable parentTable, NetworkTable analysisTable, NetworkTableEntry runEntry, NetworkTableEntry updateEntry) {
+        mParentTable = parentTable;
         mAnalysisTable = analysisTable;
         mRunEntry = runEntry;
         mUpdateEntry = updateEntry;
@@ -34,7 +36,7 @@ public class RemoveVisionClient implements AutoCloseable {
     }
 
     public RemoveVisionClient(NetworkTable parentTable) {
-        this(parentTable.getSubTable("analysis"),
+        this(parentTable, parentTable.getSubTable("analysis"),
                 parentTable.getEntry("run"),
                 parentTable.getEntry("update"));
     }
@@ -53,6 +55,10 @@ public class RemoveVisionClient implements AutoCloseable {
                 listener.accept(first);
             }
         }
+    }
+
+    public NetworkTable getSubTable(String tableName) {
+        return mParentTable.getSubTable(tableName);
     }
 
     public void newAnalysis(Analysis analysis) {
