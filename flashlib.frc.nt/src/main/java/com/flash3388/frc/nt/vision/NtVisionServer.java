@@ -5,6 +5,7 @@ import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.networktables.NetworkTableValue;
 
@@ -12,6 +13,7 @@ import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class NtVisionServer implements Closeable {
 
@@ -29,6 +31,18 @@ public class NtVisionServer implements Closeable {
 
     public NtVisionServer(NetworkTable parentTable) {
         this(parentTable.getSubTable("options"), new RemoveVisionClient(parentTable));
+    }
+
+    public NtVisionServer(String parentTableName) {
+        this(NetworkTableInstance.getDefault().getTable(parentTableName));
+    }
+
+    public boolean shouldRun() {
+        return mRemoveVisionClient.shouldRun();
+    }
+
+    public void addRunListener(Consumer<Boolean> listener) {
+        mRemoveVisionClient.addRunListener(listener);
     }
 
     public <T> T getOptionOrDefault(VisionOption<T> option, T defaultValue) {
@@ -60,5 +74,7 @@ public class NtVisionServer implements Closeable {
         for (int listener : mOptionListeners) {
             mOptionsTable.removeEntryListener(listener);
         }
+
+        mRemoveVisionClient.close();
     }
 }

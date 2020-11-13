@@ -1,0 +1,45 @@
+plugins {
+    id 'application'
+}
+
+ext {
+    YEAR = WPILIB_VERSION.split("\\.")[0]
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url('https://frcmaven.wpi.edu/artifactory/release')
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: project.file('libs'))
+
+    implementation "com.google.code.gson:gson:2.8.5"
+    implementation ("com.flash3388.flashlib:flashlib.vision.cv:$FLASHLIB_VERSION") {
+        exclude group: 'org.openpnp'
+    }
+    implementation project(':flashlib.frc.nt')
+
+    implementation group: "edu.wpi.first.thirdparty.frc${YEAR}.opencv", name: 'opencv-java', version: "$OPENCV_VERSION"
+    implementation group: "edu.wpi.first.thirdparty.frc${YEAR}.opencv", name: 'opencv-jni', version: "$OPENCV_VERSION", classifier: "$REMOTE_ARCH"
+
+    implementation "edu.wpi.first.wpiutil:wpiutil-java:$WPILIB_VERSION"
+    implementation "edu.wpi.first.cscore:cscore-java:$WPILIB_VERSION"
+    implementation "edu.wpi.first.ntcore:ntcore-java:$WPILIB_VERSION"
+    implementation "edu.wpi.first.cameraserver:cameraserver-java:$WPILIB_VERSION"
+    implementation group: 'edu.wpi.first.cscore', name: 'cscore-jni', version: "$WPILIB_VERSION", classifier: "$REMOTE_ARCH"
+    implementation group: 'edu.wpi.first.ntcore', name: 'ntcore-jni', version: "$WPILIB_VERSION", classifier: "$REMOTE_ARCH"
+}
+
+
+application {
+    mainClassName = 'frc.team3388.vision.Main'
+    applicationName = 'frcvision'
+}
+

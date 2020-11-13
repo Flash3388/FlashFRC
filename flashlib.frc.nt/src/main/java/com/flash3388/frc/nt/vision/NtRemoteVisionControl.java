@@ -25,6 +25,7 @@ public class NtRemoteVisionControl implements VisionControl {
     private final Clock mClock;
     private final NetworkTable mAnalysisTable;
     private final NetworkTable mOptionsTable;
+    private final NetworkTableEntry mRunEntry;
     private final NetworkTableEntry mUpdateEntry;
 
     private final AtomicReference<VisionResult> mLatestResult;
@@ -32,11 +33,15 @@ public class NtRemoteVisionControl implements VisionControl {
     private volatile int mListener;
 
     public NtRemoteVisionControl(Clock clock, NetworkTable analysisTable, NetworkTable optionsTable,
-                                 NetworkTableEntry updateEntry) {
+                                 NetworkTableEntry runEntry, NetworkTableEntry updateEntry) {
         mClock = clock;
         mAnalysisTable = analysisTable;
         mOptionsTable = optionsTable;
+        mRunEntry = runEntry;
         mUpdateEntry = updateEntry;
+
+        mRunEntry.setBoolean(false);
+        mUpdateEntry.setBoolean(false);
 
         mLatestResult = new AtomicReference<>();
         mListeners = new CopyOnWriteArrayList<>();
@@ -46,7 +51,7 @@ public class NtRemoteVisionControl implements VisionControl {
     public NtRemoteVisionControl(Clock clock, NetworkTable parentTable) {
         this(clock, parentTable.getSubTable("analysis"),
                 parentTable.getSubTable("options"),
-                parentTable.getEntry("update"));
+                parentTable.getEntry("run"), parentTable.getEntry("update"));
     }
 
     public NtRemoteVisionControl(Clock clock, String parentTableName) {
@@ -63,10 +68,12 @@ public class NtRemoteVisionControl implements VisionControl {
         mLatestResult.set(null);
         mUpdateEntry.setBoolean(false);
         mListener = mUpdateEntry.addListener(this::onUpdateEntryChange, EntryListenerFlags.kUpdate);
+        mRunEntry.setBoolean(true);
     }
 
     @Override
     public void stop() {
+        mRunEntry.setBoolean(false);
         mUpdateEntry.removeListener(mListener);
         mListener = -1;
         mLatestResult.set(null);

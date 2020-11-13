@@ -12,3 +12,4 @@ include 'examples:robot:multisystem'
 include 'examples:robot:autonomous-sequence-timed'
 
 include 'examples:vision:robot-nt-vision'
+include 'examples:vision:remote-nt-vision'
