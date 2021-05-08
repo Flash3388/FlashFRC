@@ -14,6 +14,7 @@ import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.modes.RobotMode;
 import com.flash3388.flashlib.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Clock;
+import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.slf4j.Logger;
 
@@ -22,6 +23,7 @@ import java.util.function.Supplier;
 
 public class FrcRobotControlImpl implements FrcRobotControl {
 
+    private final ResourceHolder mResourceHolder;
     private final Scheduler mScheduler;
     private final Clock mClock;
     private final Supplier<FrcRobotMode> mRobotModeSupplier;
@@ -30,7 +32,9 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     private final Logger mLogger;
     private final RobotFileSystem mRobotFileSystem;
 
-    public FrcRobotControlImpl(RobotConfiguration robotConfiguration) {
+    public FrcRobotControlImpl(ResourceHolder resourceHolder, RobotConfiguration robotConfiguration) {
+        mResourceHolder = resourceHolder;
+
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
         mClock = new FpgaClock();
         mScheduler = RobotFactory.newDefaultScheduler(mClock, mLogger);
@@ -43,7 +47,9 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mRobotFileSystem = new RobotFileSystem();
     }
 
-    public FrcRobotControlImpl(RobotConfiguration robotConfiguration, Scheduler scheduler) {
+    public FrcRobotControlImpl(ResourceHolder resourceHolder, RobotConfiguration robotConfiguration, Scheduler scheduler) {
+        mResourceHolder = resourceHolder;
+
         mLogger = FrcLoggerFactory.createLogger(robotConfiguration.getLogConfiguration());
         mClock = new FpgaClock();
         mScheduler = scheduler;
@@ -56,12 +62,12 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mRobotFileSystem = new RobotFileSystem();
     }
 
-    public FrcRobotControlImpl(Scheduler scheduler) {
-        this(RobotConfiguration.defaultConfiguration(), scheduler);
+    public FrcRobotControlImpl(ResourceHolder resourceHolder, Scheduler scheduler) {
+        this(resourceHolder, RobotConfiguration.defaultConfiguration(), scheduler);
     }
 
-    public FrcRobotControlImpl() {
-        this(RobotConfiguration.defaultConfiguration());
+    public FrcRobotControlImpl(ResourceHolder resourceHolder) {
+        this(resourceHolder, RobotConfiguration.defaultConfiguration());
     }
 
     @Override
@@ -101,6 +107,6 @@ public class FrcRobotControlImpl implements FrcRobotControl {
 
     @Override
     public void registerCloseables(Collection<? extends AutoCloseable> closeables) {
-        throw new UnsupportedOperationException("no need to register resources for termination in FRC robots");
+        mResourceHolder.add(closeables);
     }
 }

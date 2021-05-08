@@ -4,15 +4,17 @@ import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RobotInitializationException;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
+import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class LoopingRobotControl extends RobotBase {
+public class LoopingRobotBase extends RobotBase {
 
     private final IterativeFrcRobot.Initializer mRobotInitializer;
+    private final ResourceHolder mResourceHolder;
     private final FrcRobotControl mRobotControl;
     private final RobotLooper mRobotLooper;
 
@@ -21,8 +23,9 @@ public class LoopingRobotControl extends RobotBase {
     private FrcRobotMode mLastMode;
     private boolean mWasModeInitialized;
 
-    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl, RobotLooper robotLooper) {
+    public LoopingRobotBase(IterativeFrcRobot.Initializer robotInitializer, ResourceHolder resourceHolder, FrcRobotControl robotControl, RobotLooper robotLooper) {
         mRobotInitializer = robotInitializer;
+        mResourceHolder = resourceHolder;
         mRobotControl = robotControl;
         mRobotLooper = robotLooper;
 
@@ -32,8 +35,8 @@ public class LoopingRobotControl extends RobotBase {
         mWasModeInitialized = false;
     }
 
-    public LoopingRobotControl(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl) {
-        this(robotInitializer, robotControl, new NotifierRobotLooper());
+    public LoopingRobotBase(IterativeFrcRobot.Initializer robotInitializer, FrcRobotControl robotControl, ResourceHolder resourceHolder) {
+        this(robotInitializer, resourceHolder, robotControl, new NotifierRobotLooper());
     }
 
     @Override
@@ -52,6 +55,12 @@ public class LoopingRobotControl extends RobotBase {
     public void endCompetition() {
         mRobot.robotStop();
         mRobotLooper.stop();
+
+        try {
+            mResourceHolder.freeAll();
+        } catch (Throwable throwable) {
+            mRobotControl.getLogger().info("Error freeing resources", throwable);
+        }
     }
 
     private void loop() {
