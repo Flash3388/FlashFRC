@@ -56,7 +56,7 @@ public class FrcHidInterface implements RawHidInterface {
 
     @Override
     public boolean getButtonValue(int channel, int button) {
-        return mDriverStation.getStickButton(channel, button);
+        return mDriverStation.getStickButton(channel, button + 1);
     }
 
     @Override
