@@ -43,4 +43,14 @@ public class RoboRioAnalogOutput implements AnalogOutput {
         mAnalogOutput.close();
         mAnalogOutput = null;
     }
+
+    @Override
+    public double getMaxVoltage() {
+        return RoboRioAnalogPort.MAX_VOLTAGE;
+    }
+
+    @Override
+    public int getMaxValue() {
+        return RoboRioAnalogPort.MAX_VALUE;
+    }
 }

@@ -2,6 +2,7 @@ package com.flash3388.flashlib.frc.robot.io;
 
 import com.flash3388.flashlib.io.Pwm;
 import edu.wpi.first.hal.DIOJNI;
+import edu.wpi.first.hal.PWMJNI;
 import edu.wpi.first.wpilibj.SensorUtil;
 
 public class RoboRioPwm implements Pwm {
@@ -20,22 +21,27 @@ public class RoboRioPwm implements Pwm {
 
     @Override
     public void setDuty(double duty) {
-        setRaw((int) (duty * MAX_RAW));
-    }
-
-    @Override
-    public void setRaw(int raw) {
-        mPwm.setRaw(raw);
+        setValue((int) (duty * MAX_RAW));
     }
 
     @Override
     public double getDuty() {
-        return getRaw() / (double) MAX_RAW;
+        return getValue() / (double) MAX_RAW;
     }
 
     @Override
-    public int getRaw() {
+    public void setValue(int value) {
+        mPwm.setRaw(value);
+    }
+
+    @Override
+    public int getValue() {
         return mPwm.getRaw();
+    }
+
+    @Override
+    public int getMaxValue() {
+        return MAX_RAW;
     }
 
     @Override
