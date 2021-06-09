@@ -9,6 +9,7 @@ import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
 import com.flash3388.flashlib.hid.HidInterface;
 import com.flash3388.flashlib.hid.generic.GenericHidInterface;
+import com.flash3388.flashlib.hid.generic.weak.WeakHidInterface;
 import com.flash3388.flashlib.io.IoInterface;
 import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.modes.RobotMode;
@@ -43,7 +44,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
 
         mRobotModeSupplier = new FrcRobotModeSupplier(driverStation);
         mIoInterface = new RoboRioIoInterface();
-        mHidInterface = new GenericHidInterface(new FrcHidInterface(driverStation));
+        mHidInterface = new WeakHidInterface(new FrcHidInterface(driverStation));
         mRobotFileSystem = new RobotFileSystem();
     }
 
@@ -58,7 +59,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
 
         mRobotModeSupplier = new FrcRobotModeSupplier(driverStation);
         mIoInterface = new RoboRioIoInterface();
-        mHidInterface = new GenericHidInterface(new FrcHidInterface(driverStation));
+        mHidInterface = new WeakHidInterface(new FrcHidInterface(driverStation));
         mRobotFileSystem = new RobotFileSystem();
     }
 
