@@ -11,4 +11,11 @@ ext {
     getNexusPassword = {
         return rootProject.hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('NEXUS_PASSWORD')
     }
+
+    setPropertyGlobalFile = { key ->
+        if (rootProject.hasProperty(key)) {
+            def file = rootProject.file(rootProject.getProperty(key)).absolutePath
+            project.setProperty(key, file)
+        }
+    }
 }
