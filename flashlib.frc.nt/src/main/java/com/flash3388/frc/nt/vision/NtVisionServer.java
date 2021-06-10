@@ -1,5 +1,6 @@
 package com.flash3388.frc.nt.vision;
 
+import com.castle.reflect.Types;
 import com.flash3388.flashlib.vision.control.VisionOption;
 import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
@@ -61,13 +62,15 @@ public class NtVisionServer implements Closeable {
             return defaultValue;
         }
 
-        return option.valueType().cast(value.getValue());
+        return Types.smartCast(value.getValue(), option.valueType());
     }
 
     public <T> void addOptionListener(VisionOption<T> option, BiConsumer<VisionOption<? super T>, ? super T> valueConsumer) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         int listener = entry.addListener((notification)-> {
-            T value = option.valueType().cast(notification.value.getValue());
+            T value = Types.smartCast(
+                    notification.value.getValue(),
+                    option.valueType());
             valueConsumer.accept(option, value);
         }, EntryListenerFlags.kUpdate);
 
