@@ -1,14 +1,16 @@
 package com.flash3388.frc.nt.vision;
 
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
+import com.flash3388.flashlib.vision.analysis.Analysis;
+import com.flash3388.frc.nt.vision.analysis.NtAnalysisSerializer;
+import com.flash3388.frc.nt.vision.analysis.SingleEntryNtAnalysisSerializer;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class RemoveVisionClient implements AutoCloseable {
@@ -17,17 +19,22 @@ public class RemoveVisionClient implements AutoCloseable {
     private final NetworkTable mAnalysisTable;
     private final NetworkTableEntry mRunEntry;
     private final NetworkTableEntry mUpdateEntry;
+    private final NtAnalysisSerializer mSerializer;
 
     private final Collection<Consumer<Boolean>> mRunListeners;
     private final int mRunListener;
 
     private volatile Thread mLastThread;
 
-    public RemoveVisionClient(NetworkTable parentTable, NetworkTable analysisTable, NetworkTableEntry runEntry, NetworkTableEntry updateEntry) {
+    public RemoveVisionClient(NetworkTable parentTable, NetworkTable analysisTable,
+                              NetworkTableEntry runEntry,
+                              NetworkTableEntry updateEntry,
+                              NtAnalysisSerializer serializer) {
         mParentTable = parentTable;
         mAnalysisTable = analysisTable;
         mRunEntry = runEntry;
         mUpdateEntry = updateEntry;
+        mSerializer = serializer;
 
         mRunListeners = new ArrayList<>();
         mRunListener = runEntry.addListener(this::onRunUpdate, EntryListenerFlags.kUpdate);
@@ -38,7 +45,8 @@ public class RemoveVisionClient implements AutoCloseable {
     public RemoveVisionClient(NetworkTable parentTable) {
         this(parentTable, parentTable.getSubTable("analysis"),
                 parentTable.getEntry("run"),
-                parentTable.getEntry("update"));
+                parentTable.getEntry("update"),
+                new SingleEntryNtAnalysisSerializer());
     }
 
     public boolean shouldRun() {
@@ -115,9 +123,10 @@ public class RemoveVisionClient implements AutoCloseable {
     }
 
     private void updateAnalysis(Analysis analysis) {
-        for (Map.Entry<String, Object> entry : analysis.getData().entrySet()) {
-            NetworkTableEntry tableEntry = mAnalysisTable.getEntry(entry.getKey());
-            tableEntry.setValue(entry.getValue());
+        try {
+            mSerializer.serializeTo(mAnalysisTable, analysis);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         mUpdateEntry.setBoolean(true);

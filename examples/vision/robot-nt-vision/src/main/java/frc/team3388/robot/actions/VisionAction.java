@@ -2,8 +2,8 @@ package frc.team3388.robot.actions;
 
 import com.flash3388.flashlib.scheduling.actions.ActionBase;
 import com.flash3388.flashlib.vision.VisionResult;
+import com.flash3388.flashlib.vision.analysis.Analysis;
 import com.flash3388.flashlib.vision.control.VisionControl;
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import com.flash3388.frc.nt.vision.StandardVisionOptions;
 
 import java.util.Optional;
@@ -51,7 +51,7 @@ public class VisionAction extends ActionBase {
             // Now we can extract information from the Analysis object.
             // what information we receive/have depends on the vision code which creates the analysis,
             // so it's good to be aware of the vision code we are working with.
-            double offset = analysis.get("offset", Double.class);
+            double offset = analysis.getProperty("offset", Double.class);
 
             // now we can do some algorithm with the robot.
         } else {

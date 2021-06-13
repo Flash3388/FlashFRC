@@ -3,11 +3,13 @@ package com.flash3388.frc.nt.vision;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 import com.flash3388.flashlib.vision.VisionResult;
+import com.flash3388.flashlib.vision.analysis.Analysis;
 import com.flash3388.flashlib.vision.control.VisionControl;
 import com.flash3388.flashlib.vision.control.VisionOption;
 import com.flash3388.flashlib.vision.control.event.NewResultEvent;
 import com.flash3388.flashlib.vision.control.event.VisionListener;
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
+import com.flash3388.frc.nt.vision.analysis.NtAnalysisSerializer;
+import com.flash3388.frc.nt.vision.analysis.SingleEntryNtAnalysisSerializer;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.networktables.NetworkTable;
@@ -15,6 +17,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -27,18 +30,22 @@ public class NtRemoteVisionControl implements VisionControl {
     private final NetworkTable mOptionsTable;
     private final NetworkTableEntry mRunEntry;
     private final NetworkTableEntry mUpdateEntry;
+    private final NtAnalysisSerializer mSerializer;
 
     private final AtomicReference<VisionResult> mLatestResult;
     private final Collection<VisionListener> mListeners;
     private volatile int mListener;
 
     public NtRemoteVisionControl(Clock clock, NetworkTable analysisTable, NetworkTable optionsTable,
-                                 NetworkTableEntry runEntry, NetworkTableEntry updateEntry) {
+                                 NetworkTableEntry runEntry,
+                                 NetworkTableEntry updateEntry,
+                                 NtAnalysisSerializer serializer) {
         mClock = clock;
         mAnalysisTable = analysisTable;
         mOptionsTable = optionsTable;
         mRunEntry = runEntry;
         mUpdateEntry = updateEntry;
+        mSerializer = serializer;
 
         mRunEntry.setBoolean(false);
         mUpdateEntry.setBoolean(false);
@@ -51,7 +58,9 @@ public class NtRemoteVisionControl implements VisionControl {
     public NtRemoteVisionControl(Clock clock, NetworkTable parentTable) {
         this(clock, parentTable.getSubTable("analysis"),
                 parentTable.getSubTable("options"),
-                parentTable.getEntry("run"), parentTable.getEntry("update"));
+                parentTable.getEntry("run"),
+                parentTable.getEntry("update"),
+                new SingleEntryNtAnalysisSerializer());
     }
 
     public NtRemoteVisionControl(Clock clock, String parentTableName) {
@@ -142,17 +151,16 @@ public class NtRemoteVisionControl implements VisionControl {
             return;
         }
 
-        Analysis.Builder builder = new Analysis.Builder();
-        for (String key : mAnalysisTable.getKeys()) {
-            NetworkTableEntry entry = mAnalysisTable.getEntry(key);
-            builder.put(key, entry.getValue().getValue());
+        try {
+            Analysis analysis = mSerializer.deserializeFrom(mAnalysisTable);
+            VisionResult result = new VisionResult(analysis, mClock.currentTime());
+            mLatestResult.set(result);
+
+            NewResultEvent event = new NewResultEvent(result);
+            mListeners.forEach((listener)-> listener.onNewResult(event));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        VisionResult result = new VisionResult(builder.build(), mClock.currentTime());
-        mLatestResult.set(result);
-
-        NewResultEvent event = new NewResultEvent(result);
-        mListeners.forEach((listener)-> listener.onNewResult(event));
 
         mUpdateEntry.setBoolean(false);
     }

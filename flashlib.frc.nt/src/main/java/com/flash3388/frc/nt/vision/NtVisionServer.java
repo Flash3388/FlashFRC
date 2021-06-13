@@ -2,12 +2,11 @@ package com.flash3388.frc.nt.vision;
 
 import com.castle.reflect.Types;
 import com.flash3388.flashlib.vision.control.VisionOption;
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
+import com.flash3388.flashlib.vision.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.networktables.NetworkTableValue;
 
 import java.io.Closeable;
