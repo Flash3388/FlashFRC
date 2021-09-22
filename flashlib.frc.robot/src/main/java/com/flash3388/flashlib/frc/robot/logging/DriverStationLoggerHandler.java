@@ -23,8 +23,8 @@ public class DriverStationLoggerHandler extends Handler {
         } else if (record.getLevel() == Level.SEVERE) {
             DriverStation.reportError(log, false);
         } else {
-            System.out.println(String.format("%s> <%s> %s",
-                    record.getLoggerName(), record.getLevel(), log));
+            System.out.printf("%s> <%s> %s%n",
+                    record.getLoggerName(), record.getLevel(), log);
         }
     }
 
