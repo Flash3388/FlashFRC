@@ -23,7 +23,7 @@ public class Systems {
             mRight.add(speedControllers);
             return this;
         }
-        public TankDriveBuilder right(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        public TankDriveBuilder right(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
             mRight.add(speedControllers);
             return this;
         }
@@ -32,7 +32,7 @@ public class Systems {
             mLeft.add(speedControllers);
             return this;
         }
-        public TankDriveBuilder left(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        public TankDriveBuilder left(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
             mLeft.add(speedControllers);
             return this;
         }
@@ -58,7 +58,7 @@ public class Systems {
             mRight.add(speedControllers);
             return this;
         }
-        public OmniDriveBuilder right(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        public OmniDriveBuilder right(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
             mRight.add(speedControllers);
             return this;
         }
@@ -67,7 +67,7 @@ public class Systems {
             mLeft.add(speedControllers);
             return this;
         }
-        public OmniDriveBuilder left(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        public OmniDriveBuilder left(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
             mLeft.add(speedControllers);
             return this;
         }
@@ -76,7 +76,7 @@ public class Systems {
             mFront.add(speedControllers);
             return this;
         }
-        public OmniDriveBuilder front(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        public OmniDriveBuilder front(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
             mFront.add(speedControllers);
             return this;
         }
@@ -85,7 +85,7 @@ public class Systems {
             mBack.add(speedControllers);
             return this;
         }
-        public OmniDriveBuilder back(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+        public OmniDriveBuilder back(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
             mBack.add(speedControllers);
             return this;
         }
@@ -113,7 +113,7 @@ public class Systems {
             mRightFront = speedController;
             return this;
         }
-        public MecanumDriveBuilder rightFront(edu.wpi.first.wpilibj.SpeedController speedController) {
+        public MecanumDriveBuilder rightFront(edu.wpi.first.wpilibj.motorcontrol.MotorController speedController) {
             return rightFront(new FrcSpeedController(speedController));
         }
 
@@ -121,7 +121,7 @@ public class Systems {
             mRightBack = speedController;
             return this;
         }
-        public MecanumDriveBuilder rightBack(edu.wpi.first.wpilibj.SpeedController speedController) {
+        public MecanumDriveBuilder rightBack(edu.wpi.first.wpilibj.motorcontrol.MotorController speedController) {
             return rightBack(new FrcSpeedController(speedController));
         }
 
@@ -129,7 +129,7 @@ public class Systems {
             mLeftFront = speedController;
             return this;
         }
-        public MecanumDriveBuilder leftFront(edu.wpi.first.wpilibj.SpeedController speedController) {
+        public MecanumDriveBuilder leftFront(edu.wpi.first.wpilibj.motorcontrol.MotorController speedController) {
             return leftFront(new FrcSpeedController(speedController));
         }
 
@@ -137,7 +137,7 @@ public class Systems {
             mLeftBack = speedController;
             return this;
         }
-        public MecanumDriveBuilder leftBack(edu.wpi.first.wpilibj.SpeedController speedController) {
+        public MecanumDriveBuilder leftBack(edu.wpi.first.wpilibj.motorcontrol.MotorController speedController) {
             return leftBack(new FrcSpeedController(speedController));
         }
 
@@ -158,11 +158,11 @@ public class Systems {
         return new MotorSystem(speedController);
     }
 
-    public static MotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController speedController) {
+    public static MotorSystem newSingleMotor(edu.wpi.first.wpilibj.motorcontrol.MotorController speedController) {
         return newSingleMotor(new FrcSpeedController(speedController));
     }
 
-    public static MotorSystem newSingleMotor(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+    public static MotorSystem newSingleMotor(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
         return newSingleMotor(new FrcSpeedControllerGroup(speedControllers));
     }
 }

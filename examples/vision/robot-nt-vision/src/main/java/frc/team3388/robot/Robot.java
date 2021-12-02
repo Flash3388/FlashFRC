@@ -2,20 +2,10 @@ package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.systems.Systems;
-import com.flash3388.flashlib.hid.XboxAxis;
-import com.flash3388.flashlib.hid.XboxButton;
-import com.flash3388.flashlib.hid.XboxController;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
-import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
-import com.flash3388.flashlib.robot.systems.drive.actions.ArcadeDriveAction;
-import com.flash3388.flashlib.robot.systems.drive.actions.TankDriveAction;
 import com.flash3388.flashlib.scheduling.actions.Action;
-import com.flash3388.flashlib.scheduling.actions.Actions;
 import com.flash3388.flashlib.vision.control.VisionControl;
 import com.flash3388.frc.nt.vision.NtRemoteVisionControl;
-import com.flash3388.frc.nt.vision.StandardVisionOptions;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
 import frc.team3388.robot.actions.VisionAction;
 
 public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {

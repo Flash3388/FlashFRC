@@ -7,25 +7,19 @@ import edu.wpi.first.wpilibj.GenericHID;
 
 public class FrcHidInterface implements RawHidInterface {
 
-    private final DriverStation mDriverStation;
-
-    public FrcHidInterface(DriverStation driverStation) {
-        mDriverStation = driverStation;
-    }
-
     @Override
     public boolean hasChannel(int channel) {
-        return GenericHID.HIDType.of(mDriverStation.getJoystickType(channel)) != GenericHID.HIDType.kUnknown;
+        return GenericHID.HIDType.of(DriverStation.getJoystickType(channel)) != GenericHID.HIDType.kUnknown;
     }
 
     @Override
     public ChannelType getChannelType(int channel) {
-        switch (GenericHID.HIDType.of(mDriverStation.getJoystickType(channel))) {
+        switch (GenericHID.HIDType.of(DriverStation.getJoystickType(channel))) {
             case kHIDJoystick:
                 return ChannelType.JOYSTICK;
             case kHIDGamepad:
             case kXInputGamepad:
-                if (mDriverStation.getJoystickIsXbox(channel)) {
+                if (DriverStation.getJoystickIsXbox(channel)) {
                     return ChannelType.XBOX;
                 }
                 return ChannelType.JOYSTICK;
@@ -36,31 +30,31 @@ public class FrcHidInterface implements RawHidInterface {
 
     @Override
     public int getAxesCount(int channel) {
-        return mDriverStation.getStickAxisCount(channel);
+        return DriverStation.getStickAxisCount(channel);
     }
 
     @Override
     public int getButtonsCount(int channel) {
-        return mDriverStation.getStickButtonCount(channel);
+        return DriverStation.getStickButtonCount(channel);
     }
 
     @Override
     public int getPovsCount(int channel) {
-        return mDriverStation.getStickPOVCount(channel);
+        return DriverStation.getStickPOVCount(channel);
     }
 
     @Override
     public double getAxisValue(int channel, int axis) {
-        return mDriverStation.getStickAxis(channel, axis);
+        return DriverStation.getStickAxis(channel, axis);
     }
 
     @Override
     public boolean getButtonValue(int channel, int button) {
-        return mDriverStation.getStickButton(channel, button + 1);
+        return DriverStation.getStickButton(channel, button + 1);
     }
 
     @Override
     public int getPovValue(int channel, int pov) {
-        return mDriverStation.getStickPOV(channel, pov);
+        return DriverStation.getStickPOV(channel, pov);
     }
 }

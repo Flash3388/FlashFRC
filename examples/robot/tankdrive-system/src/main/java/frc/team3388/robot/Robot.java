@@ -10,7 +10,7 @@ import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.actions.ArcadeDriveAction;
 import com.flash3388.flashlib.robot.systems.drive.actions.TankDriveAction;
 import com.flash3388.flashlib.scheduling.actions.Actions;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
 public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
