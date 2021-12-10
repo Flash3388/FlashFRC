@@ -146,4 +146,9 @@ public interface IterativeFrcRobot {
      * </p>
      */
     void robotStop();
+
+    /**
+     * Called periodically when the robot is in a simulation.
+     */
+    default void simulationPeriodic() {}
 }
