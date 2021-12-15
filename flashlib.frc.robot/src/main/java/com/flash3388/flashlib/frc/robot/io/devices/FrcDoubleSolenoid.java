@@ -10,6 +10,14 @@ public class FrcDoubleSolenoid implements DoubleSolenoid {
         mSolenoid = solenoid;
     }
 
+    public FrcDoubleSolenoid(int forwardChannel, int reverseChannel) {
+        this(new edu.wpi.first.wpilibj.DoubleSolenoid(forwardChannel, reverseChannel));
+    }
+
+    public FrcDoubleSolenoid(int moduleNumber, int forwardChannel, int reverseChannel) {
+        this(new edu.wpi.first.wpilibj.DoubleSolenoid(moduleNumber, forwardChannel, reverseChannel));
+    }
+
     @Override
     public void set(Value value) {
         switch (value) {
