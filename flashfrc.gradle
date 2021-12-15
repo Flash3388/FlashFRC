@@ -21,6 +21,8 @@ task flashfrcJavadoc(type: Jar, dependsOn: flashfrcModules.javadoc) {
     from files(flashfrcModules.collect {
         it.javadoc.destinationDir
     })
+
+    duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
 task flashfrc(type: Jar, dependsOn: flashfrcModules.assemble) {
