@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.frc.robot.io.devices;
 
 import com.flash3388.flashlib.io.devices.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class FrcDoubleSolenoid implements DoubleSolenoid {
 
@@ -10,12 +11,12 @@ public class FrcDoubleSolenoid implements DoubleSolenoid {
         mSolenoid = solenoid;
     }
 
-    public FrcDoubleSolenoid(int forwardChannel, int reverseChannel) {
-        this(new edu.wpi.first.wpilibj.DoubleSolenoid(forwardChannel, reverseChannel));
+    public FrcDoubleSolenoid(PneumaticsModuleType moduleType, int forwardChannel, int reverseChannel) {
+        this(new edu.wpi.first.wpilibj.DoubleSolenoid(moduleType, forwardChannel, reverseChannel));
     }
 
-    public FrcDoubleSolenoid(int moduleNumber, int forwardChannel, int reverseChannel) {
-        this(new edu.wpi.first.wpilibj.DoubleSolenoid(moduleNumber, forwardChannel, reverseChannel));
+    public FrcDoubleSolenoid(int moduleNumber, PneumaticsModuleType moduleType, int forwardChannel, int reverseChannel) {
+        this(new edu.wpi.first.wpilibj.DoubleSolenoid(moduleNumber, moduleType, forwardChannel, reverseChannel));
     }
 
     @Override
