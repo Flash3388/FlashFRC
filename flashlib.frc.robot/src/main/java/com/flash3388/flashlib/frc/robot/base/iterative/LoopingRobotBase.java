@@ -106,6 +106,12 @@ public class LoopingRobotBase extends RobotBase {
         SmartDashboard.updateValues();
         LiveWindow.updateValues();
         Shuffleboard.update();
+
+        if (isSimulation()) {
+            HAL.simPeriodicBefore();
+            mRobot.simulationPeriodic();
+            HAL.simPeriodicAfter();
+        }
     }
 
     private void modeInit(FrcRobotMode mode) {
