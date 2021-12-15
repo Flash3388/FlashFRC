@@ -11,6 +11,14 @@ public class FrcSolenoid implements Solenoid {
         mSolenoid = solenoid;
     }
 
+    public FrcSolenoid(int channel) {
+        this(new edu.wpi.first.wpilibj.Solenoid(channel));
+    }
+
+    public FrcSolenoid(int moduleNumber, int channel) {
+        this(new edu.wpi.first.wpilibj.Solenoid(moduleNumber, channel));
+    }
+
     @Override
     public void set(boolean on) {
         mSolenoid.set(on);
