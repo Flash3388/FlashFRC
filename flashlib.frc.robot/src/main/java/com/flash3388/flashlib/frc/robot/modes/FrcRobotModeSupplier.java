@@ -6,25 +6,19 @@ import java.util.function.Supplier;
 
 public class FrcRobotModeSupplier implements Supplier<FrcRobotMode> {
 
-    private final DriverStation mDriverStation;
-
-    public FrcRobotModeSupplier(DriverStation driverStation) {
-        mDriverStation = driverStation;
-    }
-
     @Override
     public FrcRobotMode get() {
-        if (mDriverStation.isDisabled()) {
+        if (DriverStation.isDisabled()) {
             return FrcRobotMode.DISABLED;
         }
 
-        if (mDriverStation.isAutonomous()) {
+        if (DriverStation.isAutonomous()) {
             return FrcRobotMode.AUTONOMOUS;
         }
-        if (mDriverStation.isOperatorControl()) {
+        if (DriverStation.isTeleop()) {
             return FrcRobotMode.OPERATOR_CONTROL;
         }
-        if (mDriverStation.isTest()) {
+        if (DriverStation.isTest()) {
             return FrcRobotMode.TEST;
         }
 

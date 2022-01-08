@@ -2,8 +2,8 @@ package com.flash3388.flashlib.frc.robot.dashboard;
 
 import com.beans.util.function.Suppliers;
 import com.flash3388.flashlib.scheduling.actions.Action;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 
 public class SendableActionWrapper implements Sendable {
 

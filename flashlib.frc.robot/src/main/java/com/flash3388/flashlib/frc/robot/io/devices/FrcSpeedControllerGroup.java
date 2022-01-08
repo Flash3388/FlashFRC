@@ -1,22 +1,22 @@
 package com.flash3388.flashlib.frc.robot.io.devices;
 
 import com.flash3388.flashlib.control.Direction;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 public class FrcSpeedControllerGroup implements com.flash3388.flashlib.io.devices.SpeedController {
 
-    private final Collection<? extends SpeedController> mControllers;
+    private final Collection<? extends MotorController> mControllers;
     private boolean mIsInverted;
 
-    public FrcSpeedControllerGroup(Collection<? extends SpeedController> speedControllers) {
+    public FrcSpeedControllerGroup(Collection<? extends MotorController> speedControllers) {
         mControllers = speedControllers;
         mIsInverted = false;
     }
 
-    public FrcSpeedControllerGroup(SpeedController... speedControllers) {
+    public FrcSpeedControllerGroup(MotorController... speedControllers) {
         this(Arrays.asList(speedControllers));
     }
 
@@ -25,7 +25,7 @@ public class FrcSpeedControllerGroup implements com.flash3388.flashlib.io.device
         Direction direction = mIsInverted ? Direction.BACKWARD : Direction.FORWARD;
         speed *= direction.sign();
 
-        for (SpeedController controller : mControllers) {
+        for (MotorController controller : mControllers) {
             controller.set(speed);
         }
     }
@@ -34,7 +34,7 @@ public class FrcSpeedControllerGroup implements com.flash3388.flashlib.io.device
     public double get() {
         double totalSpeed = 0.0;
 
-        for (SpeedController controller : mControllers) {
+        for (MotorController controller : mControllers) {
             totalSpeed += controller.get();
         }
 
@@ -43,7 +43,7 @@ public class FrcSpeedControllerGroup implements com.flash3388.flashlib.io.device
 
     @Override
     public void stop() {
-        for (SpeedController controller : mControllers) {
+        for (MotorController controller : mControllers) {
             controller.stopMotor();
         }
     }

@@ -40,11 +40,9 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mClock = new FpgaClock();
         mScheduler = RobotFactory.newDefaultScheduler(mClock, mLogger);
 
-        DriverStation driverStation = DriverStation.getInstance();
-
-        mRobotModeSupplier = new FrcRobotModeSupplier(driverStation);
+        mRobotModeSupplier = new FrcRobotModeSupplier();
         mIoInterface = new RoboRioIoInterface();
-        mHidInterface = new WeakHidInterface(new FrcHidInterface(driverStation));
+        mHidInterface = new WeakHidInterface(new FrcHidInterface());
         mRobotFileSystem = new RobotFileSystem();
     }
 
@@ -55,11 +53,9 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mClock = new FpgaClock();
         mScheduler = scheduler;
 
-        DriverStation driverStation = DriverStation.getInstance();
-
-        mRobotModeSupplier = new FrcRobotModeSupplier(driverStation);
+        mRobotModeSupplier = new FrcRobotModeSupplier();
         mIoInterface = new RoboRioIoInterface();
-        mHidInterface = new WeakHidInterface(new FrcHidInterface(driverStation));
+        mHidInterface = new WeakHidInterface(new FrcHidInterface());
         mRobotFileSystem = new RobotFileSystem();
     }
 
