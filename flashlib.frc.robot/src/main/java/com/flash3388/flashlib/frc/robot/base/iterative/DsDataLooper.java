@@ -8,24 +8,17 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class DsDataLooper implements RobotLooper {
 
-    private final DriverStation mDriverStation;
     private boolean mExit;
 
-    public DsDataLooper(DriverStation driverStation) {
-        mDriverStation = driverStation;
-
+    public DsDataLooper() {
         mExit = false;
         HAL.report(FRCNetComm.tResourceType.kResourceType_Framework, FRCNetComm.tInstances.kFramework_Iterative);
-    }
-
-    public DsDataLooper() {
-        this(DriverStation.getInstance());
     }
 
     @Override
     public void startLooping(Clock clock, Runnable loopTask) {
         while (!Thread.interrupted()) {
-            mDriverStation.waitForData();
+            DriverStation.waitForData();
             if (mExit) {
                 break;
             }
@@ -37,6 +30,6 @@ public class DsDataLooper implements RobotLooper {
     @Override
     public void stop() {
         mExit = true;
-        mDriverStation.wakeupWaitForData();
+        DriverStation.wakeupWaitForData();
     }
 }

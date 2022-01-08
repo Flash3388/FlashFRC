@@ -4,9 +4,9 @@ import com.flash3388.flashlib.io.devices.SpeedController;
 
 public class FrcSpeedController implements SpeedController {
 
-    private final edu.wpi.first.wpilibj.SpeedController mSpeedController;
+    private final edu.wpi.first.wpilibj.motorcontrol.MotorController mSpeedController;
 
-    public FrcSpeedController(edu.wpi.first.wpilibj.SpeedController speedController) {
+    public FrcSpeedController(edu.wpi.first.wpilibj.motorcontrol.MotorController speedController) {
         mSpeedController = speedController;
     }
 

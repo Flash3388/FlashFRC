@@ -10,7 +10,7 @@ import java.util.Collection;
 public class SpeedControllers {
 
     private final Collection<SpeedController> mControllers;
-    private final Collection<edu.wpi.first.wpilibj.SpeedController> mControllersFrc;
+    private final Collection<edu.wpi.first.wpilibj.motorcontrol.MotorController> mControllersFrc;
 
     public SpeedControllers() {
         mControllers = new ArrayList<>();
@@ -22,7 +22,7 @@ public class SpeedControllers {
         return this;
     }
 
-    public SpeedControllers add(edu.wpi.first.wpilibj.SpeedController... speedControllers) {
+    public SpeedControllers add(edu.wpi.first.wpilibj.motorcontrol.MotorController... speedControllers) {
         mControllersFrc.addAll(Arrays.asList(speedControllers));
         return this;
     }

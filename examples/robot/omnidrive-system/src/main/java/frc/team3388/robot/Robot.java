@@ -10,7 +10,7 @@ import com.flash3388.flashlib.robot.motion.actions.RotateAction;
 import com.flash3388.flashlib.robot.systems.drive.OmniDriveSystem;
 import com.flash3388.flashlib.robot.systems.drive.actions.OmniDriveAction;
 import com.flash3388.flashlib.scheduling.actions.Actions;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
 public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 

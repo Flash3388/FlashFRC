@@ -7,7 +7,7 @@ import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.io.devices.SpeedController;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
 public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
