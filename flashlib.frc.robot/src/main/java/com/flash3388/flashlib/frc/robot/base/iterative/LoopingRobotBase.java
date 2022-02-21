@@ -3,6 +3,7 @@ package com.flash3388.flashlib.frc.robot.base.iterative;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RobotInitializationException;
+import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.hal.HAL;
@@ -82,6 +83,10 @@ public class LoopingRobotBase extends RobotBase {
     private void initMode(FrcRobotMode mode) {
         LiveWindow.setEnabled(mode.isLiveWindowEnabled());
         mode.configureShuffleboardWidgets();
+
+        RunningRobot.getControl().getScheduler().cancelActionsIf((action)-> {
+            return !action.getConfiguration().shouldRunWhenDisabled();
+        });
 
         if (mode.isDisabled()) {
             mRobot.disabledInit();
