@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class NtRemoteVisionControl implements VisionControl {
@@ -34,7 +35,8 @@ public class NtRemoteVisionControl implements VisionControl {
 
     private final AtomicReference<VisionResult> mLatestResult;
     private final Collection<VisionListener> mListeners;
-    private volatile int mListener;
+    private volatile boolean mIsRunning;
+    private volatile int mUpdateListener;
 
     public NtRemoteVisionControl(Clock clock, NetworkTable analysisTable, NetworkTable optionsTable,
                                  NetworkTableEntry runEntry, NetworkTableEntry updateEntry) {
@@ -44,12 +46,15 @@ public class NtRemoteVisionControl implements VisionControl {
         mRunEntry = runEntry;
         mUpdateEntry = updateEntry;
 
+        mIsRunning = false;
         mRunEntry.setBoolean(false);
         mUpdateEntry.setBoolean(false);
 
         mLatestResult = new AtomicReference<>();
         mListeners = new CopyOnWriteArrayList<>();
-        mListener = -1;
+        mUpdateListener = -1;
+
+        mRunEntry.addListener(this::onRunEntryChange, EntryListenerFlags.kUpdate);
     }
 
     public NtRemoteVisionControl(Clock clock, NetworkTable parentTable) {
@@ -64,23 +69,19 @@ public class NtRemoteVisionControl implements VisionControl {
 
     @Override
     public boolean isRunning() {
-        return mListener > 0;
+        return mUpdateListener > 0;
     }
 
     @Override
     public void start() {
-        mLatestResult.set(null);
-        mUpdateEntry.setBoolean(false);
-        mListener = mUpdateEntry.addListener(this::onUpdateEntryChange, EntryListenerFlags.kUpdate);
+        onStart();
         mRunEntry.setBoolean(true);
     }
 
     @Override
     public void stop() {
+        onStop();
         mRunEntry.setBoolean(false);
-        mUpdateEntry.removeListener(mListener);
-        mListener = -1;
-        mLatestResult.set(null);
     }
 
     @Override
@@ -141,6 +142,39 @@ public class NtRemoteVisionControl implements VisionControl {
         mListeners.add(listener);
     }
 
+    private synchronized void onStart() {
+        if (mUpdateListener == -1) {
+            mUpdateListener = mUpdateEntry.addListener(this::onUpdateEntryChange, EntryListenerFlags.kUpdate);
+        }
+        mUpdateEntry.setBoolean(false);
+
+        mLatestResult.set(null);
+        mIsRunning = true;
+    }
+
+    private synchronized void onStop() {
+        mLatestResult.set(null);
+
+        if (mUpdateListener != -1) {
+            mUpdateEntry.removeListener(mUpdateListener);
+            mUpdateListener = -1;
+        }
+        mIsRunning = false;
+    }
+
+    private void onRunEntryChange(EntryNotification notification) {
+        boolean newValue = notification.value.getBoolean();
+        if (newValue == mIsRunning) {
+            return;
+        }
+
+        if (newValue) {
+            onStart();
+        } else {
+            onStop();
+        }
+    }
+
     private void onUpdateEntryChange(EntryNotification notification) {
         if (!notification.value.getBoolean()) {
             return;
@@ -152,7 +186,8 @@ public class NtRemoteVisionControl implements VisionControl {
              DataInputStream dataInputStream = new DataInputStream(inputStream);) {
             analysis = new JsonAnalysis(dataInputStream);
         } catch (IOException e) {
-            // unexpected
+            e.printStackTrace();
+            mUpdateEntry.setBoolean(false);
             return;
         }
 
