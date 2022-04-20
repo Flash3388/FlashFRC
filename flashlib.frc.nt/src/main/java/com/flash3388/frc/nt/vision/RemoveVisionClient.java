@@ -1,11 +1,14 @@
 package com.flash3388.frc.nt.vision;
 
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
+import com.flash3388.flashlib.vision.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -115,10 +118,18 @@ public class RemoveVisionClient implements AutoCloseable {
     }
 
     private void updateAnalysis(Analysis analysis) {
-        for (Map.Entry<String, Object> entry : analysis.getData().entrySet()) {
-            NetworkTableEntry tableEntry = mAnalysisTable.getEntry(entry.getKey());
-            tableEntry.setValue(entry.getValue());
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try(DataOutputStream dataOutputStream = new DataOutputStream(outputStream);) {
+            analysis.serializeTo(dataOutputStream);
+            dataOutputStream.flush();
+            outputStream.flush();
+        } catch (IOException e) {
+            // unexpected
+            throw new RuntimeException(e);
         }
+
+        NetworkTableEntry entry = mAnalysisTable.getEntry("raw");
+        entry.setRaw(outputStream.toByteArray());
 
         mUpdateEntry.setBoolean(true);
     }

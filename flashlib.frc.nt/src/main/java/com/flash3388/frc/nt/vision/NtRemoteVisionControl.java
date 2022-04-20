@@ -3,11 +3,12 @@ package com.flash3388.frc.nt.vision;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.time.Time;
 import com.flash3388.flashlib.vision.VisionResult;
+import com.flash3388.flashlib.vision.analysis.Analysis;
+import com.flash3388.flashlib.vision.analysis.JsonAnalysis;
 import com.flash3388.flashlib.vision.control.VisionControl;
 import com.flash3388.flashlib.vision.control.VisionOption;
 import com.flash3388.flashlib.vision.control.event.NewResultEvent;
 import com.flash3388.flashlib.vision.control.event.VisionListener;
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.networktables.NetworkTable;
@@ -15,6 +16,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -142,13 +146,17 @@ public class NtRemoteVisionControl implements VisionControl {
             return;
         }
 
-        Analysis.Builder builder = new Analysis.Builder();
-        for (String key : mAnalysisTable.getKeys()) {
-            NetworkTableEntry entry = mAnalysisTable.getEntry(key);
-            builder.put(key, entry.getValue().getValue());
+        NetworkTableEntry entry = mAnalysisTable.getEntry("raw");
+        Analysis analysis = null;
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(entry.getRaw(new byte[0]));
+             DataInputStream dataInputStream = new DataInputStream(inputStream);) {
+            analysis = new JsonAnalysis(dataInputStream);
+        } catch (IOException e) {
+            // unexpected
+            return;
         }
 
-        VisionResult result = new VisionResult(builder.build(), mClock.currentTime());
+        VisionResult result = new VisionResult(analysis, mClock.currentTime());
         mLatestResult.set(result);
 
         NewResultEvent event = new NewResultEvent(result);

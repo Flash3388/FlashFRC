@@ -1,10 +1,10 @@
 package com.flash3388.vision;
 
 import com.flash3388.flashlib.vision.Pipeline;
+import com.flash3388.flashlib.vision.analysis.Analysis;
 import com.flash3388.flashlib.vision.cv.CvCamera;
 import com.flash3388.flashlib.vision.cv.CvImage;
 import com.flash3388.flashlib.vision.processing.VisionPipeline;
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import com.flash3388.frc.nt.vision.NtVisionServer;
 import com.flash3388.frc.nt.vision.StandardVisionOptions;
 
@@ -84,7 +84,7 @@ public class Main {
                     // postProcess = result from processor
                     // No we need to create an analysis based on those objects.
                     // The data placed in the analysis should be documented since it will be sent exactly to the robot.
-                    Analysis analysis = new Analysis.Builder()
+                    Analysis analysis = Analysis.builder()
                             .put("offset", 4)
                             .build();
                     return Optional.of(analysis);
