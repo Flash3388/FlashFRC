@@ -85,25 +85,29 @@ public class NtRemoteVisionControl implements VisionControl {
     }
 
     @Override
-    public <T> void setOption(VisionOption<T> option, T value) {
+    public <T> void setOption(VisionOption option, T value) {
+        if (!option.valueType().isInstance(value)) {
+            throw new IllegalArgumentException("Bad value for option. Doesn't match type");
+        }
+
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         entry.setValue(value);
     }
 
     @Override
-    public <T> Optional<T> getOption(VisionOption<T> option) {
+    public <T> Optional<T> getOption(VisionOption option, Class<T> type) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         if (entry.exists()) {
             NetworkTableValue value = entry.getValue();
-            return Optional.of(option.valueType().cast(value.getValue()));
+            return Optional.of(option.valueType().convertTo(value.getValue(), type));
         }
 
         return Optional.empty();
     }
 
     @Override
-    public <T> T getOptionOrDefault(VisionOption<T> option, T defaultValue) {
-        return getOption(option).orElse(defaultValue);
+    public <T> T getOptionOrDefault(VisionOption option, Class<T> type, T defaultValue) {
+        return getOption(option, type).orElse(defaultValue);
     }
 
     @Override

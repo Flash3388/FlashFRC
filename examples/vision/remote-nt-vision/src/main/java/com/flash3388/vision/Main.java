@@ -35,7 +35,7 @@ public class Main {
 
             // with this we can listen to changes in options and respond to them. This is one way we can
             // respond to options, but there is another demonstrated in createPipeline.
-            server.addOptionListener(StandardVisionOptions.EXPOSURE, (option, value)-> {
+            server.addOptionListener(StandardVisionOptions.EXPOSURE, Integer.class, (option, value)-> {
                 // in here we would need to modify the exposure setting of the camera.
                 // but we won't actually do it.
             });
@@ -70,7 +70,7 @@ public class Main {
 
                     // We can use OpenCv and more to do the processing.
                     // We can also access some of the options from the server and use it to modify our output.
-                    boolean debug = server.getOptionOrDefault(StandardVisionOptions.DEBUG, false);
+                    boolean debug = server.getOptionOrDefault(StandardVisionOptions.DEBUG, Boolean.class, false);
                     if (debug) {
                         // some debugging
                     }

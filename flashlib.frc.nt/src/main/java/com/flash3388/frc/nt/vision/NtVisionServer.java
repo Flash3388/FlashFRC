@@ -49,34 +49,36 @@ public class NtVisionServer implements Closeable {
         return mRemoveVisionClient.getSubTable(tableName);
     }
 
-    public <T> boolean hasOptionValue(VisionOption<T> option) {
+    public boolean hasOptionValue(VisionOption option) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         return entry.exists();
     }
 
-    public <T> T getOptionOrDefault(VisionOption<T> option, T defaultValue) {
+    public <T> T getOptionOrDefault(VisionOption option, Class<T> type, T defaultValue) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         NetworkTableValue value = entry.getValue();
         if (!entry.exists()) {
             return defaultValue;
         }
 
-        return Types.smartCast(value.getValue(), option.valueType());
+        return option.valueType().convertTo(value.getValue(), type);
     }
 
-    public <T> void addOptionListener(VisionOption<T> option, BiConsumer<VisionOption<? super T>, ? super T> valueConsumer) {
+    public <T> void addOptionListener(VisionOption option, Class<T> type, BiConsumer<VisionOption, ? super T> valueConsumer) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         int listener = entry.addListener((notification)-> {
-            T value = Types.smartCast(
-                    notification.value.getValue(),
-                    option.valueType());
+            T value = option.valueType().convertTo(notification.value.getValue(), type);
             valueConsumer.accept(option, value);
         }, EntryListenerFlags.kUpdate);
 
         mOptionListeners.add(listener);
     }
 
-    public <T> void setOption(VisionOption<T> option, T value) {
+    public <T> void setOption(VisionOption option, T value) {
+        if (!option.valueType().isInstance(value)) {
+            throw new IllegalArgumentException("Bad value for option. Doesn't match type");
+        }
+
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         entry.setValue(value);
     }
