@@ -68,6 +68,8 @@ public class LoopingRobotBase extends RobotBase {
         mCurrentMode = mRobotControl.getMode(FrcRobotMode.class);
 
         if (!mCurrentMode.equals(mLastMode)) {
+            exitMode(mCurrentMode);
+
             mLastMode = mCurrentMode;
             mWasModeInitialized = false;
         }
@@ -119,6 +121,14 @@ public class LoopingRobotBase extends RobotBase {
         }
     }
 
+    private void exitMode(FrcRobotMode mode) {
+        if (mode.isDisabled()) {
+            mRobot.disabledExit();
+        } else {
+            modeExit(mode);
+        }
+    }
+
     private void modeInit(FrcRobotMode mode) {
         switch (mode) {
             case OPERATOR_CONTROL: {
@@ -148,6 +158,23 @@ public class LoopingRobotBase extends RobotBase {
             }
             case TEST: {
                 mRobot.testPeriodic();
+                break;
+            }
+        }
+    }
+
+    private void modeExit(FrcRobotMode mode) {
+        switch (mode) {
+            case OPERATOR_CONTROL: {
+                mRobot.teleopExit();
+                break;
+            }
+            case AUTONOMOUS: {
+                mRobot.autonomousExit();
+                break;
+            }
+            case TEST: {
+                mRobot.testExit();
                 break;
             }
         }

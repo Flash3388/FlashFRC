@@ -17,6 +17,9 @@ subprojects {
         maven {
             url('https://frcmaven.wpi.edu/artifactory/release')
         }
+        maven {
+            url('https://oss.sonatype.org/content/repositories/snapshots')
+        }
     }
 }
 

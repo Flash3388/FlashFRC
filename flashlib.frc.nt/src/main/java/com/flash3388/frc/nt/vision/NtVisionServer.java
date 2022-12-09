@@ -1,13 +1,12 @@
 package com.flash3388.frc.nt.vision;
 
-import com.castle.reflect.Types;
+import com.castle.reflect.NumberAdapter;
+import com.flash3388.flashlib.vision.analysis.Analysis;
 import com.flash3388.flashlib.vision.control.VisionOption;
-import com.flash3388.flashlib.vision.processing.analysis.Analysis;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.networktables.NetworkTableValue;
 
 import java.io.Closeable;
@@ -62,13 +61,13 @@ public class NtVisionServer implements Closeable {
             return defaultValue;
         }
 
-        return Types.smartCast(value.getValue(), option.valueType());
+        return smartCast(value.getValue(), option.valueType());
     }
 
     public <T> void addOptionListener(VisionOption<T> option, BiConsumer<VisionOption<? super T>, ? super T> valueConsumer) {
         NetworkTableEntry entry = mOptionsTable.getEntry(option.name());
         int listener = entry.addListener((notification)-> {
-            T value = Types.smartCast(
+            T value = smartCast(
                     notification.value.getValue(),
                     option.valueType());
             valueConsumer.accept(option, value);
@@ -93,5 +92,17 @@ public class NtVisionServer implements Closeable {
         }
 
         mRemoveVisionClient.close();
+    }
+
+    private static <T> T smartCast(Object value, Class<T> type) {
+        if (type.isAssignableFrom(value.getClass())) {
+            return type.cast(value);
+        }
+
+        if (value instanceof Number && type.getSuperclass().equals(Number.class)) {
+            return type.cast(new NumberAdapter().adapt((Number) value, type));
+        }
+
+        throw new AssertionError("Can't cast " + value.getClass() + "to " + type);
     }
 }
