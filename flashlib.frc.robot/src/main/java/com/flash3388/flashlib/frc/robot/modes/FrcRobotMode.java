@@ -1,14 +1,14 @@
 package com.flash3388.flashlib.frc.robot.modes;
 
 import com.flash3388.flashlib.robot.modes.RobotMode;
-import edu.wpi.first.hal.HAL;
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public enum FrcRobotMode implements RobotMode {
     DISABLED(RobotMode.DISABLED.getKey(), true, false) {
         @Override
         public void reportModeHal() {
-            HAL.observeUserProgramDisabled();
+            DriverStationJNI.observeUserProgramDisabled();
         }
         @Override
         public void configureShuffleboardWidgets() {
@@ -18,7 +18,7 @@ public enum FrcRobotMode implements RobotMode {
     OPERATOR_CONTROL(1, false, false) {
         @Override
         public void reportModeHal() {
-            HAL.observeUserProgramTeleop();
+            DriverStationJNI.observeUserProgramTeleop();
         }
         @Override
         public void configureShuffleboardWidgets() {
@@ -28,7 +28,7 @@ public enum FrcRobotMode implements RobotMode {
     AUTONOMOUS(2, false, false) {
         @Override
         public void reportModeHal() {
-            HAL.observeUserProgramAutonomous();
+            DriverStationJNI.observeUserProgramAutonomous();
         }
         @Override
         public void configureShuffleboardWidgets() {
@@ -38,7 +38,7 @@ public enum FrcRobotMode implements RobotMode {
     TEST(3, false, true) {
         @Override
         public void reportModeHal() {
-            HAL.observeUserProgramTest();
+            DriverStationJNI.observeUserProgramTest();
         }
         @Override
         public void configureShuffleboardWidgets() {

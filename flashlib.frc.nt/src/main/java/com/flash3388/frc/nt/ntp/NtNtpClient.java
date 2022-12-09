@@ -1,9 +1,12 @@
 package com.flash3388.frc.nt.ntp;
 
 import com.flash3388.flashlib.time.Time;
-import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.GenericSubscriber;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableEvent;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
+import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -17,6 +20,7 @@ public class NtNtpClient {
     private final AtomicReference<Thread> mRunningThread;
     private final NtNtpClientSyncer mSyncer;
     private final AtomicInteger mListenerHandle;
+    private final AtomicReference<GenericSubscriber> mSubscriber;
 
     public NtNtpClient(NtpClock clock, NetworkTableEntry requestEntry, NetworkTableEntry requestReceiveTimeEntry, NetworkTableEntry requestSendTimeEntry) {
         mRequestEntry = requestEntry;
@@ -24,6 +28,7 @@ public class NtNtpClient {
         mRunningThread = new AtomicReference<>(null);
         mSyncer = new NtNtpClientSyncer(clock, requestEntry, requestReceiveTimeEntry, requestSendTimeEntry);
         mListenerHandle = new AtomicInteger(NOT_RUNNING_HANDLE);
+        mSubscriber = new AtomicReference<>(null);
     }
 
     public void sync() {
@@ -42,7 +47,12 @@ public class NtNtpClient {
             throw new IllegalArgumentException("Invalid request period: " + requestPeriod);
         }
 
-        int handle = mRequestEntry.addListener(mSyncer::onResponseReceived, EntryListenerFlags.kUpdate);
+        GenericSubscriber subscriber = mRequestEntry.getTopic().genericSubscribe();
+        mSubscriber.set(subscriber);
+        int handle = NetworkTableInstance.getDefault().addListener(
+                subscriber,
+                EnumSet.of(NetworkTableEvent.Kind.kValueAll),
+                mSyncer::onResponseReceived);
         mListenerHandle.set(handle);
 
         Thread syncThread = new Thread(()-> {
@@ -74,6 +84,8 @@ public class NtNtpClient {
         }
 
         int listenerHandle = mListenerHandle.getAndSet(NOT_RUNNING_HANDLE);
-        mRequestEntry.removeListener(listenerHandle);
+        NetworkTableInstance.getDefault().removeListener(listenerHandle);
+        GenericSubscriber subscriber = mSubscriber.getAndSet(null);
+        subscriber.close();
     }
 }

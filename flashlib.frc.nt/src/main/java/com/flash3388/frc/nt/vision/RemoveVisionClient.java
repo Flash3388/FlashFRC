@@ -1,17 +1,18 @@
 package com.flash3388.frc.nt.vision;
 
 import com.flash3388.flashlib.vision.analysis.Analysis;
-import edu.wpi.first.networktables.EntryListenerFlags;
-import edu.wpi.first.networktables.EntryNotification;
+import edu.wpi.first.networktables.GenericSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableEvent;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
+import java.util.EnumSet;
 import java.util.function.Consumer;
 
 public class RemoveVisionClient implements AutoCloseable {
@@ -23,6 +24,7 @@ public class RemoveVisionClient implements AutoCloseable {
 
     private final Collection<Consumer<Boolean>> mRunListeners;
     private final int mRunListener;
+    private final GenericSubscriber mRunSubscription;
 
     private volatile Thread mLastThread;
 
@@ -33,7 +35,11 @@ public class RemoveVisionClient implements AutoCloseable {
         mUpdateEntry = updateEntry;
 
         mRunListeners = new ArrayList<>();
-        mRunListener = runEntry.addListener(this::onRunUpdate, EntryListenerFlags.kUpdate);
+        mRunSubscription = runEntry.getTopic().genericSubscribe();
+        mRunListener = NetworkTableInstance.getDefault().addListener(
+                mRunSubscription,
+                EnumSet.of(NetworkTableEvent.Kind.kValueAll),
+                this::onRunUpdate);
 
         mLastThread = null;
     }
@@ -81,10 +87,10 @@ public class RemoveVisionClient implements AutoCloseable {
         }
     }
 
-    private void onRunUpdate(EntryNotification notification) {
+    private void onRunUpdate(NetworkTableEvent event) {
         synchronized (mRunListeners) {
             for (Consumer<Boolean> listener : mRunListeners) {
-                listener.accept(notification.value.getBoolean());
+                listener.accept(event.valueData.value.getBoolean());
             }
         }
     }
@@ -137,6 +143,7 @@ public class RemoveVisionClient implements AutoCloseable {
     @Override
     public void close() {
         cancelUpdateThread();
-        mRunEntry.removeListener(mRunListener);
+        NetworkTableInstance.getDefault().removeListener(mRunListener);
+        mRunSubscription.close();
     }
 }

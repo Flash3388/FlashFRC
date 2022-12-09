@@ -1,8 +1,8 @@
 package com.flash3388.frc.nt.ntp;
 
 import com.flash3388.flashlib.time.Time;
-import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableEvent;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -34,8 +34,8 @@ class NtNtpClientSyncer {
         mClientRequestStart.set(mClock.currentTime());
     }
 
-    void onResponseReceived(EntryNotification notification) {
-        if (notification.value.getBoolean()) {
+    void onResponseReceived(NetworkTableEvent event) {
+        if (event.valueData.value.getBoolean()) {
             return;
         }
 

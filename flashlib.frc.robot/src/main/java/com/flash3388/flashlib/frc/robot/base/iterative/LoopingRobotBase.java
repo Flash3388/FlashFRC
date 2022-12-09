@@ -6,6 +6,7 @@ import com.flash3388.flashlib.robot.RobotInitializationException;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -48,7 +49,7 @@ public class LoopingRobotBase extends RobotBase {
             throw new RuntimeException(e);
         }
 
-        HAL.observeUserProgramStarting();
+        DriverStationJNI.observeUserProgramStarting();
         mRobotLooper.startLooping(mRobotControl.getClock(), this::loop);
     }
 

@@ -18,7 +18,7 @@ public class DsDataLooper implements RobotLooper {
     @Override
     public void startLooping(Clock clock, Runnable loopTask) {
         while (!Thread.interrupted()) {
-            DriverStation.waitForData();
+            DriverStation.refreshData();
             if (mExit) {
                 break;
             }
@@ -30,6 +30,5 @@ public class DsDataLooper implements RobotLooper {
     @Override
     public void stop() {
         mExit = true;
-        DriverStation.wakeupWaitForData();
     }
 }
