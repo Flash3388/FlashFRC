@@ -81,6 +81,12 @@ public interface IterativeFrcRobot {
     void disabledPeriodic();
 
     /**
+     * Called when exiting a mode with {@link FrcRobotMode#DISABLED}.
+     * Use this to cancel and stop things for the control mode change.
+     */
+    default void disabledExit() {}
+
+    /**
      * Called when entering a mode with {@link FrcRobotMode#OPERATOR_CONTROL}.
      * Use this to prepare for the control mode change.
      */
@@ -96,6 +102,12 @@ public interface IterativeFrcRobot {
      * </p>
      */
     void teleopPeriodic();
+
+    /**
+     * Called when exiting a mode with {@link FrcRobotMode#OPERATOR_CONTROL}.
+     * Use this to cancel and stop things for the control mode change.
+     */
+    default void teleopExit() {}
 
     /**
      * Called when entering a mode with {@link FrcRobotMode#AUTONOMOUS}.
@@ -115,6 +127,12 @@ public interface IterativeFrcRobot {
     void autonomousPeriodic();
 
     /**
+     * Called when exiting a mode with {@link FrcRobotMode#AUTONOMOUS}.
+     * Use this to cancel and stop things for the control mode change.
+     */
+    default void autonomousExit() {}
+
+    /**
      * Called when entering a mode with {@link FrcRobotMode#TEST}.
      * Use this to prepare for the control mode change.
      */
@@ -130,6 +148,12 @@ public interface IterativeFrcRobot {
      * </p>
      */
     void testPeriodic();
+
+    /**
+     * Called when exiting a mode with {@link FrcRobotMode#TEST}.
+     * Use this to cancel and stop things for the control mode change.
+     */
+    default void testExit() {}
 
     /**
      * Called periodically after the mode-specific operations.

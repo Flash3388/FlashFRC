@@ -3,6 +3,7 @@ package com.flash3388.flashlib.frc.robot.base.iterative;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RobotInitializationException;
+import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.hal.HAL;
@@ -67,6 +68,8 @@ public class LoopingRobotBase extends RobotBase {
         mCurrentMode = mRobotControl.getMode(FrcRobotMode.class);
 
         if (!mCurrentMode.equals(mLastMode)) {
+            exitMode(mCurrentMode);
+
             mLastMode = mCurrentMode;
             mWasModeInitialized = false;
         }
@@ -82,6 +85,10 @@ public class LoopingRobotBase extends RobotBase {
     private void initMode(FrcRobotMode mode) {
         LiveWindow.setEnabled(mode.isLiveWindowEnabled());
         mode.configureShuffleboardWidgets();
+
+        RunningRobot.getControl().getScheduler().cancelActionsIf((action)-> {
+            return !action.getConfiguration().shouldRunWhenDisabled();
+        });
 
         if (mode.isDisabled()) {
             mRobot.disabledInit();
@@ -114,6 +121,14 @@ public class LoopingRobotBase extends RobotBase {
         }
     }
 
+    private void exitMode(FrcRobotMode mode) {
+        if (mode.isDisabled()) {
+            mRobot.disabledExit();
+        } else {
+            modeExit(mode);
+        }
+    }
+
     private void modeInit(FrcRobotMode mode) {
         switch (mode) {
             case OPERATOR_CONTROL: {
@@ -143,6 +158,23 @@ public class LoopingRobotBase extends RobotBase {
             }
             case TEST: {
                 mRobot.testPeriodic();
+                break;
+            }
+        }
+    }
+
+    private void modeExit(FrcRobotMode mode) {
+        switch (mode) {
+            case OPERATOR_CONTROL: {
+                mRobot.teleopExit();
+                break;
+            }
+            case AUTONOMOUS: {
+                mRobot.autonomousExit();
+                break;
+            }
+            case TEST: {
+                mRobot.testExit();
                 break;
             }
         }
