@@ -21,7 +21,7 @@ public class SimTankDriveSystem extends TankDriveSystem {
         mDriveSim = Objects.requireNonNull(driveSim);
 
         if (RunningFrcRobot.getControl().isRuntimeSimulation()) {
-            // this action will update or sim data
+            // this action will update our sim data
             Actions.fromRunnable(this::updateSim)
                     .configure()
                         .setName("SimTankDriveSystem-SimUpdater")
