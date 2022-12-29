@@ -17,6 +17,8 @@ import com.flash3388.flashlib.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Clock;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotState;
 import org.slf4j.Logger;
 
 import java.util.Collection;
@@ -100,6 +102,18 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     @Override
     public RobotFileSystem getFileSystem() {
         return mRobotFileSystem;
+    }
+
+    @Override
+    public RuntimeType getRuntimeType() {
+        if (RobotBase.isReal()) {
+            return RuntimeType.REAL;
+        }
+        if (RobotBase.isSimulation()) {
+            return RuntimeType.SIMULATION;
+        }
+
+        throw new AssertionError("unknown RuntimeType");
     }
 
     @Override

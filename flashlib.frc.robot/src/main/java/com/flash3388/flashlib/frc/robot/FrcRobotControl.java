@@ -22,4 +22,11 @@ public interface FrcRobotControl extends RobotControl {
      * @return {@link RobotFileSystem} component.
      */
     RobotFileSystem getFileSystem();
+
+    /**
+     * Gets the current type of runtime for the robot code.
+     *
+     * @return runtime type.
+     */
+    RuntimeType getRuntimeType();
 }
