@@ -2,7 +2,6 @@ package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.base.iterative.LoopingRobotBase;
-import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -19,7 +18,7 @@ public class RobotMain {
         ResourceHolder resourceHolder = ResourceHolder.empty();
 
         FrcRobotControl robotControl = new FrcRobotControlImpl(resourceHolder, configuration);
-        RunningRobot.setControlInstance(robotControl);
+        RunningFrcRobot.setControlInstance(robotControl);
         RobotBase.startRobot(()-> new LoopingRobotBase(initializer, robotControl, resourceHolder));
     }
 
@@ -27,7 +26,7 @@ public class RobotMain {
         ResourceHolder resourceHolder = ResourceHolder.empty();
 
         FrcRobotControl robotControl = new FrcRobotControlImpl(resourceHolder);
-        RunningRobot.setControlInstance(robotControl);
+        RunningFrcRobot.setControlInstance(robotControl);
         RobotBase.startRobot(()-> new LoopingRobotBase(initializer, robotControl, resourceHolder));
     }
 }

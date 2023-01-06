@@ -22,4 +22,22 @@ public interface FrcRobotControl extends RobotControl {
      * @return {@link RobotFileSystem} component.
      */
     RobotFileSystem getFileSystem();
+
+    /**
+     * Gets the current type of runtime for the robot code.
+     *
+     * @return runtime type.
+     */
+    RuntimeType getRuntimeType();
+
+    /**
+     * Gets whether the current runtime type is simulation, meaning
+     * that the robot code is executing in a simulated environment,
+     *
+     * @return <b>true</b> if in simulation, <b>false</b> otherwise.
+     * @see #getRuntimeType()
+     */
+    default boolean isRuntimeSimulation() {
+        return getRuntimeType() == RuntimeType.SIMULATION;
+    }
 }
