@@ -8,6 +8,7 @@ import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -66,6 +67,8 @@ public class LoopingRobotBase extends RobotBase {
     }
 
     private void loop() {
+        DriverStation.refreshData();
+
         mCurrentMode = mRobotControl.getMode(FrcRobotMode.class);
 
         if (!mCurrentMode.equals(mLastMode)) {
