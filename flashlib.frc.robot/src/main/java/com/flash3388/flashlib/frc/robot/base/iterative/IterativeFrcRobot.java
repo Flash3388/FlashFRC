@@ -1,8 +1,8 @@
 package com.flash3388.flashlib.frc.robot.base.iterative;
 
+import com.flash3388.flashlib.app.StartupException;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
-import com.flash3388.flashlib.robot.RobotInitializationException;
 
 /**
  * Defines a specialized robot base based on a looping and modes model.
@@ -60,7 +60,7 @@ public interface IterativeFrcRobot {
      */
     @FunctionalInterface
     interface Initializer {
-        IterativeFrcRobot init(FrcRobotControl robotControl) throws RobotInitializationException;
+        IterativeFrcRobot init(FrcRobotControl robotControl) throws StartupException;
     }
 
     /**

@@ -1,10 +1,9 @@
 package com.flash3388.flashlib.frc.robot.modes;
 
+import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import java.util.function.Supplier;
-
-public class FrcRobotModeSupplier implements Supplier<FrcRobotMode> {
+public class FrcRobotModeSupplier implements RobotModeSupplier {
 
     @Override
     public FrcRobotMode get() {
