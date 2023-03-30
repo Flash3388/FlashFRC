@@ -1,8 +1,8 @@
 package com.flash3388.flashlib.frc.robot.base.iterative;
 
+import com.flash3388.flashlib.app.StartupException;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
-import com.flash3388.flashlib.robot.RobotInitializationException;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
@@ -46,7 +46,7 @@ public class LoopingRobotBase extends RobotBase {
     public void startCompetition() {
         try {
             mRobot = mRobotInitializer.init(mRobotControl);
-        } catch (RobotInitializationException e) {
+        } catch (StartupException e) {
             throw new RuntimeException(e);
         }
 
@@ -104,6 +104,8 @@ public class LoopingRobotBase extends RobotBase {
     private void periodicMode(FrcRobotMode mode) {
         mode.reportModeHal();
 
+        mRobotControl.getMainThread().executePendingTasks();
+        mRobotControl.getServiceRegistry().startAll();
         mRobotControl.getScheduler().run(mode);
 
         if (mode.isDisabled()) {

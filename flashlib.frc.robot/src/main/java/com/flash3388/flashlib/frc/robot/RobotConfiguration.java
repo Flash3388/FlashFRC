@@ -1,28 +1,20 @@
 package com.flash3388.flashlib.frc.robot;
 
-import com.flash3388.flashlib.frc.robot.logging.LogConfiguration;
+import com.flash3388.flashlib.app.net.NetworkConfiguration;
 
 public class RobotConfiguration {
 
-    private final LogConfiguration mLogConfiguration;
+    private final NetworkConfiguration mNetworkConfiguration;
 
-    public RobotConfiguration(LogConfiguration logConfiguration) {
-        mLogConfiguration = logConfiguration;
+    public RobotConfiguration(NetworkConfiguration networkConfiguration) {
+        mNetworkConfiguration = networkConfiguration;
+    }
+
+    public NetworkConfiguration getNetworkConfiguration() {
+        return mNetworkConfiguration;
     }
 
     public static RobotConfiguration defaultConfiguration() {
-        return new RobotConfiguration(LogConfiguration.defaultConfiguration());
-    }
-
-    public static RobotConfiguration competitionConfiguration() {
-        return new RobotConfiguration(LogConfiguration.competitionConfiguration());
-    }
-
-    public static RobotConfiguration debugConfiguration() {
-        return new RobotConfiguration(LogConfiguration.debugConfiguration());
-    }
-
-    public LogConfiguration getLogConfiguration() {
-        return mLogConfiguration;
+        return new RobotConfiguration(NetworkConfiguration.disabled());
     }
 }

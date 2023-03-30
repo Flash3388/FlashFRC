@@ -15,18 +15,16 @@ public class RobotMain {
     private RobotMain() {}
 
     public static void start(IterativeFrcRobot.Initializer initializer, RobotConfiguration configuration) {
-        ResourceHolder resourceHolder = ResourceHolder.empty();
+        RobotBase.startRobot(()-> {
+            ResourceHolder resourceHolder = ResourceHolder.empty();
 
-        FrcRobotControl robotControl = new FrcRobotControlImpl(resourceHolder, configuration);
-        RunningFrcRobot.setControlInstance(robotControl);
-        RobotBase.startRobot(()-> new LoopingRobotBase(initializer, robotControl, resourceHolder));
+            FrcRobotControl robotControl = new FrcRobotControlImpl(resourceHolder, configuration);
+            RunningFrcRobot.setControlInstance(robotControl);
+            return new LoopingRobotBase(initializer, robotControl, resourceHolder);
+        });
     }
 
     public static void start(IterativeFrcRobot.Initializer initializer) {
-        ResourceHolder resourceHolder = ResourceHolder.empty();
-
-        FrcRobotControl robotControl = new FrcRobotControlImpl(resourceHolder);
-        RunningFrcRobot.setControlInstance(robotControl);
-        RobotBase.startRobot(()-> new LoopingRobotBase(initializer, robotControl, resourceHolder));
+        start(initializer, RobotConfiguration.defaultConfiguration());
     }
 }

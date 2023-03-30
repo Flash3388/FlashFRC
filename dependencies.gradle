@@ -3,6 +3,9 @@ ext {
         return ["com.flash3388.flashlib:flashlib.core.robot:$FLASHLIB_VERSION",
                 "com.flash3388.flashlib:flashlib.vision.core:$FLASHLIB_VERSION"]
     }
+    log4jcore = {
+        return 'org.apache.logging.log4j:log4j-core:2.7'
+    }
     junit = {
         return ['org.junit.jupiter:junit-jupiter-engine:5.4.2',
                 'org.junit.platform:junit-platform-runner:1.2.0',
