@@ -3,6 +3,7 @@ package com.flash3388.flashlib.frc.robot.logging;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
@@ -17,9 +18,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Plugin(
-        name = "DriverStationAppender",
-        category = "frc",
-        elementType = "Appender"
+        name = "DriverStation",
+        category = "Core",
+        elementType = Appender.ELEMENT_TYPE,
+        printObject = true
 )
 public class DriverStationAppender extends AbstractAppender {
 

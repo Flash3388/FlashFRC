@@ -104,6 +104,8 @@ public class LoopingRobotBase extends RobotBase {
     private void periodicMode(FrcRobotMode mode) {
         mode.reportModeHal();
 
+        mRobotControl.getMainThread().executePendingTasks();
+        mRobotControl.getServiceRegistry().startAll();
         mRobotControl.getScheduler().run(mode);
 
         if (mode.isDisabled()) {
