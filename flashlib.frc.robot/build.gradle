@@ -2,6 +2,7 @@ apply from: rootProject.file('jcomponent.gradle')
 
 dependencies {
     api flashlib()
+    api project(':flashlib.frc.devices')
 
     compileOnly group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: WPILIB_VERSION
     compileOnly group: 'edu.wpi.first.wpiutil', name: 'wpiutil-java', version: WPILIB_VERSION

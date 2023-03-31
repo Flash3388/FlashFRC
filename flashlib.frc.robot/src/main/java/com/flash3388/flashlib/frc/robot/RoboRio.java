@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot;
 
-import com.flash3388.flashlib.frc.robot.io.RoboRioChannel;
+import com.flash3388.flashlib.frc.io.RoboRioChannel;
 import com.flash3388.flashlib.hid.HidChannel;
 import com.flash3388.flashlib.hid.generic.GenericHidChannel;
 import com.flash3388.flashlib.io.IoChannel;

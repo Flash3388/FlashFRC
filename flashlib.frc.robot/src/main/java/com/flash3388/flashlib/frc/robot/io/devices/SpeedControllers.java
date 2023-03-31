@@ -1,5 +1,6 @@
 package com.flash3388.flashlib.frc.robot.io.devices;
 
+import com.flash3388.flashlib.frc.io.devices.impl.FrcSpeedController;
 import com.flash3388.flashlib.io.devices.SpeedController;
 import com.flash3388.flashlib.io.devices.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.DMC60;

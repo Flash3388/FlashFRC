@@ -1,6 +1,6 @@
 package com.flash3388.flashlib.frc.robot.systems;
 
-import com.flash3388.flashlib.frc.robot.io.devices.FrcSpeedController;
+import com.flash3388.flashlib.frc.io.devices.impl.FrcSpeedController;
 import com.flash3388.flashlib.frc.robot.io.devices.FrcSpeedControllerGroup;
 import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
 import com.flash3388.flashlib.io.devices.SpeedController;

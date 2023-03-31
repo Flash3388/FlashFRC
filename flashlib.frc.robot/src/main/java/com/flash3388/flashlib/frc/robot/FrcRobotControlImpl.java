@@ -2,11 +2,10 @@ package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.app.BasicServiceRegistry;
 import com.flash3388.flashlib.app.ServiceRegistry;
-import com.flash3388.flashlib.app.net.NetworkConfiguration;
 import com.flash3388.flashlib.app.net.NetworkInterface;
 import com.flash3388.flashlib.app.net.NetworkInterfaceImpl;
 import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
-import com.flash3388.flashlib.frc.robot.io.RoboRioIoInterface;
+import com.flash3388.flashlib.frc.io.RoboRioIoInterface;
 import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotModeSupplier;
 import com.flash3388.flashlib.frc.robot.time.FpgaClock;
@@ -69,7 +68,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mScheduler = RobotFactory.newDefaultScheduler(mClock, objectStorage, mMainThread);
 
         mRobotModeSupplier = new FrcRobotModeSupplier();
-        mIoInterface = new RoboRioIoInterface();
+        mIoInterface = new RoboRioIoInterface(mMainThread);
         mHidInterface = new WeakHidInterface(new FrcHidInterface(), mMainThread);
         mRobotFileSystem = new RobotFileSystem();
         mDeviceInterface = new DeviceInterfaceImpl(mMainThread);
