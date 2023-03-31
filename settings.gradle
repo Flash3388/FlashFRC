@@ -11,6 +11,7 @@ include 'examples:robot:tankdrive-system-custom'
 include 'examples:robot:omnidrive-system'
 include 'examples:robot:multisystem'
 include 'examples:robot:autonomous-sequence-timed'
+include 'examples:robot:device-interface-example'
 
 include 'examples:vision:robot-nt-vision'
 include 'examples:vision:remote-nt-vision'
