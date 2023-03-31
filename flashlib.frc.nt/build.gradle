@@ -4,5 +4,5 @@ dependencies {
     api flashlib()
     api group: 'com.github.tomtzook', name: 'javabeans', version: '1.4.0'
 
-    api group: 'edu.wpi.first.ntcore', name: 'ntcore-java', version: WPILIB_VERSION
+    compileOnly group: 'edu.wpi.first.ntcore', name: 'ntcore-java', version: WPILIB_VERSION
 }
