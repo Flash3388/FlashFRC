@@ -13,6 +13,8 @@ import com.flash3388.flashlib.frc.robot.time.FpgaClock;
 import com.flash3388.flashlib.hid.HidInterface;
 import com.flash3388.flashlib.hid.generic.weak.WeakHidInterface;
 import com.flash3388.flashlib.io.IoInterface;
+import com.flash3388.flashlib.io.devices.DeviceInterface;
+import com.flash3388.flashlib.io.devices.DeviceInterfaceImpl;
 import com.flash3388.flashlib.net.obsr.ObjectStorage;
 import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
@@ -44,7 +46,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     private final IoInterface mIoInterface;
     private final HidInterface mHidInterface;
     private final RobotFileSystem mRobotFileSystem;
-
+    private final DeviceInterface mDeviceInterface;
 
     public FrcRobotControlImpl(ResourceHolder resourceHolder, RobotConfiguration configuration) {
         mResourceHolder = resourceHolder;
@@ -70,6 +72,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mIoInterface = new RoboRioIoInterface();
         mHidInterface = new WeakHidInterface(new FrcHidInterface(), mMainThread);
         mRobotFileSystem = new RobotFileSystem();
+        mDeviceInterface = new DeviceInterfaceImpl(mMainThread);
     }
 
     @Override
@@ -138,6 +141,11 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     @Override
     public NetworkInterface getNetworkInterface() {
         return mNetworkInterface;
+    }
+
+    @Override
+    public DeviceInterface getDeviceInterface() {
+        return mDeviceInterface;
     }
 
     @Override

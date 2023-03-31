@@ -1,0 +1,15 @@
+apply from: rootProject.file('jcomponent.gradle')
+
+dependencies {
+    api flashlib()
+
+    compileOnly group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: WPILIB_VERSION
+    compileOnly group: 'edu.wpi.first.wpiutil', name: 'wpiutil-java', version: WPILIB_VERSION
+    compileOnly group: 'edu.wpi.first.wpimath', name: 'wpimath-java', version: WPILIB_VERSION
+    compileOnly group: 'edu.wpi.first.hal', name: 'hal-java', version: WPILIB_VERSION
+
+    compileOnly group: 'com.ctre.phoenix', name: 'wpiapi-java', version: '5.30.2'
+    compileOnly group: 'com.ctre.phoenix', name: 'api-java', version: '5.30.2'
+
+    compileOnly log4jcore()
+}
