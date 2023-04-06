@@ -1,6 +1,7 @@
 package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.io.devices.CTRETalon;
+import com.flash3388.flashlib.frc.io.devices.FrcDevicesIds;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
@@ -25,15 +26,15 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         super(robotControl);
 
         // Creating the speed controllers.
-        // Each side of the drive has 1.
+        // Each side of the drive has 2.
         // We use the DeviceInterface to create the controllers
         mDriveRight = getDeviceInterface().newDevice(
-                "flashlib.frc.CANTalonSRX",
+                FrcDevicesIds.CANTalonSRX,
                 CTRETalon.class,
                 Map.of("channel", 0)
         );
         mDriveLeft = getDeviceInterface().newDevice(
-                "flashlib.frc.CANTalonSRX",
+                FrcDevicesIds.CANTalonSRX,
                 CTRETalon.class,
                 Map.of("channel", 1)
         );
