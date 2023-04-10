@@ -6,6 +6,11 @@ import com.beans.observables.ObservableIntValue;
 import com.beans.observables.ObservableLongValue;
 import com.beans.observables.ObservableValue;
 import com.beans.observables.RegisteredListener;
+import com.beans.observables.converted.ConvertedObservable;
+import com.beans.observables.converted.ToBooleanConvertedObservable;
+import com.beans.observables.converted.ToDoubleConvertedObservable;
+import com.beans.observables.converted.ToIntConvertedObservable;
+import com.beans.observables.converted.ToLongConvertedObservable;
 import com.beans.observables.listeners.ChangeEvent;
 import com.beans.observables.listeners.ChangeListener;
 import com.beans.observables.properties.ObservableProperty;
@@ -79,26 +84,26 @@ public class NtValueProperty implements ValueProperty {
 
     @Override
     public <T2> ObservableValue<T2> as(OneWayConverter<Value, T2> converter) {
-        throw new UnsupportedOperationException("conversion not supported");
+        return new ConvertedObservable<>(this, converter);
     }
 
     @Override
     public ObservableBooleanValue asBoolean(ToBooleanConverter<Value> converter) {
-        throw new UnsupportedOperationException("conversion not supported");
+        return new ToBooleanConvertedObservable<>(this, converter);
     }
 
     @Override
     public ObservableIntValue asInt(ToIntConverter<Value> converter) {
-        throw new UnsupportedOperationException("conversion not supported");
+        return new ToIntConvertedObservable<>(this, converter);
     }
 
     @Override
     public ObservableLongValue asLong(ToLongConverter<Value> converter) {
-        throw new UnsupportedOperationException("conversion not supported");
+        return new ToLongConvertedObservable<>(this, converter);
     }
 
     @Override
     public ObservableDoubleValue asDouble(ToDoubleConverter<Value> converter) {
-        throw new UnsupportedOperationException("conversion not supported");
+        return new ToDoubleConvertedObservable<>(this, converter);
     }
 }
