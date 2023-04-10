@@ -1,6 +1,7 @@
 def flashfrcModules = [
         project('flashlib.frc.robot'),
-        project('flashlib.frc.nt')
+        project('flashlib.frc.nt'),
+        project('flashlib.frc.devices')
 ]
 
 flashfrcModules.each { subproject -> evaluationDependsOn(subproject.path) }
