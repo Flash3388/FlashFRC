@@ -5,6 +5,7 @@ import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RunningRobot;
 import com.flash3388.flashlib.robot.base.iterative.RobotLooper;
+import com.flash3388.flashlib.scheduling.actions.ActionFlag;
 import com.flash3388.flashlib.util.resources.ResourceHolder;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.hal.HAL;
@@ -62,7 +63,7 @@ public class LoopingRobotBase extends RobotBase {
         try {
             mResourceHolder.freeAll();
         } catch (Throwable throwable) {
-            mRobotControl.getLogger().info("Error freeing resources", throwable);
+            mRobotControl.getLogger().warn("Error freeing resources", throwable);
         }
     }
 
@@ -87,12 +88,12 @@ public class LoopingRobotBase extends RobotBase {
     }
 
     private void initMode(FrcRobotMode mode) {
+        mRobotControl.getLogger().debug("Initializing mode {}", mode);
+
         LiveWindow.setEnabled(mode.isLiveWindowEnabled());
         mode.configureShuffleboardWidgets();
 
-        RunningRobot.getControl().getScheduler().cancelActionsIf((action)-> {
-            return !action.getConfiguration().shouldRunWhenDisabled();
-        });
+        mRobotControl.getScheduler().cancelActionsIfWithoutFlag(ActionFlag.RUN_ON_DISABLED);
 
         if (mode.isDisabled()) {
             mRobot.disabledInit();
@@ -102,6 +103,8 @@ public class LoopingRobotBase extends RobotBase {
     }
 
     private void periodicMode(FrcRobotMode mode) {
+        mRobotControl.getLogger().debug("Periodic mode {}", mode);
+
         mode.reportModeHal();
 
         mRobotControl.getMainThread().executePendingTasks();
@@ -128,6 +131,8 @@ public class LoopingRobotBase extends RobotBase {
     }
 
     private void exitMode(FrcRobotMode mode) {
+        mRobotControl.getLogger().debug("Exiting mode {}", mode);
+
         if (mode.isDisabled()) {
             mRobot.disabledExit();
         } else {
