@@ -2,7 +2,6 @@ package com.flash3388.flashlib.frc.io;
 
 import com.flash3388.flashlib.io.Pwm;
 import edu.wpi.first.hal.DIOJNI;
-import edu.wpi.first.hal.PWMJNI;
 import edu.wpi.first.wpilibj.SensorUtil;
 
 public class RoboRioPwm implements Pwm {

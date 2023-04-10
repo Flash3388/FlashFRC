@@ -4,13 +4,9 @@ import com.flash3388.flashlib.frc.io.devices.CTRETalon;
 import com.flash3388.flashlib.frc.io.devices.FrcDevicesIds;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
 import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
-import com.flash3388.flashlib.io.devices.SpeedController;
-import com.flash3388.flashlib.io.devices.SpeedControllerGroup;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
 import java.util.Map;
 

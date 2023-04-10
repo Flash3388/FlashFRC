@@ -1,6 +1,5 @@
 package com.flash3388.flashlib.frc.robot;
 
-import com.flash3388.flashlib.global.GlobalDependencies;
 import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.RunningRobot;
 
