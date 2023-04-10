@@ -1,12 +1,12 @@
 package com.flash3388.flashlib.frc.io.devices.impl;
 
 import com.flash3388.flashlib.io.devices.DeviceConstructor;
-import com.flash3388.flashlib.io.devices.Encoder;
 import com.flash3388.flashlib.io.devices.NamedArg;
+import com.flash3388.flashlib.io.devices.RelativeEncoder;
 
 import java.io.IOException;
 
-public class AnalogEncoder implements Encoder {
+public class AnalogEncoder implements RelativeEncoder {
 
     private final edu.wpi.first.wpilibj.AnalogEncoder mEncoder;
 
@@ -27,8 +27,8 @@ public class AnalogEncoder implements Encoder {
     }
 
     @Override
-    public int getRaw() {
-        return (int) mEncoder.get();
+    public double getPosition() {
+        return mEncoder.get() * 360;
     }
 
     @Override
@@ -42,13 +42,8 @@ public class AnalogEncoder implements Encoder {
     }
 
     @Override
-    public double getDistance() {
+    public double getDistancePassed() {
         return mEncoder.getDistance();
-    }
-
-    @Override
-    public boolean getDirection() {
-        throw new UnsupportedOperationException();
     }
 
     @Override

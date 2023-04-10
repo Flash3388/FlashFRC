@@ -25,13 +25,13 @@ public class CTREMagEncoderImpl implements CTREMagEncoder {
     }
 
     @Override
-    public int getRaw() {
-        return (int) mBaseTalon.getSelectedSensorPosition();
+    public double getPosition() {
+        return mBaseTalon.getSelectedSensorPosition() / mPulsesPerRevolution * 360;
     }
 
     @Override
     public double getRate() {
-        return mBaseTalon.getSelectedSensorVelocity();
+        return mBaseTalon.getSelectedSensorVelocity() / 10 / mPulsesPerRevolution * 360;
     }
 
     @Override
@@ -40,13 +40,8 @@ public class CTREMagEncoderImpl implements CTREMagEncoder {
     }
 
     @Override
-    public double getDistance() {
+    public double getDistancePassed() {
         return mBaseTalon.getSelectedSensorPosition() / mPulsesPerRevolution * mRevolutionToDistance;
-    }
-
-    @Override
-    public boolean getDirection() {
-        throw new UnsupportedOperationException();
     }
 
     @Override

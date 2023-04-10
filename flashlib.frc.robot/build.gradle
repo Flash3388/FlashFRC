@@ -3,11 +3,13 @@ apply from: rootProject.file('jcomponent.gradle')
 dependencies {
     api flashlib()
     api project(':flashlib.frc.devices')
+    api project(':flashlib.frc.nt')
 
     compileOnly group: 'edu.wpi.first.wpilibj', name: 'wpilibj-java', version: WPILIB_VERSION
     compileOnly group: 'edu.wpi.first.wpiutil', name: 'wpiutil-java', version: WPILIB_VERSION
     compileOnly group: 'edu.wpi.first.wpimath', name: 'wpimath-java', version: WPILIB_VERSION
     compileOnly group: 'edu.wpi.first.hal', name: 'hal-java', version: WPILIB_VERSION
+    compileOnly group: 'edu.wpi.first.ntcore', name: 'ntcore-java', version: WPILIB_VERSION
 
     compileOnly log4jcore()
 }

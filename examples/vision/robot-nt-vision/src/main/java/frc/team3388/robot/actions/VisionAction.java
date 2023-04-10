@@ -1,5 +1,7 @@
 package frc.team3388.robot.actions;
 
+import com.flash3388.flashlib.scheduling.ActionControl;
+import com.flash3388.flashlib.scheduling.FinishReason;
 import com.flash3388.flashlib.scheduling.actions.ActionBase;
 import com.flash3388.flashlib.vision.VisionResult;
 import com.flash3388.flashlib.vision.analysis.Analysis;
@@ -17,7 +19,7 @@ public class VisionAction extends ActionBase {
     }
 
     @Override
-    public void initialize() {
+    public void initialize(ActionControl control) {
         // Before using and getting results from vision, we need to start
         // the visionControl. It is possible to leave the vision control operating continuously if wanted,
         // or to make it run only at specific times. This choice would depend on several things, but regardless
@@ -33,7 +35,7 @@ public class VisionAction extends ActionBase {
     }
 
     @Override
-    public void execute() {
+    public void execute(ActionControl control) {
         // Now that the vision is running and configured, we can query it for results.
         // However, the vision code could take some time to analyze results, and thus we may not
         // always have results. In addition, we might want to use each result only once,
@@ -68,7 +70,7 @@ public class VisionAction extends ActionBase {
     }
 
     @Override
-    public void end(boolean wasInterrupted) {
+    public void end(FinishReason reason) {
         // since we started the vision in initialize, we need to stop it here.
         // we can also modify the options as a de-initialization.
         mVisionControl.stop();

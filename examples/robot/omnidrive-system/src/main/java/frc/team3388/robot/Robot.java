@@ -1,14 +1,12 @@
 package frc.team3388.robot;
 
+import com.flash3388.flashlib.frc.io.devices.impl.FrcSpeedController;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.systems.Systems;
 import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
-import com.flash3388.flashlib.robot.motion.actions.RotateAction;
-import com.flash3388.flashlib.robot.systems.drive.OmniDriveSystem;
-import com.flash3388.flashlib.robot.systems.drive.actions.OmniDriveAction;
+import com.flash3388.flashlib.robot.systems.OmniDriveSystem;
 import com.flash3388.flashlib.scheduling.actions.Actions;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
@@ -23,12 +21,12 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
         // Creating the omni drive system.
         // We define the speed controllers for each side, there is one per side, and four sides
-        mDriveSystem = Systems.newOmniDrive()
-                .front(new PWMTalonSRX(RobotMap.DRIVE_FRONT))
-                .right(new PWMTalonSRX(RobotMap.DRIVE_RIGHT))
-                .left(new PWMTalonSRX(RobotMap.DRIVE_LEFT))
-                .back(new PWMTalonSRX(RobotMap.DRIVE_BACK))
-                .build();
+        mDriveSystem = new OmniDriveSystem(
+                new FrcSpeedController(new PWMTalonSRX(RobotMap.DRIVE_FRONT)),
+                new FrcSpeedController(new PWMTalonSRX(RobotMap.DRIVE_RIGHT)),
+                new FrcSpeedController(new PWMTalonSRX(RobotMap.DRIVE_LEFT)),
+                new FrcSpeedController(new PWMTalonSRX(RobotMap.DRIVE_BACK))
+        );
 
         // Creating the joystick.
         // We will use this joystick to control the motions of the drive system.
@@ -49,7 +47,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // It is important to make sure that the action we are using does that.
         // It is something that all actions from FlashLib guarantee.
-        mDriveSystem.setDefaultAction(new OmniDriveAction(mDriveSystem,
+        mDriveSystem.setDefaultAction(mDriveSystem.omniDrive(
                         mStick.getAxis(JoystickAxis.Y),
                         mStick.getAxis(JoystickAxis.X)));
 
@@ -77,7 +75,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         // in place, around its center axis.
         //
         // When the button is released, we will return to the default action.
-        mStick.getButton(0).whileActive(new RotateAction(mDriveSystem,
+        mStick.getButton(0).whileActive(mDriveSystem.rotate(
                 mStick.getAxis(JoystickAxis.X)));
     }
 

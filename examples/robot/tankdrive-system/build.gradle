@@ -47,6 +47,7 @@ wpi.java.debugJni = false
 
 dependencies {
     implementation flashlib()
+    implementation flashlib_systems()
     implementation project(':flashlib.frc.robot')
 
     implementation wpi.java.deps.wpilib()

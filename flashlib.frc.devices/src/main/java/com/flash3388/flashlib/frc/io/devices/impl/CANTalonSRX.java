@@ -35,6 +35,6 @@ public class CANTalonSRX extends CTREBaseTalon {
 
     @Override
     public CTREMagEncoder newMagEncoder(double revolutionToDistance) {
-        return new CTREMagEncoderImpl(mTalon, CTREMagEncoder.FX_PPR, revolutionToDistance);
+        return new CTREMagEncoderImpl(mTalon, CTREMagEncoder.SRX_PPR, revolutionToDistance);
     }
 }

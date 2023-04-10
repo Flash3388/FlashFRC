@@ -3,7 +3,6 @@ package com.flash3388.flashlib.frc.robot;
 import com.flash3388.flashlib.app.BasicServiceRegistry;
 import com.flash3388.flashlib.app.ServiceRegistry;
 import com.flash3388.flashlib.app.net.NetworkInterface;
-import com.flash3388.flashlib.app.net.NetworkInterfaceImpl;
 import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
 import com.flash3388.flashlib.frc.io.RoboRioIoInterface;
 import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
@@ -55,7 +54,6 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mClock = new FpgaClock();
         mServiceRegistry = new BasicServiceRegistry(mMainThread);
         mNetworkInterface = new NetworkInterfaceImpl(
-                configuration.getNetworkConfiguration(),
                 mInstanceId,
                 mServiceRegistry,
                 mClock,

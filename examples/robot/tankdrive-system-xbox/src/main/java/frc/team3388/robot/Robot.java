@@ -2,14 +2,12 @@ package frc.team3388.robot;
 
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.systems.Systems;
+import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
 import com.flash3388.flashlib.hid.XboxAxis;
 import com.flash3388.flashlib.hid.XboxButton;
 import com.flash3388.flashlib.hid.XboxController;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
-import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
-import com.flash3388.flashlib.robot.systems.drive.actions.ArcadeDriveAction;
-import com.flash3388.flashlib.robot.systems.drive.actions.TankDriveAction;
+import com.flash3388.flashlib.robot.systems.TankDriveSystem;
 import com.flash3388.flashlib.scheduling.actions.Actions;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
@@ -24,12 +22,16 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
         // Creating the tank drive system.
         // We define the speed controllers for each side, there are 2 per each.
-        mDriveSystem = Systems.newTankDrive()
-                .right(new PWMTalonSRX(RobotMap.DRIVE_FRONT_RIGHT))
-                .right(new PWMTalonSRX(RobotMap.DRIVE_BACK_RIGHT))
-                .left(new PWMTalonSRX(RobotMap.DRIVE_FRONT_LEFT))
-                .left(new PWMTalonSRX(RobotMap.DRIVE_BACK_LEFT))
-                .build();
+        mDriveSystem = new TankDriveSystem(
+                new SpeedControllers()
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_FRONT_RIGHT))
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_BACK_RIGHT))
+                        .build(),
+                new SpeedControllers()
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_FRONT_LEFT))
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_BACK_LEFT))
+                        .build()
+        );
 
         // Creating the joysticks.
         // This time we will use an XboxController instead.
@@ -53,7 +55,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // It is important to make sure that the action we are using does that.
         // It is something that all actions from FlashLib guarantee.
-        mDriveSystem.setDefaultAction(new TankDriveAction(mDriveSystem,
+        mDriveSystem.setDefaultAction(mDriveSystem.tankDrive(
                 mController.getAxis(XboxAxis.RightStickY),
                 mController.getAxis(XboxAxis.LeftStickY)));
 
@@ -83,7 +85,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // In essence, this button will toggle the action, switching between the default and it.
         // Or in other words: switching between tank-drive and arcade-drive.
-        mController.getButton(XboxButton.RB).toggleWhenActive(new ArcadeDriveAction(mDriveSystem,
+        mController.getButton(XboxButton.RB).toggleWhenActive(mDriveSystem.arcadeDrive(
                 mController.getAxis(XboxAxis.RightStickY),
                 mController.getAxis(XboxAxis.RightStickX)));
     }

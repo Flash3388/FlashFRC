@@ -1,7 +1,14 @@
 ext {
     flashlib = {
         return ["com.flash3388.flashlib:flashlib.core.robot:$FLASHLIB_VERSION",
-                "com.flash3388.flashlib:flashlib.vision.core:$FLASHLIB_VERSION"]
+                "com.flash3388.flashlib:flashlib.vision.core:$FLASHLIB_VERSION",
+                "com.flash3388.flashlib:flashlib.net.core:$FLASHLIB_VERSION",
+                "com.flash3388.flashlib:flashlib.net.channels:$FLASHLIB_VERSION",
+                "com.flash3388.flashlib:flashlib.net.robolink:$FLASHLIB_VERSION"
+        ]
+    }
+    flashlib_systems = {
+        return "com.flash3388.flashlib:flashlib.robot.systems:$FLASHLIB_VERSION"
     }
     log4jcore = {
         return 'org.apache.logging.log4j:log4j-core:2.7'

@@ -1,16 +1,16 @@
 package frc.team3388.robot;
 
+import com.flash3388.flashlib.frc.io.devices.impl.FrcSpeedController;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
-import com.flash3388.flashlib.frc.robot.systems.Systems;
+import com.flash3388.flashlib.frc.robot.io.devices.SpeedControllers;
 import com.flash3388.flashlib.hid.Joystick;
 import com.flash3388.flashlib.hid.JoystickAxis;
 import com.flash3388.flashlib.robot.base.DelegatingRobotControl;
 import com.flash3388.flashlib.robot.motion.actions.MoveAction;
 import com.flash3388.flashlib.robot.motion.actions.RotateAction;
 import com.flash3388.flashlib.robot.systems.MotorSystem;
-import com.flash3388.flashlib.robot.systems.drive.TankDriveSystem;
-import com.flash3388.flashlib.robot.systems.drive.actions.TankDriveAction;
+import com.flash3388.flashlib.robot.systems.TankDriveSystem;
 import com.flash3388.flashlib.time.Time;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
@@ -27,15 +27,21 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
 
         // Creating the tank drive system.
         // We define the speed controllers for each side, there are 2 per each.
-        mDriveSystem = Systems.newTankDrive()
-                .right(new PWMTalonSRX(RobotMap.DRIVE_FRONT_RIGHT))
-                .right(new PWMTalonSRX(RobotMap.DRIVE_BACK_RIGHT))
-                .left(new PWMTalonSRX(RobotMap.DRIVE_FRONT_LEFT))
-                .left(new PWMTalonSRX(RobotMap.DRIVE_BACK_LEFT))
-                .build();
+        mDriveSystem = new TankDriveSystem(
+                new SpeedControllers()
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_FRONT_RIGHT))
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_BACK_RIGHT))
+                        .build(),
+                new SpeedControllers()
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_FRONT_LEFT))
+                        .add(new PWMTalonSRX(RobotMap.DRIVE_BACK_LEFT))
+                        .build()
+        );
 
         // Creating another system, a shooter with a single motor.
-        mShooter = Systems.newSingleMotor(new PWMTalonSRX(RobotMap.SHOOTER));
+        mShooter = new MotorSystem(
+                new FrcSpeedController(new PWMTalonSRX(RobotMap.SHOOTER))
+        );
 
         // Creating the joysticks.
         // We will use these joysticks to control the motions of the drive system.
@@ -57,7 +63,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // It is important to make sure that the action we are using does that.
         // It is something that all actions from FlashLib guarantee.
-        mDriveSystem.setDefaultAction(new TankDriveAction(mDriveSystem,
+        mDriveSystem.setDefaultAction(mDriveSystem.tankDrive(
                 mStickRight.getAxis(JoystickAxis.Y),
                 mStickLeft.getAxis(JoystickAxis.Y)));
 
@@ -69,7 +75,7 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         //
         // While the 0 button (usually the trigger) is held the joystick, this action
         // will run, rotating the motor causing the system to fire.
-        mStickRight.getButton(0).whileActive(new RotateAction(mShooter, 1.0));
+        mStickRight.getButton(0).whileActive(mShooter.rotate(1.0));
 
 
         // Let's try using the systems together.
@@ -92,8 +98,8 @@ public class Robot extends DelegatingRobotControl implements IterativeFrcRobot {
         // The requirements for the action group will be both
         // the requirements of the MoveAction and of the RotateAction.
         mStickRight.getButton(1).whenActive(
-                new MoveAction(mDriveSystem, 1.0)
-                    .alongWith(new RotateAction(mShooter, 1.0))
+                mDriveSystem.move(1.0)
+                    .alongWith(mShooter.rotate(1.0))
                     .withTimeout(Time.seconds(2.0)));
     }
 
