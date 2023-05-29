@@ -20,27 +20,12 @@ public class RoboRioPwm implements Pwm {
 
     @Override
     public void setDuty(double duty) {
-        setValue((int) (duty * MAX_RAW));
+        mPwm.setRaw((int) (duty * MAX_RAW));
     }
 
     @Override
     public double getDuty() {
-        return getValue() / (double) MAX_RAW;
-    }
-
-    @Override
-    public void setValue(int value) {
-        mPwm.setRaw(value);
-    }
-
-    @Override
-    public int getValue() {
-        return mPwm.getRaw();
-    }
-
-    @Override
-    public int getMaxValue() {
-        return MAX_RAW;
+        return mPwm.getRaw() / (double) MAX_RAW;
     }
 
     @Override

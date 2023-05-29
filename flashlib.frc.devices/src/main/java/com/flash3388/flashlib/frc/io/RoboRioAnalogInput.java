@@ -1,16 +1,13 @@
 package com.flash3388.flashlib.frc.io;
 
-import com.flash3388.flashlib.io.AnalogAccumulator;
 import com.flash3388.flashlib.io.AnalogInput;
 
 public class RoboRioAnalogInput implements AnalogInput {
 
     private edu.wpi.first.wpilibj.AnalogInput mAnalogInput;
-    private volatile AnalogAccumulator mAccumulator;
 
     public RoboRioAnalogInput(edu.wpi.first.wpilibj.AnalogInput analogInput) {
         mAnalogInput = analogInput;
-        mAccumulator = null;
     }
 
     public RoboRioAnalogInput(int port) {
@@ -25,20 +22,6 @@ public class RoboRioAnalogInput implements AnalogInput {
     @Override
     public double getVoltage() {
         return mAnalogInput.getVoltage();
-    }
-
-    @Override
-    public AnalogAccumulator getAccumulator() {
-        if (mAccumulator == null) {
-            synchronized (this) {
-                if (mAccumulator == null) {
-                    mAnalogInput.initAccumulator();
-                    mAccumulator = new RoboRioAnalogAccumulator(mAnalogInput);
-                }
-            }
-        }
-
-        return mAccumulator;
     }
 
     @Override
@@ -64,10 +47,5 @@ public class RoboRioAnalogInput implements AnalogInput {
 
         mAnalogInput.close();
         mAnalogInput = null;
-
-        if (mAccumulator != null) {
-            mAccumulator.disable();
-            mAccumulator = null;
-        }
     }
 }

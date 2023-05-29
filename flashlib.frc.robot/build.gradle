@@ -2,6 +2,8 @@ apply from: rootProject.file('jcomponent.gradle')
 
 dependencies {
     api flashlib()
+    api flashlib_systems()
+
     api project(':flashlib.frc.devices')
     api project(':flashlib.frc.nt')
 
