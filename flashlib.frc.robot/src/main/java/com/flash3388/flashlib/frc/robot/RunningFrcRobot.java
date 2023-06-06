@@ -1,5 +1,6 @@
 package com.flash3388.flashlib.frc.robot;
 
+import com.flash3388.flashlib.app.FlashLibInstance;
 import com.flash3388.flashlib.robot.RobotControl;
 import com.flash3388.flashlib.robot.RunningRobot;
 
@@ -23,6 +24,7 @@ public class RunningFrcRobot {
     public static void setControlInstance(FrcRobotControl instance) {
         RobotControl previousInstance = sControlInstance.getAndSet(instance);
 
+        FlashLibInstance.setControl(instance);
         RunningRobot.setControlInstance(instance);
 
         if (previousInstance != null) {
