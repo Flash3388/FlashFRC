@@ -63,13 +63,6 @@ public class VisionAction extends ActionBase {
     }
 
     @Override
-    public boolean isFinished() {
-        // in here we need to determine when to stop the action. This usually depends on the vision,
-        // and is up to the specific situation.
-        return false;
-    }
-
-    @Override
     public void end(FinishReason reason) {
         // since we started the vision in initialize, we need to stop it here.
         // we can also modify the options as a de-initialization.
