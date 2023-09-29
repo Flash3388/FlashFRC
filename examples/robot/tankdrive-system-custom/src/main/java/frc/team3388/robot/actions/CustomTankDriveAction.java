@@ -64,11 +64,6 @@ public class CustomTankDriveAction extends ActionBase {
     }
 
     @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
     public void end(FinishReason reason) {
         // When the action is done, we should stop the drive system.
         mDrive.stop();
