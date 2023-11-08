@@ -49,6 +49,9 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     public FrcRobotControlImpl(ResourceHolder resourceHolder, RobotConfiguration configuration) {
         mResourceHolder = resourceHolder;
 
+        // verifies we can identify the runtime type
+        getRuntimeType();
+
         mInstanceId = InstanceIdGenerator.generate(0);
         mMainThread = new FlashLibMainThreadImpl();
         mClock = new FpgaClock();
