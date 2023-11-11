@@ -7,6 +7,7 @@ import com.flash3388.flashlib.io.DigitalOutput;
 import com.flash3388.flashlib.io.IoChannel;
 import com.flash3388.flashlib.io.IoInterface;
 import com.flash3388.flashlib.io.Pwm;
+import com.flash3388.flashlib.io.QuadratureCounter;
 import com.flash3388.flashlib.util.FlashLibMainThread;
 
 public class RoboRioIoInterface implements IoInterface {
@@ -50,5 +51,15 @@ public class RoboRioIoInterface implements IoInterface {
         mMainThread.verifyCurrentThread();
         RoboRioChannel roboRioChannel = IoChannel.cast(channel, RoboRioChannel.class);
         return new RoboRioPwm(roboRioChannel.getChannelNumber());
+    }
+
+    @Override
+    public QuadratureCounter newQuadratureCounter(IoChannel upChannel, IoChannel downChannel) {
+        mMainThread.verifyCurrentThread();
+        RoboRioChannel roboRioUpChannel = IoChannel.cast(upChannel, RoboRioChannel.class);
+        RoboRioChannel roboRioDownChannel = IoChannel.cast(downChannel, RoboRioChannel.class);
+        return new RoboRioQuadratureCounter(
+                roboRioUpChannel.getChannelNumber(),
+                roboRioDownChannel.getChannelNumber());
     }
 }
