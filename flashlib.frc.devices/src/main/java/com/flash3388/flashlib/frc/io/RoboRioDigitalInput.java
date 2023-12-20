@@ -1,6 +1,8 @@
 package com.flash3388.flashlib.frc.io;
 
 import com.flash3388.flashlib.io.DigitalInput;
+import com.flash3388.flashlib.io.PulseCounter;
+import com.flash3388.flashlib.io.PulseLengthCounter;
 
 public class RoboRioDigitalInput implements DigitalInput {
 
@@ -17,6 +19,16 @@ public class RoboRioDigitalInput implements DigitalInput {
     @Override
     public boolean get() {
         return mDigitalInput.get();
+    }
+
+    @Override
+    public PulseCounter createCounter() {
+        return new RoboRioPulseCounter(mDigitalInput);
+    }
+
+    @Override
+    public PulseLengthCounter createLengthCounter() {
+        return new RoboRioPulseLengthCounter(mDigitalInput);
     }
 
     @Override

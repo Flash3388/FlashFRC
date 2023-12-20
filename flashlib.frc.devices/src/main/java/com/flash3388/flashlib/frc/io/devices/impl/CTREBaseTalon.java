@@ -1,65 +1,55 @@
 package com.flash3388.flashlib.frc.io.devices.impl;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
+import com.flash3388.flashlib.frc.io.devices.CTRELimitSwitch;
+import com.flash3388.flashlib.frc.io.devices.CTREPidController;
 import com.flash3388.flashlib.frc.io.devices.CTRETalon;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 abstract class CTREBaseTalon extends FrcSpeedController implements CTRETalon {
 
     protected final BaseTalon mTalon;
-    protected final int mPidLoopIndex;
-    private ControlMode mControlMode;
+    private final CTRELimitSwitch mForwardLimitSwitch;
+    private final CTRELimitSwitch mReverseLimitSwitch;
 
-    protected CTREBaseTalon(MotorController speedController, BaseTalon baseTalon, int pidLoopIndex) {
+    protected CTREBaseTalon(MotorController speedController, BaseTalon baseTalon) {
         super(speedController);
         mTalon = baseTalon;
-        mPidLoopIndex = pidLoopIndex;
 
+        mTalon.configFactoryDefault();
         mTalon.configNominalOutputForward(0);
         mTalon.configNominalOutputReverse(0);
         mTalon.configPeakOutputForward(1);
         mTalon.configPeakOutputReverse(-1);
-        mControlMode = ControlMode.PercentOutput;
-    }
 
-    protected CTREBaseTalon(MotorController speedController, BaseTalon baseTalon) {
-        this(speedController, baseTalon, 0);
-    }
-
-
-    @Override
-    public void setP(double kp) {
-        mTalon.config_kP(mPidLoopIndex, kp);
+        mForwardLimitSwitch = new CTREForwardLimitSwitch(baseTalon);
+        mReverseLimitSwitch = new CTREReverseLimitSwitch(baseTalon);
     }
 
     @Override
-    public void setI(double ki) {
-        mTalon.config_kI(mPidLoopIndex, ki);
+    public void set(ControlMode controlMode, double value) {
+        mTalon.set(controlMode, value);
     }
 
     @Override
-    public void setD(double kd) {
-        mTalon.config_kD(mPidLoopIndex, kd);
+    public void configureNeutralMode(NeutralMode mode) {
+        mTalon.setNeutralMode(mode);
     }
 
     @Override
-    public void setF(double kf) {
-        mTalon.config_kF(mPidLoopIndex, kf);
+    public CTREPidController getPidController(int slotIdx) {
+        return new CTREPidControllerImpl(mTalon, slotIdx);
     }
 
     @Override
-    public void setControlMode(ControlMode controlMode) {
-        mControlMode = controlMode;
+    public CTRELimitSwitch getForwardLimitSwitch() {
+        return mForwardLimitSwitch;
     }
 
     @Override
-    public ControlMode getControlMode() {
-        return mControlMode;
-    }
-
-    @Override
-    public void set(double speed) {
-        mTalon.set(mControlMode, speed);
+    public CTRELimitSwitch getReverseLimitSwitch() {
+        return mReverseLimitSwitch;
     }
 }

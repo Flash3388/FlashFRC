@@ -18,4 +18,6 @@ ext {
             project.setProperty(key, file)
         }
     }
+
+    MAIN_JAR_TASKS = [':flashlib.frc.robot:jar', ':flashlib.frc.devices:jar', ':flashlib.frc.nt:jar']
 }
