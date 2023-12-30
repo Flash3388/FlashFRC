@@ -9,14 +9,16 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 public class NtStoredEntry implements StoredEntry {
 
     private final NetworkTableEntry mEntry;
+    private final ValueProperty mValueProperty;
 
     public NtStoredEntry(NetworkTableEntry entry) {
         mEntry = entry;
+        mValueProperty = new NtValueProperty(entry);
     }
 
     @Override
     public ValueProperty valueProperty() {
-        return null;
+        return mValueProperty;
     }
 
     @Override
