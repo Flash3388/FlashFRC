@@ -17,6 +17,7 @@ public class FrcDevicesIds {
     public static final int CANTalonSRX = 1036;
     public static final int CANTalonFX = 1037;
     public static final int CANVictorSPX = 1038;
+    public static final int CANTalonFX_Phoenix6 = 1039;
 
     // position controllers
     public static final int Servo = 1061;

@@ -10,6 +10,7 @@ dependencies {
 
     compileOnly group: 'com.ctre.phoenix', name: 'wpiapi-java', version: PHOENIX_V5_VERSION
     compileOnly group: 'com.ctre.phoenix', name: 'api-java', version: PHOENIX_V5_VERSION
+    compileOnly group: 'com.ctre.phoenix6', name: 'wpiapi-java', version: PHOENIX_V6_VERSION
 
     compileOnly log4jcore()
 }

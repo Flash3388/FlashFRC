@@ -1,20 +1,21 @@
-package com.flash3388.flashlib.frc.io.devices.impl;
+package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix5;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.flash3388.flashlib.frc.io.devices.CTREEncoder;
+import com.flash3388.flashlib.frc.io.devices.ctre.CTREEncoder;
 import com.flash3388.flashlib.frc.io.devices.CTRESensors;
+import com.flash3388.flashlib.frc.io.devices.impl.CTREEncoderImpl;
 import com.flash3388.flashlib.io.devices.DeviceConstructor;
 import com.flash3388.flashlib.io.devices.NamedArg;
 
-public class CANTalonSRX extends CTREBaseTalon {
+public class Phoenix5TalonSRX extends Phoenix5TalonBase {
 
-    private CANTalonSRX(WPI_TalonSRX talonSRX) {
-        super(talonSRX, talonSRX);
+    public Phoenix5TalonSRX(WPI_TalonSRX talon) {
+        super(talon);
     }
 
     @DeviceConstructor
-    public CANTalonSRX(
+    public Phoenix5TalonSRX(
             @NamedArg("channel") int channel
     ) {
         this(new WPI_TalonSRX(channel));
