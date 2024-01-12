@@ -3,7 +3,7 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTREEncoder;
-import com.flash3388.flashlib.frc.io.devices.CTRESensors;
+import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
 
 import java.io.IOException;
 
@@ -40,7 +40,7 @@ public class TalonFXEncoder implements CTREEncoder {
     @Override
     public double getRate() {
         double raw = mVelocity.getValueAsDouble();
-        return CTRESensors.degreesPerSecondToRotationsPerSecond(raw, mGearRatio);
+        return CTRESensors.rotationsPerSecondToDegreesPerSecond(raw, mGearRatio);
     }
 
     @Override

@@ -35,13 +35,13 @@ public class TalonFXConfigurationEditor implements ConfigurationEditor {
                 throw new UnsupportedOperationException();
         }
 
-        mConfigs.MotorOutput.NeutralMode = modeValue;
+        mTalon.mConfiguration.MotorOutput.NeutralMode = modeValue;
         return this;
     }
 
     @Override
     public ConfigurationEditor inverted(boolean inverted) {
-        mConfigs.MotorOutput.Inverted = inverted ?
+        mTalon.mConfiguration.MotorOutput.Inverted = inverted ?
                 InvertedValue.Clockwise_Positive :
                 InvertedValue.CounterClockwise_Positive;
         return this;

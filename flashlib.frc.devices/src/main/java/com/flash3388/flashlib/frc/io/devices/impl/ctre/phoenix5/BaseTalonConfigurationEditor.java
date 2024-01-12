@@ -18,6 +18,12 @@ public class BaseTalonConfigurationEditor implements ConfigurationEditor {
     }
 
     @Override
+    public ConfigurationEditor fromFactoryDefault() {
+        mTalon.configFactoryDefault();
+        return this;
+    }
+
+    @Override
     public ConfigurationEditor neutralMode(NeutralMode mode) {
         switch (mode) {
             case COAST:

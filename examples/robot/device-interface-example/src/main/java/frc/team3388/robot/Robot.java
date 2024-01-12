@@ -1,7 +1,7 @@
 package frc.team3388.robot;
 
-import com.flash3388.flashlib.frc.io.devices.CTRETalon;
 import com.flash3388.flashlib.frc.io.devices.FrcDevicesIds;
+import com.flash3388.flashlib.frc.io.devices.ctre.CTRETalon;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.base.iterative.IterativeFrcRobot;
 import com.flash3388.flashlib.hid.Joystick;
