@@ -6,7 +6,7 @@ import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
 
 import java.io.IOException;
 
-public class Phoenix5EncoderImpl implements CTREEncoder {
+public class Phoenix5TalonEncoderImpl implements CTREEncoder {
 
     private final BaseTalon mBaseTalon;
     private final int mPulsesPerRevolution;
@@ -14,7 +14,7 @@ public class Phoenix5EncoderImpl implements CTREEncoder {
     private final double mGearRatio;
     private final double mWheelRadius;
 
-    public Phoenix5EncoderImpl(BaseTalon baseTalon, int pulsesPerRevolution, int slotIdx, double gearRatio, double wheelRadius) {
+    public Phoenix5TalonEncoderImpl(BaseTalon baseTalon, int pulsesPerRevolution, int slotIdx, double gearRatio, double wheelRadius) {
         mBaseTalon = baseTalon;
         mPulsesPerRevolution = pulsesPerRevolution;
         mSlotIdx = slotIdx;

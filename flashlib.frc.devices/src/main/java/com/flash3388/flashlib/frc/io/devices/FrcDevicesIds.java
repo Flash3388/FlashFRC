@@ -24,8 +24,8 @@ public class FrcDevicesIds {
 
     // sensors
     public static final int Ultrasonic = 1071;
-    public static final int AnalogAccelerometer = 1071;
-    public static final int AnalogGyro = 1071;
-    public static final int AnalogEncoder = 1071;
-
+    public static final int AnalogAccelerometer = 1072;
+    public static final int AnalogGyro = 1073;
+    public static final int AnalogEncoder = 1074;
+    public static final int CANCoder_Phoenix6 = 1075;
 }

@@ -14,6 +14,7 @@ import com.flash3388.flashlib.frc.io.devices.impl.VictorSP;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix5.Phoenix5TalonFX;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix5.Phoenix5TalonSRX;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix5.Phoenix5VictorSPX;
+import com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6.Phoenix6CANCoder;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6.Phoenix6TalonFX;
 import com.flash3388.flashlib.io.devices.AbstractDeviceProvider;
 import edu.wpi.first.wpilibj.AnalogEncoder;
@@ -44,5 +45,6 @@ public class FrcDeviceProvider extends AbstractDeviceProvider {
         registerDevice(FrcDevicesIds.AnalogAccelerometer, AnalogAccelerometer.class);
         registerDevice(FrcDevicesIds.AnalogGyro, AnalogGyro.class);
         registerDevice(FrcDevicesIds.AnalogEncoder, AnalogEncoder.class);
+        registerDevice(FrcDevicesIds.CANCoder_Phoenix6, Phoenix6CANCoder.class);
     }
 }

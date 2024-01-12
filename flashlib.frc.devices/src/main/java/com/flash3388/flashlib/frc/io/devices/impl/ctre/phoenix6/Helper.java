@@ -3,8 +3,10 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitSourceValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.ReverseLimitSourceValue;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRELimitSwitch;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonConfigurationEditor;
 
 public class Helper {
 
@@ -39,5 +41,16 @@ public class Helper {
         motor.getConfigurator().refresh(limitSwitchConfigs);
 
         return limitSwitchConfigs;
+    }
+
+    public static NeutralModeValue convertNeutralMode(TalonConfigurationEditor.NeutralMode mode) {
+        switch (mode) {
+            case COAST:
+                return NeutralModeValue.Coast;
+            case BRAKE:
+                return NeutralModeValue.Brake;
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 }

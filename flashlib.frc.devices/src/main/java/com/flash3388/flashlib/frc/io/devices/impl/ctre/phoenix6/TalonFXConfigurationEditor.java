@@ -2,53 +2,34 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.flash3388.flashlib.frc.io.devices.ctre.ConfigurationEditor;
+import com.flash3388.flashlib.frc.io.devices.impl.ctre.BaseTalonConfigurationEditor;
 
-public class TalonFXConfigurationEditor implements ConfigurationEditor {
+public class TalonFXConfigurationEditor extends BaseTalonConfigurationEditor {
 
     private final Phoenix6TalonFX mTalon;
 
     public TalonFXConfigurationEditor(Phoenix6TalonFX talon) {
         mTalon = talon;
-
-        mTalon.mMotor.getConfigurator().refresh(talon.mConfiguration);
-    }
-
-    @Override
-    public ConfigurationEditor fromFactoryDefault() {
-        mTalon.mConfiguration = new TalonFXConfiguration();
-        return this;
-    }
-
-    @Override
-    public ConfigurationEditor neutralMode(NeutralMode mode) {
-        NeutralModeValue modeValue;
-        switch (mode) {
-            case COAST:
-                modeValue = NeutralModeValue.Coast;
-                break;
-            case BRAKE:
-                modeValue = NeutralModeValue.Brake;
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
-
-        mTalon.mConfiguration.MotorOutput.NeutralMode = modeValue;
-        return this;
-    }
-
-    @Override
-    public ConfigurationEditor inverted(boolean inverted) {
-        mTalon.mConfiguration.MotorOutput.Inverted = inverted ?
-                InvertedValue.Clockwise_Positive :
-                InvertedValue.CounterClockwise_Positive;
-        return this;
     }
 
     @Override
     public void save() {
+        if (mFactoryDefault) {
+            mTalon.mConfiguration = new TalonFXConfiguration();
+        } else {
+            mTalon.mMotor.getConfigurator().refresh(mTalon.mConfiguration);
+        }
+
+        if (mNeutralMode != null) {
+            mTalon.mConfiguration.MotorOutput.NeutralMode = Helper.convertNeutralMode(mNeutralMode);
+        }
+
+        if (mInverted != null) {
+            mTalon.mConfiguration.MotorOutput.Inverted = mInverted ?
+                    InvertedValue.Clockwise_Positive :
+                    InvertedValue.CounterClockwise_Positive;
+        }
+
         mTalon.mMotor.getConfigurator().apply(mTalon.mConfiguration);
     }
 }

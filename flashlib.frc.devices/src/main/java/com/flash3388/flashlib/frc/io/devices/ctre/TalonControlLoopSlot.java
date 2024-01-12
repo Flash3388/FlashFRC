@@ -1,7 +1,7 @@
 package com.flash3388.flashlib.frc.io.devices.ctre;
 
 
-public interface ControlLoopSlot {
+public interface TalonControlLoopSlot {
 
     enum Slot {
         SLOT0(0),

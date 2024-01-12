@@ -5,34 +5,34 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRELimitSwitch;
 
-public class BaseTalonReverseHardwareLimitSwitch implements CTRELimitSwitch {
+public class Phoenix5TalonForwardHardwareLimitSwitch implements CTRELimitSwitch {
 
     private final BaseTalon mMotor;
 
-    public BaseTalonReverseHardwareLimitSwitch(BaseTalon motor) {
+    public Phoenix5TalonForwardHardwareLimitSwitch(BaseTalon motor) {
         mMotor = motor;
     }
 
     @Override
     public boolean isClosed() {
-        return mMotor.isRevLimitSwitchClosed() == 1;
+        return mMotor.isFwdLimitSwitchClosed() == 1;
     }
 
     @Override
     public void configureIntegrated(boolean normallyOpen) {
         LimitSwitchNormal normal = normallyOpen ? LimitSwitchNormal.NormallyOpen : LimitSwitchNormal.NormallyClosed;
-        mMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, normal);
+        mMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, normal);
     }
 
     @Override
     public void configure(Source source, boolean normallyOpen, int deviceId) {
         LimitSwitchSource nativeSource = Helper.getLimitSwitchSource(source);
         LimitSwitchNormal normal = normallyOpen ? LimitSwitchNormal.NormallyOpen : LimitSwitchNormal.NormallyClosed;
-        mMotor.configReverseLimitSwitchSource(nativeSource, normal, deviceId);
+        mMotor.configForwardLimitSwitchSource(nativeSource, normal, deviceId);
     }
 
     @Override
     public void disable() {
-        mMotor.configReverseLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
+        mMotor.configForwardLimitSwitchSource(LimitSwitchSource.Deactivated, LimitSwitchNormal.Disabled);
     }
 }

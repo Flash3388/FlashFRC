@@ -5,11 +5,11 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
-import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.OutputType;
 import edu.wpi.first.wpilibj.RobotController;
 
-public class BaseTalonOutputSetter implements InternalOutputSetter {
+public class Phoenix5TalonOutputSetter implements InternalOutputSetter {
 
     private final BaseTalon mMotor;
     private final int mPPR;
@@ -21,7 +21,7 @@ public class BaseTalonOutputSetter implements InternalOutputSetter {
     private OutputType mLastSetOutputType;
     private double mLastSetOutput;
 
-    public BaseTalonOutputSetter(BaseTalon motor, int ppr) {
+    public Phoenix5TalonOutputSetter(BaseTalon motor, int ppr) {
         mMotor = motor;
         mPPR = ppr;
 
@@ -31,56 +31,56 @@ public class BaseTalonOutputSetter implements InternalOutputSetter {
     }
 
     @Override
-    public OutputSetter neutral() {
+    public TalonOutputSetter neutral() {
         mOutputType = OutputType.NEUTRAL;
         mValue = 0;
         return this;
     }
 
     @Override
-    public OutputSetter precentVBus(double value) {
+    public TalonOutputSetter precentVBus(double value) {
         mOutputType = OutputType.DUTY_CYCLE;
         mValue = value;
         return this;
     }
 
     @Override
-    public OutputSetter velocity(double value) {
+    public TalonOutputSetter velocity(double value) {
         mOutputType = OutputType.VELOCITY;
         mValue = CTRESensors.degreesPerSecondToRawSensorUnits(value, mPPR, 1);
         return this;
     }
 
     @Override
-    public OutputSetter velocityRaw(double value) {
+    public TalonOutputSetter velocityRaw(double value) {
         mOutputType = OutputType.VELOCITY;
         mValue = value;
         return this;
     }
 
     @Override
-    public OutputSetter position(double value) {
+    public TalonOutputSetter position(double value) {
         mOutputType = OutputType.POSITION;
         mValue = CTRESensors.degreesToRawSensorUnits(value, mPPR, 1);
         return this;
     }
 
     @Override
-    public OutputSetter positionRaw(double value) {
+    public TalonOutputSetter positionRaw(double value) {
         mOutputType = OutputType.POSITION;
         mValue = value;
         return this;
     }
 
     @Override
-    public OutputSetter voltage(double value) {
+    public TalonOutputSetter voltage(double value) {
         mOutputType = OutputType.VOLTAGE;
         mValue = value;
         return this;
     }
 
     @Override
-    public OutputSetter feedForward(double value) {
+    public TalonOutputSetter feedForward(double value) {
         mFeedForward = value;
         return this;
     }

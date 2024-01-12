@@ -1,5 +1,6 @@
 package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6;
 
+import com.beans.util.function.Suppliers;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -9,8 +10,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTREEncoder;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRELimitSwitch;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.CTRETalonBase;
-import com.flash3388.flashlib.frc.io.devices.ctre.ConfigurationEditor;
-import com.flash3388.flashlib.frc.io.devices.ctre.ControlLoopSlot;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonConfigurationEditor;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonControlLoopSlot;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.io.devices.DeviceConstructor;
 import com.flash3388.flashlib.io.devices.NamedArg;
@@ -27,7 +28,7 @@ public class Phoenix6TalonFX extends CTRETalonBase {
     private final MotorOutputConfigs mMotorOutputConfigs;
 
     protected TalonFXConfiguration mConfiguration;
-    protected ControlLoopSlot.Slot mSelectedSlot;
+    protected TalonControlLoopSlot.Slot mSelectedSlot;
 
     private Phoenix6TalonFX(TalonFX motor) {
         mMotor = motor;
@@ -39,7 +40,7 @@ public class Phoenix6TalonFX extends CTRETalonBase {
         mMotorOutputConfigs = new MotorOutputConfigs();
         mMotor.getConfigurator().refresh(mConfiguration);
 
-        mSelectedSlot = ControlLoopSlot.Slot.SLOT0;
+        mSelectedSlot = TalonControlLoopSlot.Slot.SLOT0;
         mOutputSetter = new TalonFXOutputSetter(this);
     }
 
@@ -51,7 +52,7 @@ public class Phoenix6TalonFX extends CTRETalonBase {
     }
 
     @Override
-    public ConfigurationEditor configure() {
+    public TalonConfigurationEditor configure() {
         return new TalonFXConfigurationEditor(this);
     }
 
@@ -66,7 +67,7 @@ public class Phoenix6TalonFX extends CTRETalonBase {
     }
 
     @Override
-    public CTREEncoder selectFeedbackSensorMagEncoder(ControlLoopSlot.Slot slot, double gearRatio, double wheelRadius) {
+    public CTREEncoder selectFeedbackSensorMagEncoder(TalonControlLoopSlot.Slot slot, double gearRatio, double wheelRadius) {
         FeedbackConfigs configs = new FeedbackConfigs();
         mMotor.getConfigurator().refresh(configs);
 
@@ -75,7 +76,12 @@ public class Phoenix6TalonFX extends CTRETalonBase {
 
         mSelectedSlot = slot;
 
-        return new TalonFXEncoder(mMotor, gearRatio, wheelRadius);
+        return new Phoenix6RelativeEncoder(
+                mMotor.getRotorPosition(),
+                mMotor.getRotorVelocity(),
+                mMotor::setPosition,
+                Suppliers.of(gearRatio),
+                Suppliers.of(wheelRadius));
     }
 
     @Override
@@ -101,16 +107,16 @@ public class Phoenix6TalonFX extends CTRETalonBase {
     }
 
     @Override
-    protected Collection<ControlLoopSlot.Slot> supportedSlots() {
+    protected Collection<TalonControlLoopSlot.Slot> supportedSlots() {
         return Arrays.asList(
-                ControlLoopSlot.Slot.SLOT0,
-                ControlLoopSlot.Slot.SLOT1,
-                ControlLoopSlot.Slot.SLOT2
+                TalonControlLoopSlot.Slot.SLOT0,
+                TalonControlLoopSlot.Slot.SLOT1,
+                TalonControlLoopSlot.Slot.SLOT2
         );
     }
 
     @Override
-    protected ControlLoopSlot createSlot(ControlLoopSlot.Slot slot) {
+    protected TalonControlLoopSlot createSlot(TalonControlLoopSlot.Slot slot) {
         return new TalonFXControlLoopSlot(mMotor.getConfigurator(), slot);
     }
 }

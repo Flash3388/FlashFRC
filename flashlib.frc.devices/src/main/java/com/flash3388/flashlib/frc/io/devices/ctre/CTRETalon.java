@@ -6,26 +6,26 @@ public interface CTRETalon extends SpeedController {
 
     /**
      * Opens the configuration editor for the device.
-     * @return {@link ConfigurationEditor}.
+     * @return {@link TalonConfigurationEditor}.
      */
-    ConfigurationEditor configure();
+    TalonConfigurationEditor configure();
 
     /**
      * Gets the closed-loop slot. Allows querying and configuring the slot.
      *
      * @param slot slot
-     * @return {@link ControlLoopSlot}
+     * @return {@link TalonControlLoopSlot}
      * @throws IllegalArgumentException if the slot is not supported
      */
-    ControlLoopSlot slot(ControlLoopSlot.Slot slot);
+    TalonControlLoopSlot slot(TalonControlLoopSlot.Slot slot);
 
     /**
      * Gets the output configuration setter, allowing modifying the output
      * of the device.
      *
-     * @return {@link OutputSetter}
+     * @return {@link TalonOutputSetter}
      */
-    OutputSetter output();
+    TalonOutputSetter output();
 
     /**
      * Gets the hardware forward limit switch. Allows querying and configuring the switch.
@@ -53,5 +53,5 @@ public interface CTRETalon extends SpeedController {
      * @implNote For <em>TalonFX</em> this is the integrated motor sensor.
      *      For <em>TalonSRX</em>, this is the connected <em>SRX Magnetic Encoder</em>.
      */
-    CTREEncoder selectFeedbackSensorMagEncoder(ControlLoopSlot.Slot slot, double gearRatio, double wheelRadius);
+    CTREEncoder selectFeedbackSensorMagEncoder(TalonControlLoopSlot.Slot slot, double gearRatio, double wheelRadius);
 }

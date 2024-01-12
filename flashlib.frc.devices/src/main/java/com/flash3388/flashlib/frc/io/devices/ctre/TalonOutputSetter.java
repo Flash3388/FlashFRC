@@ -3,14 +3,14 @@ package com.flash3388.flashlib.frc.io.devices.ctre;
 /**
  * Configures output for {@link CTRETalon}
  */
-public interface OutputSetter {
+public interface TalonOutputSetter {
 
     /**
      * Configures next output to Neutral, i.e. not moving.
      *
      * @return this
      */
-    OutputSetter neutral();
+    TalonOutputSetter neutral();
 
     /**
      * Configures next output to PercentVBus output.
@@ -18,7 +18,7 @@ public interface OutputSetter {
      * @param value wanted PercentVBus value [-1, 1]
      * @return this
      */
-    OutputSetter precentVBus(double value);
+    TalonOutputSetter precentVBus(double value);
 
     /**
      * Configures next output to Velocity output.
@@ -33,7 +33,7 @@ public interface OutputSetter {
      *  and <em>SRX Magnetic</em> for <em>TalonSRX</em>. If a different sensor
      *  is configured as the feedback device, then this will not function properly.
      */
-    OutputSetter velocity(double value);
+    TalonOutputSetter velocity(double value);
 
     /**
      * Configures next output to Velocity output.
@@ -47,7 +47,7 @@ public interface OutputSetter {
      *  according to the raw sensor units, which changes according to the feedback
      *  sensor. For <em>phoenix6</em>, this value is rotations/second
      */
-    OutputSetter velocityRaw(double value);
+    TalonOutputSetter velocityRaw(double value);
 
     /**
      * Configures next output to Position output.
@@ -61,7 +61,7 @@ public interface OutputSetter {
      *   and <em>SRX Magnetic</em> for <em>TalonSRX</em>. If a different sensor
      *   is configured as the feedback device, then this will not function properly.
      */
-    OutputSetter position(double value);
+    TalonOutputSetter position(double value);
 
     /**
      * Configures next output to Position output.
@@ -75,7 +75,7 @@ public interface OutputSetter {
      *  according to the raw sensor units, which changes according to the feedback
      *  sensor. For <em>phoenix6</em>, this value is rotations
      */
-    OutputSetter positionRaw(double value);
+    TalonOutputSetter positionRaw(double value);
 
     /**
      * Configures next output to Voltage output.
@@ -83,7 +83,7 @@ public interface OutputSetter {
      * @param value wanted Voltage in volts.
      * @return this
      */
-    OutputSetter voltage(double value);
+    TalonOutputSetter voltage(double value);
 
     /**
      * Configures next output to use FeedForward.
@@ -92,7 +92,7 @@ public interface OutputSetter {
      * @param value wanted FeedForward [-1, 1]
      * @return this
      */
-    OutputSetter feedForward(double value);
+    TalonOutputSetter feedForward(double value);
 
     /**
      * Configures the motor according to the last set output configuration.

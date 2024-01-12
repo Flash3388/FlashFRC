@@ -3,8 +3,8 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix5;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRELimitSwitch;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.CTRETalonBase;
-import com.flash3388.flashlib.frc.io.devices.ctre.ConfigurationEditor;
-import com.flash3388.flashlib.frc.io.devices.ctre.ControlLoopSlot;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonConfigurationEditor;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonControlLoopSlot;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 
 import java.util.Arrays;
@@ -19,14 +19,14 @@ public abstract class Phoenix5TalonBase extends CTRETalonBase {
 
     public Phoenix5TalonBase(BaseTalon talon, int ppr) {
         mTalon = talon;
-        mOutputSetter = new BaseTalonOutputSetter(talon, ppr);
-        mForwardLimitSwitch = new BaseTalonForwardHardwareLimitSwitch(talon);
-        mReverseLimitSwitch = new BaseTalonReverseHardwareLimitSwitch(talon);
+        mOutputSetter = new Phoenix5TalonOutputSetter(talon, ppr);
+        mForwardLimitSwitch = new Phoenix5TalonForwardHardwareLimitSwitch(talon);
+        mReverseLimitSwitch = new Phoenix5TalonReverseHardwareLimitSwitch(talon);
     }
 
     @Override
-    public ConfigurationEditor configure() {
-        return new BaseTalonConfigurationEditor(mTalon);
+    public TalonConfigurationEditor configure() {
+        return new Phoenix5TalonConfigurationEditor(mTalon);
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class Phoenix5TalonBase extends CTRETalonBase {
     @Override
     public void setInverted(boolean inverted) {
         configure()
-                .inverted(inverted)
+                .setInverted(inverted)
                 .save();
     }
 
@@ -57,15 +57,15 @@ public abstract class Phoenix5TalonBase extends CTRETalonBase {
     }
 
     @Override
-    protected Collection<ControlLoopSlot.Slot> supportedSlots() {
+    protected Collection<TalonControlLoopSlot.Slot> supportedSlots() {
         return Arrays.asList(
-                ControlLoopSlot.Slot.SLOT0,
-                ControlLoopSlot.Slot.SLOT1
+                TalonControlLoopSlot.Slot.SLOT0,
+                TalonControlLoopSlot.Slot.SLOT1
         );
     }
 
     @Override
-    protected ControlLoopSlot createSlot(ControlLoopSlot.Slot slot) {
-        return new BaseTalonControlLoopSlot(mTalon, slot);
+    protected TalonControlLoopSlot createSlot(TalonControlLoopSlot.Slot slot) {
+        return new Phoenix5TalonControlLoopSlot(mTalon, slot);
     }
 }

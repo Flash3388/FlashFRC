@@ -6,7 +6,7 @@ import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
-import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.OutputType;
 
@@ -40,26 +40,26 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     }
 
     @Override
-    public OutputSetter neutral() {
+    public TalonOutputSetter neutral() {
         mOutputType = OutputType.NEUTRAL;
         return this;
     }
 
     @Override
-    public OutputSetter precentVBus(double value) {
+    public TalonOutputSetter precentVBus(double value) {
         mDutyCycleRequest.Output = value;
         mOutputType = OutputType.DUTY_CYCLE;
         return this;
     }
 
     @Override
-    public OutputSetter velocity(double value) {
+    public TalonOutputSetter velocity(double value) {
         value = CTRESensors.degreesPerSecondToRotationsPerSecond(value, 1);
         return velocityRaw(value);
     }
 
     @Override
-    public OutputSetter velocityRaw(double value) {
+    public TalonOutputSetter velocityRaw(double value) {
         mVelocityRequest.Velocity = value;
         mVelocityRequest.Slot = mTalon.mSelectedSlot.index();
         mOutputType = OutputType.VELOCITY;
@@ -67,13 +67,13 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     }
 
     @Override
-    public OutputSetter position(double value) {
+    public TalonOutputSetter position(double value) {
         value = CTRESensors.degreesToRotations(value, 1);
         return positionRaw(value);
     }
 
     @Override
-    public OutputSetter positionRaw(double value) {
+    public TalonOutputSetter positionRaw(double value) {
         mPositionRequest.Position = value;
         mPositionRequest.Slot = mTalon.mSelectedSlot.index();
         mOutputType = OutputType.POSITION;
@@ -81,14 +81,14 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     }
 
     @Override
-    public OutputSetter voltage(double value) {
+    public TalonOutputSetter voltage(double value) {
         mVoltageRequest.Output = value;
         mOutputType = OutputType.VOLTAGE;
         return this;
     }
 
     @Override
-    public OutputSetter feedForward(double value) {
+    public TalonOutputSetter feedForward(double value) {
         switch (mOutputType) {
             case POSITION:
                 mPositionRequest.FeedForward = value;

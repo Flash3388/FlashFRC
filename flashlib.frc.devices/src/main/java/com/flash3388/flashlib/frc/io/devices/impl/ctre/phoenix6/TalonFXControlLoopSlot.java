@@ -2,11 +2,10 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix6;
 
 import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
-import com.flash3388.flashlib.frc.io.devices.ctre.ControlLoopSlot;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonControlLoopSlot;
+import com.flash3388.flashlib.frc.io.devices.impl.ctre.BaseTalonControlLoopSlotConfigurationEditor;
 
-public class TalonFXControlLoopSlot implements ControlLoopSlot {
-
-    // TODO: SUPPORT MORE OPTIONS
+public class TalonFXControlLoopSlot implements TalonControlLoopSlot {
 
     private final TalonFXConfigurator mConfigurator;
 
@@ -20,7 +19,6 @@ public class TalonFXControlLoopSlot implements ControlLoopSlot {
 
     @Override
     public ConfigurationEditor configure() {
-        refresh();
         return new ConfigurationEditorImpl(this, mSlotConfigs);
     }
 
@@ -37,7 +35,7 @@ public class TalonFXControlLoopSlot implements ControlLoopSlot {
         mConfigurator.apply(mSlotConfigs);
     }
 
-    public static class ConfigurationEditorImpl implements ConfigurationEditor {
+    public static class ConfigurationEditorImpl extends BaseTalonControlLoopSlotConfigurationEditor {
 
         private final TalonFXControlLoopSlot mControlLoopSlot;
         private final SlotConfigs mSlotConfigs;
@@ -46,32 +44,6 @@ public class TalonFXControlLoopSlot implements ControlLoopSlot {
                                        SlotConfigs slotConfigs) {
             mControlLoopSlot = controlLoopSlot;
             mSlotConfigs = slotConfigs;
-        }
-
-        @Override
-        public ConfigurationEditor setP(double value) {
-            mSlotConfigs.kP = value;
-            return this;
-        }
-
-        @Override
-        public ConfigurationEditor setI(double value) {
-            mSlotConfigs.kI = value;
-            return this;
-        }
-
-        @Override
-        public ConfigurationEditor setD(double value) {
-            mSlotConfigs.kD = value;
-            return this;
-        }
-
-        @Override
-        public ConfigurationEditor setF(double value) {
-            // TODO: THIS IS STATIC FEED FORWARD?
-            //      HOW TO ALLOW ACCESS TO OTHER FEED FORWARDS?
-            mSlotConfigs.kS = value;
-            return this;
         }
 
         @Override
@@ -96,6 +68,26 @@ public class TalonFXControlLoopSlot implements ControlLoopSlot {
 
         @Override
         public void save() {
+            mControlLoopSlot.refresh();
+
+            if (mKp != null) {
+                mSlotConfigs.kP = mKp;
+            }
+
+            if (mKi != null) {
+                mSlotConfigs.kI = mKi;
+            }
+
+            if (mKd != null) {
+                mSlotConfigs.kD = mKd;
+            }
+
+            if (mKf != null) {
+                // TODO: THIS IS STATIC FEED FORWARD?
+                //      HOW TO ALLOW ACCESS TO OTHER FEED FORWARDS?
+                mSlotConfigs.kS = mKf;
+            }
+
             mControlLoopSlot.save();
         }
     }

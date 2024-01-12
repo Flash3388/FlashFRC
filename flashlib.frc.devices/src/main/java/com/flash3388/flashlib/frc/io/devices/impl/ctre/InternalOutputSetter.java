@@ -1,9 +1,8 @@
 package com.flash3388.flashlib.frc.io.devices.impl.ctre;
 
-import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
-import com.flash3388.flashlib.frc.io.devices.impl.ctre.OutputType;
+import com.flash3388.flashlib.frc.io.devices.ctre.TalonOutputSetter;
 
-public interface InternalOutputSetter extends OutputSetter {
+public interface InternalOutputSetter extends TalonOutputSetter {
 
     double getLastSetOutput();
     OutputType getLastSetOutputType();
