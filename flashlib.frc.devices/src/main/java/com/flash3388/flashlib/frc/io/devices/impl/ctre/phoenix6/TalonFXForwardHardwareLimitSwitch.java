@@ -20,6 +20,8 @@ public class TalonFXForwardHardwareLimitSwitch implements CTRELimitSwitch {
 
     @Override
     public boolean isClosed() {
+        mValue.refresh();
+
         return mValue.getValue() == ForwardLimitValue.ClosedToGround;
     }
 

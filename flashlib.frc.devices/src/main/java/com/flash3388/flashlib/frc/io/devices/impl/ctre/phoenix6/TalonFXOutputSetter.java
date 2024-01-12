@@ -5,17 +5,16 @@ import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
-import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
+import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.OutputType;
 
 public class TalonFXOutputSetter implements InternalOutputSetter {
 
-    // TODO: PositionDutyCycle (and velocity) vs VelocityVoltage
+    // TODO: PositionDutyCycle (and velocity) vs PositionVoltage
 
-    private final TalonFX mMotor;
+    private final Phoenix6TalonFX mTalon;
     private final NeutralOut mNeutralRequest;
     private final DutyCycleOut mDutyCycleRequest;
     private final PositionDutyCycle mPositionRequest;
@@ -26,8 +25,8 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     private OutputType mLastSetOutputType;
     private double mLastSetOutput;
 
-    public TalonFXOutputSetter(TalonFX motor) {
-        mMotor = motor;
+    public TalonFXOutputSetter(Phoenix6TalonFX talon) {
+        mTalon = talon;
 
         mNeutralRequest = new NeutralOut();
         mDutyCycleRequest = new DutyCycleOut(0);
@@ -55,28 +54,28 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
 
     @Override
     public OutputSetter velocity(double value) {
-        mVelocityRequest.Velocity = CTRESensors.degreesPerSecondToRotationsPerSecond(value, 1);
-        mOutputType = OutputType.VELOCITY;
-        return this;
+        value = CTRESensors.degreesPerSecondToRotationsPerSecond(value, 1);
+        return velocityRaw(value);
     }
 
     @Override
     public OutputSetter velocityRaw(double value) {
         mVelocityRequest.Velocity = value;
+        mVelocityRequest.Slot = mTalon.mSelectedSlot.index();
         mOutputType = OutputType.VELOCITY;
         return this;
     }
 
     @Override
     public OutputSetter position(double value) {
-        mPositionRequest.Position = CTRESensors.degreesToRotations(value, 1);
-        mOutputType = OutputType.POSITION;
-        return this;
+        value = CTRESensors.degreesToRotations(value, 1);
+        return positionRaw(value);
     }
 
     @Override
     public OutputSetter positionRaw(double value) {
         mPositionRequest.Position = value;
+        mPositionRequest.Slot = mTalon.mSelectedSlot.index();
         mOutputType = OutputType.POSITION;
         return this;
     }
@@ -108,23 +107,23 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     public void set() {
         switch (mOutputType) {
             case DUTY_CYCLE:
-                mMotor.setControl(mDutyCycleRequest);
+                mTalon.mMotor.setControl(mDutyCycleRequest);
                 mLastSetOutput = mDutyCycleRequest.Output;
                 break;
             case POSITION:
-                mMotor.setControl(mPositionRequest);
+                mTalon.mMotor.setControl(mPositionRequest);
                 mLastSetOutput = mPositionRequest.Position;
                 break;
             case VELOCITY:
-                mMotor.setControl(mVelocityRequest);
+                mTalon.mMotor.setControl(mVelocityRequest);
                 mLastSetOutput = mVelocityRequest.Velocity;
                 break;
             case NEUTRAL:
-                mMotor.setControl(mNeutralRequest);
+                mTalon.mMotor.setControl(mNeutralRequest);
                 mLastSetOutput = 0;
                 break;
             case VOLTAGE:
-                mMotor.setControl(mVoltageRequest);
+                mTalon.mMotor.setControl(mVoltageRequest);
                 mLastSetOutput = mVoltageRequest.Output;
                 break;
             default:
@@ -153,7 +152,9 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
         mDutyCycleRequest.Output = 0;
         mPositionRequest.Position = 0;
         mPositionRequest.FeedForward = 0;
+        mPositionRequest.Slot = 0;
         mVelocityRequest.Velocity = 0;
         mVelocityRequest.FeedForward = 0;
+        mVelocityRequest.Slot = 0;
     }
 }

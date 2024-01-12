@@ -33,24 +33,32 @@ public class TalonFXEncoder implements CTREEncoder {
 
     @Override
     public double getPosition() {
+        mPosition.refresh();
+
         double raw = mPosition.getValueAsDouble();
         return CTRESensors.rotationsToDegrees(raw, mGearRatio);
     }
 
     @Override
     public double getRate() {
+        mVelocity.refresh();
+
         double raw = mVelocity.getValueAsDouble();
         return CTRESensors.rotationsPerSecondToDegreesPerSecond(raw, mGearRatio);
     }
 
     @Override
     public double getDistancePassed() {
+        mPosition.refresh();
+
         double raw = mPosition.getValueAsDouble();
         return CTRESensors.rotationsToMeters(raw, mGearRatio, mWheelRadius);
     }
 
     @Override
     public double getVelocity() {
+        mVelocity.refresh();
+
         double raw = mVelocity.getValueAsDouble();
         return CTRESensors.rotationsPerSecondToMetersPerSecond(raw, mGearRatio, mWheelRadius);
     }
