@@ -3,13 +3,16 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre.phoenix5;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
-import com.flash3388.flashlib.frc.io.devices.ctre.InternalOutputSetter;
+import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
+import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.OutputType;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class BaseTalonOutputSetter implements InternalOutputSetter {
 
     private final BaseTalon mMotor;
+    private final int mPPR;
 
     private OutputType mOutputType;
     private double mValue;
@@ -18,8 +21,9 @@ public class BaseTalonOutputSetter implements InternalOutputSetter {
     private OutputType mLastSetOutputType;
     private double mLastSetOutput;
 
-    public BaseTalonOutputSetter(BaseTalon motor) {
+    public BaseTalonOutputSetter(BaseTalon motor, int ppr) {
         mMotor = motor;
+        mPPR = ppr;
 
         reset();
         mLastSetOutputType = OutputType.NEUTRAL;
@@ -43,6 +47,13 @@ public class BaseTalonOutputSetter implements InternalOutputSetter {
     @Override
     public OutputSetter velocity(double value) {
         mOutputType = OutputType.VELOCITY;
+        mValue = CTRESensors.degreesPerSecondToRawSensorUnits(value, mPPR, 1);
+        return this;
+    }
+
+    @Override
+    public OutputSetter velocityRaw(double value) {
+        mOutputType = OutputType.VELOCITY;
         mValue = value;
         return this;
     }
@@ -50,6 +61,20 @@ public class BaseTalonOutputSetter implements InternalOutputSetter {
     @Override
     public OutputSetter position(double value) {
         mOutputType = OutputType.POSITION;
+        mValue = CTRESensors.degreesToRawSensorUnits(value, mPPR, 1);
+        return this;
+    }
+
+    @Override
+    public OutputSetter positionRaw(double value) {
+        mOutputType = OutputType.POSITION;
+        mValue = value;
+        return this;
+    }
+
+    @Override
+    public OutputSetter voltage(double value) {
+        mOutputType = OutputType.VOLTAGE;
         mValue = value;
         return this;
     }
@@ -65,6 +90,10 @@ public class BaseTalonOutputSetter implements InternalOutputSetter {
         switch (mOutputType) {
             case NEUTRAL:
                 mMotor.set(ControlMode.Disabled, 0);
+                break;
+            case VOLTAGE:
+                double voltage = mValue / RobotController.getBatteryVoltage();
+                mMotor.set(ControlMode.PercentOutput, voltage);
                 break;
             default:
                 ControlMode controlMode = controlModeForOutputType(mOutputType);

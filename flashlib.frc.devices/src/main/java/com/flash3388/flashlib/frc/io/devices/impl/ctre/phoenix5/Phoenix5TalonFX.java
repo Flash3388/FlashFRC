@@ -11,7 +11,7 @@ import com.flash3388.flashlib.io.devices.NamedArg;
 public class Phoenix5TalonFX extends Phoenix5TalonBase {
 
     public Phoenix5TalonFX(WPI_TalonFX talon) {
-        super(talon);
+        super(talon, CTRESensors.TALONFX_PPR);
     }
 
     @DeviceConstructor

@@ -3,7 +3,6 @@ package com.flash3388.flashlib.frc.io.devices.impl.ctre;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRELimitSwitch;
 import com.flash3388.flashlib.frc.io.devices.ctre.CTRETalon;
 import com.flash3388.flashlib.frc.io.devices.ctre.ControlLoopSlot;
-import com.flash3388.flashlib.frc.io.devices.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
 
 import java.util.HashMap;

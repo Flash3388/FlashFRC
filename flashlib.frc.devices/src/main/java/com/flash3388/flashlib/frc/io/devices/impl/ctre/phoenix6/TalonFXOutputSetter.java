@@ -4,21 +4,23 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.flash3388.flashlib.frc.io.devices.ctre.InternalOutputSetter;
+import com.flash3388.flashlib.frc.io.devices.ctre.CTRESensors;
+import com.flash3388.flashlib.frc.io.devices.impl.ctre.InternalOutputSetter;
 import com.flash3388.flashlib.frc.io.devices.ctre.OutputSetter;
 import com.flash3388.flashlib.frc.io.devices.impl.ctre.OutputType;
 
 public class TalonFXOutputSetter implements InternalOutputSetter {
 
-    // TODO: SUPPORT MORE OPTIONS
+    // TODO: PositionDutyCycle (and velocity) vs VelocityVoltage
 
     private final TalonFX mMotor;
     private final NeutralOut mNeutralRequest;
     private final DutyCycleOut mDutyCycleRequest;
-    // TODO: PositionDutyCycle (and velocity) vs VelocityVoltage
     private final PositionDutyCycle mPositionRequest;
     private final VelocityDutyCycle mVelocityRequest;
+    private final VoltageOut mVoltageRequest;
 
     private OutputType mOutputType;
     private OutputType mLastSetOutputType;
@@ -31,6 +33,7 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
         mDutyCycleRequest = new DutyCycleOut(0);
         mPositionRequest = new PositionDutyCycle(0);
         mVelocityRequest = new VelocityDutyCycle(0);
+        mVoltageRequest = new VoltageOut(0);
 
         reset();
         mLastSetOutputType = OutputType.NEUTRAL;
@@ -45,22 +48,43 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
 
     @Override
     public OutputSetter precentVBus(double value) {
-        mDutyCycleRequest.withOutput(value);
+        mDutyCycleRequest.Output = value;
         mOutputType = OutputType.DUTY_CYCLE;
         return this;
     }
 
     @Override
     public OutputSetter velocity(double value) {
-        mVelocityRequest.withVelocity(value);
+        mVelocityRequest.Velocity = CTRESensors.degreesPerSecondToRotationsPerSecond(value, 1);
+        mOutputType = OutputType.VELOCITY;
+        return this;
+    }
+
+    @Override
+    public OutputSetter velocityRaw(double value) {
+        mVelocityRequest.Velocity = value;
         mOutputType = OutputType.VELOCITY;
         return this;
     }
 
     @Override
     public OutputSetter position(double value) {
-        mPositionRequest.withPosition(value);
+        mPositionRequest.Position = CTRESensors.degreesToRotations(value, 1);
         mOutputType = OutputType.POSITION;
+        return this;
+    }
+
+    @Override
+    public OutputSetter positionRaw(double value) {
+        mPositionRequest.Position = value;
+        mOutputType = OutputType.POSITION;
+        return this;
+    }
+
+    @Override
+    public OutputSetter voltage(double value) {
+        mVoltageRequest.Output = value;
+        mOutputType = OutputType.VOLTAGE;
         return this;
     }
 
@@ -68,13 +92,12 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     public OutputSetter feedForward(double value) {
         switch (mOutputType) {
             case POSITION:
-                mPositionRequest.withFeedForward(value);
+                mPositionRequest.FeedForward = value;
                 break;
             case VELOCITY:
-                mVelocityRequest.withFeedForward(value);
+                mVelocityRequest.FeedForward = value;
                 break;
-            case DUTY_CYCLE:
-            case NEUTRAL:
+            default:
                 throw new UnsupportedOperationException();
         }
 
@@ -100,6 +123,10 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
                 mMotor.setControl(mNeutralRequest);
                 mLastSetOutput = 0;
                 break;
+            case VOLTAGE:
+                mMotor.setControl(mVoltageRequest);
+                mLastSetOutput = mVoltageRequest.Output;
+                break;
             default:
                 throw new UnsupportedOperationException();
         }
@@ -122,8 +149,11 @@ public class TalonFXOutputSetter implements InternalOutputSetter {
     @Override
     public void reset() {
         mOutputType = OutputType.NEUTRAL;
-        mDutyCycleRequest.withOutput(0);
-        mPositionRequest.withPosition(0).withFeedForward(0);
-        mVelocityRequest.withVelocity(0).withFeedForward(0);
+        mVoltageRequest.Output = 0;
+        mDutyCycleRequest.Output = 0;
+        mPositionRequest.Position = 0;
+        mPositionRequest.FeedForward = 0;
+        mVelocityRequest.Velocity = 0;
+        mVelocityRequest.FeedForward = 0;
     }
 }

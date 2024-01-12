@@ -4,5 +4,6 @@ public enum OutputType {
     NEUTRAL,
     DUTY_CYCLE,
     POSITION,
-    VELOCITY
+    VELOCITY,
+    VOLTAGE
 }

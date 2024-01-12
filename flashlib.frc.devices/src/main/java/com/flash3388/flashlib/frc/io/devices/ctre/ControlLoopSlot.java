@@ -3,9 +3,6 @@ package com.flash3388.flashlib.frc.io.devices.ctre;
 
 public interface ControlLoopSlot {
 
-    // TODO: SUPPORT MORE FUNCTIONALITY
-    //      FOR PHOENIX 5: LOOP ERROR, IZONE, KF
-
     enum Slot {
         SLOT0(0),
         SLOT1(1),
@@ -74,9 +71,17 @@ public interface ControlLoopSlot {
          */
         ConfigurationEditor setPeakOutput(double value);
 
+        /**
+         * Saves the modified configuration.
+         */
         void save();
     }
 
+    /**
+     * Opens configuration editor for the slot.
+     *
+     * @return {@link ConfigurationEditor}
+     */
     ConfigurationEditor configure();
 
     /**

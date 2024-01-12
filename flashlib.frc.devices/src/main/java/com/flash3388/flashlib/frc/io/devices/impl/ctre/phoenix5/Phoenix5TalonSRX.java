@@ -10,7 +10,7 @@ import com.flash3388.flashlib.io.devices.NamedArg;
 public class Phoenix5TalonSRX extends Phoenix5TalonBase {
 
     public Phoenix5TalonSRX(WPI_TalonSRX talon) {
-        super(talon);
+        super(talon, CTRESensors.SRX_ENCODER_PPR);
     }
 
     @DeviceConstructor

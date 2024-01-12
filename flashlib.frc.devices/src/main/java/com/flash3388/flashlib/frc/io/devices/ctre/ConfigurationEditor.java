@@ -2,8 +2,6 @@ package com.flash3388.flashlib.frc.io.devices.ctre;
 
 public interface ConfigurationEditor {
 
-    // TODO: SUPPORT MORE OPTIONS
-
     enum NeutralMode {
         COAST,
         BRAKE

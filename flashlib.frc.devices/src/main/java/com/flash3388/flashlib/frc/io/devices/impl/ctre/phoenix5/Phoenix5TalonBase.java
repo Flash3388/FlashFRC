@@ -9,9 +9,9 @@ public abstract class Phoenix5TalonBase extends CTRETalonBase {
 
     protected final BaseTalon mTalon;
 
-    public Phoenix5TalonBase(BaseTalon talon) {
+    public Phoenix5TalonBase(BaseTalon talon, int ppr) {
         super(
-                new BaseTalonOutputSetter(talon),
+                new BaseTalonOutputSetter(talon, ppr),
                 (slot)-> new BaseTalonControlLoopSlot(talon, slot),
                 new BaseTalonForwardHardwareLimitSwitch(talon),
                 new BaseTalonReverseHardwareLimitSwitch(talon));

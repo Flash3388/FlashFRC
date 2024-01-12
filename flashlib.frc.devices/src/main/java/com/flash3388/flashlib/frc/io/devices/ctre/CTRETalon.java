@@ -4,8 +4,6 @@ import com.flash3388.flashlib.io.devices.SpeedController;
 
 public interface CTRETalon extends SpeedController {
 
-    // TODO: SUPPORT MORE FUNCTIONALITY
-
     ConfigurationEditor configure();
     ControlLoopSlot slot(ControlLoopSlot.Slot slot);
     OutputSetter output();
