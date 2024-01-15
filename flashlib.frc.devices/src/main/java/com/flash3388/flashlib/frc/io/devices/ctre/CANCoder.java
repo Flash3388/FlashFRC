@@ -12,6 +12,8 @@ public interface CANCoder extends CTREEncoder {
      * Gets the absolute position reported by the device.
      *
      * @return degrees [0, 360]
+     * @implNote the returned value isn't affected by configured mechanism conversion
+     *      configured.
      */
     double getAbsolutePosition();
 }
