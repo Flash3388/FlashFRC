@@ -3,6 +3,13 @@ package com.flash3388.flashlib.frc.robot;
 import com.flash3388.flashlib.app.BasicServiceRegistry;
 import com.flash3388.flashlib.app.ServiceRegistry;
 import com.flash3388.flashlib.app.net.NetworkInterface;
+import com.flash3388.flashlib.app.watchdog.FeedReporter;
+import com.flash3388.flashlib.app.watchdog.InternalWatchdog;
+import com.flash3388.flashlib.app.watchdog.LoggingFeedReporter;
+import com.flash3388.flashlib.app.watchdog.MultiFeedReporters;
+import com.flash3388.flashlib.app.watchdog.Watchdog;
+import com.flash3388.flashlib.app.watchdog.WatchdogImpl;
+import com.flash3388.flashlib.app.watchdog.WatchdogService;
 import com.flash3388.flashlib.frc.io.RoboRioIoInterface;
 import com.flash3388.flashlib.frc.robot.hid.FrcHidInterface;
 import com.flash3388.flashlib.frc.robot.io.files.RobotFileSystem;
@@ -14,10 +21,12 @@ import com.flash3388.flashlib.io.IoInterface;
 import com.flash3388.flashlib.io.devices.DeviceInterface;
 import com.flash3388.flashlib.io.devices.DeviceInterfaceImpl;
 import com.flash3388.flashlib.net.obsr.ObjectStorage;
+import com.flash3388.flashlib.net.obsr.StoredObject;
 import com.flash3388.flashlib.robot.RobotFactory;
 import com.flash3388.flashlib.robot.modes.RobotModeSupplier;
 import com.flash3388.flashlib.scheduling.Scheduler;
 import com.flash3388.flashlib.time.Clock;
+import com.flash3388.flashlib.time.Time;
 import com.flash3388.flashlib.util.FlashLibMainThread;
 import com.flash3388.flashlib.util.FlashLibMainThreadImpl;
 import com.flash3388.flashlib.util.logging.Logging;
@@ -27,6 +36,7 @@ import com.flash3388.flashlib.util.unique.InstanceIdGenerator;
 import edu.wpi.first.wpilibj.RobotBase;
 import org.slf4j.Logger;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class FrcRobotControlImpl implements FrcRobotControl {
@@ -45,6 +55,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     private final HidInterface mHidInterface;
     private final RobotFileSystem mRobotFileSystem;
     private final DeviceInterface mDeviceInterface;
+    private final WatchdogService mWatchdogService;
 
     public FrcRobotControlImpl(ResourceHolder resourceHolder, RobotConfiguration configuration) {
         mResourceHolder = resourceHolder;
@@ -73,6 +84,9 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mHidInterface = new WeakHidInterface(new FrcHidInterface(), mMainThread);
         mRobotFileSystem = new RobotFileSystem();
         mDeviceInterface = new DeviceInterfaceImpl(mMainThread);
+
+        mWatchdogService = new WatchdogService();
+        mServiceRegistry.register(mWatchdogService);
     }
 
     @Override
@@ -151,5 +165,24 @@ public class FrcRobotControlImpl implements FrcRobotControl {
     @Override
     public FlashLibMainThread getMainThread() {
         return mMainThread;
+    }
+
+    @Override
+    public Watchdog newWatchdog(String name, Time timeout, FeedReporter reporter) {
+        StoredObject rootObject = WatchdogImpl.getWatchdogStoredObject(this, name);
+        FeedReporter feedReporter = new MultiFeedReporters(Arrays.asList(new LoggingFeedReporter(), reporter));
+        InternalWatchdog watchdog = new WatchdogImpl(getClock(), name, timeout, feedReporter, rootObject);
+        mWatchdogService.register(watchdog);
+
+        return watchdog;
+    }
+
+    @Override
+    public Watchdog newWatchdog(String name, Time timeout) {
+        StoredObject rootObject = WatchdogImpl.getWatchdogStoredObject(this, name);
+        InternalWatchdog watchdog = new WatchdogImpl(getClock(), name, timeout, new LoggingFeedReporter(), rootObject);
+        mWatchdogService.register(watchdog);
+
+        return watchdog;
     }
 }
