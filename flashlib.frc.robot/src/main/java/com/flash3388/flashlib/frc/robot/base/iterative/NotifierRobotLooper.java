@@ -33,6 +33,11 @@ public class NotifierRobotLooper implements RobotLooper {
     }
 
     @Override
+    public Time getLoopRunPeriod() {
+        return mLoopPeriod;
+    }
+
+    @Override
     public void startLooping(Clock clock, Runnable loopTask) {
         Time expirationTime = clock.currentTime().add(mLoopPeriod);
         updateAlarm(expirationTime);
