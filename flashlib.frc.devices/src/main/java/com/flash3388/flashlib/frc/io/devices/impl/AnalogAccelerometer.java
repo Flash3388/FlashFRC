@@ -16,9 +16,14 @@ public class AnalogAccelerometer implements Accelerometer {
 
     @DeviceConstructor
     public AnalogAccelerometer(
-            @NamedArg("channel") int channel
+            @NamedArg("channel") int channel,
+            @NamedArg("zeroGVoltage") double zeroGVoltage,
+            @NamedArg("voltsPerG") double voltsPerG
     ) {
         this(new edu.wpi.first.wpilibj.AnalogAccelerometer(channel));
+
+        mAccelerometer.setZero(zeroGVoltage);
+        mAccelerometer.setSensitivity(voltsPerG);
     }
 
     @Override

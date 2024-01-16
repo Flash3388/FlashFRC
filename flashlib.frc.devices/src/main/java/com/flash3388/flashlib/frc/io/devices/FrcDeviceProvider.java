@@ -44,7 +44,6 @@ public class FrcDeviceProvider extends AbstractDeviceProvider {
         registerDevice(FrcDevicesIds.Ultrasonic, Ultrasonic.class);
         registerDevice(FrcDevicesIds.AnalogAccelerometer, AnalogAccelerometer.class);
         registerDevice(FrcDevicesIds.AnalogGyro, AnalogGyro.class);
-        registerDevice(FrcDevicesIds.AnalogEncoder, AnalogEncoder.class);
         registerDevice(FrcDevicesIds.CANCoder_Phoenix6, Phoenix6CANCoder.class);
     }
 }

@@ -1,5 +1,6 @@
 package com.flash3388.flashlib.frc.io.devices.impl;
 
+import com.flash3388.flashlib.io.devices.DeviceConstructor;
 import com.flash3388.flashlib.io.devices.NamedArg;
 import com.flash3388.flashlib.io.devices.Solenoid;
 import com.flash3388.flashlib.time.Time;
@@ -13,6 +14,7 @@ public class FrcSolenoid implements Solenoid {
         mSolenoid = solenoid;
     }
 
+    @DeviceConstructor
     public FrcSolenoid(
             @NamedArg("moduleType") PneumaticsModuleType moduleType,
             @NamedArg("channel") int channel
@@ -20,6 +22,7 @@ public class FrcSolenoid implements Solenoid {
         this(new edu.wpi.first.wpilibj.Solenoid(moduleType, channel));
     }
 
+    @DeviceConstructor
     public FrcSolenoid(
             @NamedArg("moduleNumber") int moduleNumber,
             @NamedArg("moduleType") PneumaticsModuleType moduleType,
