@@ -1,6 +1,7 @@
 package com.flash3388.flashlib.frc.robot.base.iterative;
 
 import com.flash3388.flashlib.app.StartupException;
+import com.flash3388.flashlib.app.watchdog.Watchdog;
 import com.flash3388.flashlib.frc.robot.FrcRobotControl;
 import com.flash3388.flashlib.frc.robot.modes.FrcRobotMode;
 import com.flash3388.flashlib.robot.RunningRobot;
@@ -22,6 +23,7 @@ public class LoopingRobotBase extends RobotBase {
     private final FrcRobotControl mRobotControl;
     private final RobotLooper mRobotLooper;
 
+    private Watchdog mLoopWatchdog;
     private IterativeFrcRobot mRobot;
     private FrcRobotMode mCurrentMode;
     private FrcRobotMode mLastMode;
@@ -33,6 +35,7 @@ public class LoopingRobotBase extends RobotBase {
         mRobotControl = robotControl;
         mRobotLooper = robotLooper;
 
+        mLoopWatchdog = null;
         mRobot = null;
         mCurrentMode = null;
         mLastMode = null;
@@ -51,6 +54,8 @@ public class LoopingRobotBase extends RobotBase {
             throw new RuntimeException(e);
         }
 
+        mLoopWatchdog = mRobotControl.newWatchdog("LoopingRobotBase", mRobotLooper.getLoopRunPeriod());
+
         DriverStationJNI.observeUserProgramStarting();
         mRobotLooper.startLooping(mRobotControl.getClock(), this::loop);
     }
@@ -68,11 +73,14 @@ public class LoopingRobotBase extends RobotBase {
     }
 
     private void loop() {
+        mLoopWatchdog.enable();
+
         DriverStation.refreshData();
+        mLoopWatchdog.reportTimestamp("DriverStation.refreshData");
 
         mCurrentMode = mRobotControl.getMode(FrcRobotMode.class);
 
-        if (!mCurrentMode.equals(mLastMode)) {
+        if (!mCurrentMode.equals(mLastMode) && mWasModeInitialized) {
             exitMode(mCurrentMode);
 
             mLastMode = mCurrentMode;
@@ -85,6 +93,9 @@ public class LoopingRobotBase extends RobotBase {
         }
 
         periodicMode(mCurrentMode);
+
+        mLoopWatchdog.feed();
+        mLoopWatchdog.disable();
     }
 
     private void initMode(FrcRobotMode mode) {
@@ -108,25 +119,38 @@ public class LoopingRobotBase extends RobotBase {
         mode.reportModeHal();
 
         mRobotControl.getMainThread().executePendingTasks();
+        mLoopWatchdog.reportTimestamp("MainThread.executePendingTasks");
+
         mRobotControl.getServiceRegistry().startAll();
+        mLoopWatchdog.reportTimestamp("ServiceRegistry.startAll");
+
         mRobotControl.getScheduler().run(mode);
+        mLoopWatchdog.reportTimestamp("Scheduler.run");
 
         if (mode.isDisabled()) {
             mRobot.disabledPeriodic();
         } else {
             modePeriodic(mode);
         }
+        mLoopWatchdog.reportTimestamp("ModePeriodic");
 
         mRobot.robotPeriodic();
+        mLoopWatchdog.reportTimestamp("robotPeriodic");
 
         SmartDashboard.updateValues();
+        mLoopWatchdog.reportTimestamp("SmartDashboard.update");
+
         LiveWindow.updateValues();
+        mLoopWatchdog.reportTimestamp("LiveWindow.update");
+
         Shuffleboard.update();
+        mLoopWatchdog.reportTimestamp("Shuffleboard.update");
 
         if (isSimulation()) {
             HAL.simPeriodicBefore();
             mRobot.simulationPeriodic();
             HAL.simPeriodicAfter();
+            mLoopWatchdog.reportTimestamp("SimPeriodic");
         }
     }
 
