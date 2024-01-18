@@ -39,21 +39,17 @@ public class DriverStationAppender extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        byte[] bytes = getLayout().toByteArray(event);
         if (event.getLevel().isLessSpecificThan(Level.WARN)) {
-            try {
-                System.out.write(bytes);
-            } catch (IOException e) {
-                throw new AppenderLoggingException(e);
-            }
-        } else {
-            String msg = new String(bytes, StandardCharsets.UTF_8);
+            return;
+        }
 
-            if (event.getLevel() == Level.WARN) {
-                DriverStation.reportWarning(msg, false);
-            } else {
-                DriverStation.reportError(msg, false);
-            }
+        byte[] bytes = getLayout().toByteArray(event);
+        String msg = new String(bytes, StandardCharsets.UTF_8);
+
+        if (event.getLevel() == Level.WARN) {
+            DriverStation.reportWarning(msg, false);
+        } else {
+            DriverStation.reportError(msg, false);
         }
     }
 }
