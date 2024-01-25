@@ -11,19 +11,19 @@ public class CTRESensors {
     // gear ratio format = driver / driven
 
     public static double degreesToRawSensorUnits(double degrees, int ppr, double gearRatio) {
-        return degrees / (360.0 / (gearRatio * ppr));
+        return degrees / 360.0 * ppr * gearRatio;
     }
 
     public static double rawSensorUnitsToDegrees(double raw, int ppr, double gearRatio) {
-        return raw * (360.0 / (gearRatio * ppr));
+        return raw * 360.0 / (gearRatio * ppr);
+    }
+
+    public static double rpmToRawSensorUnits(double rpm, int ppr, double gearRatio) {
+        return rpm / 600.0 * ppr * gearRatio;
     }
 
     public static double rawSensorUnitsToRpm(double raw, int ppr, double gearRatio) {
         return (raw * (600.0 / ppr)) / gearRatio;
-    }
-
-    public static double rpmToRawSensorUnits(double rpm, int ppr, double gearRatio) {
-        return (rpm * gearRatio) * (ppr / 600.0);
     }
 
     public static double rawSensorUnitsToDegreesPerSecond(double raw, int ppr, double gearRatio) {
@@ -31,7 +31,7 @@ public class CTRESensors {
     }
 
     public static double degreesPerSecondToRawSensorUnits(double degreesPerSecond, int ppr, double gearRatio) {
-        return (degreesPerSecond * gearRatio) * (ppr / 36.0);
+        return degreesPerSecond / 36.0 * gearRatio * ppr;
     }
 
     public static double rawSensorUnitsToMetersPerSecond(double raw, int ppr, double gearRatio, double wheelRadius) {
@@ -47,6 +47,6 @@ public class CTRESensors {
     }
 
     public static double metersToRawSensorUnits(double meters, int ppr, double gearRatio, double wheelRadius) {
-        return meters / ((2 * wheelRadius * Math.PI) / (gearRatio * ppr));
+        return meters / (2 * wheelRadius * Math.PI) * gearRatio * ppr;
     }
 }
