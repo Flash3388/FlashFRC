@@ -42,6 +42,8 @@ import java.util.Collection;
 public class FrcRobotControlImpl implements FrcRobotControl {
 
     private static final Logger LOGGER = Logging.getLogger("FRC");
+    private static final byte[] ROBORIO_ID = {0};
+    private static final byte[] ROBOT_CODE_ID = {0};
 
     private final ResourceHolder mResourceHolder;
     private final InstanceId mInstanceId;
@@ -63,7 +65,7 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         // verifies we can identify the runtime type
         getRuntimeType();
 
-        mInstanceId = InstanceIdGenerator.generate(0);
+        mInstanceId = new InstanceId(ROBORIO_ID, ROBOT_CODE_ID);
         mMainThread = new FlashLibMainThreadImpl();
         mClock = new FpgaClock();
         mServiceRegistry = new BasicServiceRegistry(mMainThread);
