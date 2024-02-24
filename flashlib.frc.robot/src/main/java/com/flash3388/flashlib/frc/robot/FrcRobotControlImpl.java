@@ -1,7 +1,9 @@
 package com.flash3388.flashlib.frc.robot;
 
 import com.flash3388.flashlib.app.BasicServiceRegistry;
+import com.flash3388.flashlib.app.FlashLibControl;
 import com.flash3388.flashlib.app.ServiceRegistry;
+import com.flash3388.flashlib.app.concurrent.DefaultFlashLibThreadFactory;
 import com.flash3388.flashlib.app.net.NetworkInterface;
 import com.flash3388.flashlib.app.watchdog.FeedReporter;
 import com.flash3388.flashlib.app.watchdog.InternalWatchdog;
@@ -38,6 +40,7 @@ import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public class FrcRobotControlImpl implements FrcRobotControl {
 
@@ -186,5 +189,12 @@ public class FrcRobotControlImpl implements FrcRobotControl {
         mWatchdogService.register(watchdog);
 
         return watchdog;
+    }
+
+    @Override
+    public Thread newThread(String name, Consumer<? super FlashLibControl> runnable) {
+        return DefaultFlashLibThreadFactory.newThread(name, ()-> {
+            runnable.accept(this);
+        });
     }
 }
